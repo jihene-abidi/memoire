@@ -1,0 +1,38 @@
+export const NavbarConstants = {
+  OUR_OFFERS: 'Our Offers',
+  JOB_OFFERS: 'Job Offers',
+  CV: 'My CVs',
+  FOR_RECRUITERS: 'For Recruiters',
+  ABOUT: 'Contact Us',
+  HOME: 'Home',
+ // Profile Menu
+ PROFILE_MENU: {
+  HEADER: 'My Profile',
+  SECURITY: 'Security',
+  LOGOUT: 'Logout',
+},
+ // Icons
+ ICONS: {
+  REORDER: 'reorder',
+  PROFILE: 'person_outline',
+  WORK: 'work',
+  HOME: 'home',
+  BUSINESS_CENTER: 'business_center',
+  PEOPLE: 'people',
+  DESCRIPTION: 'description',
+  CONTACT_SUPPORT: 'contact_support',
+  PERSON_OUTLINE: 'person_outline',
+  SECURITY: 'security',
+  LOGOUT: 'logout',
+},
+  EMAIL_LABEL: 'Email:',
+  NO_ACCESS: 'Could not access properties',
+  INVALID_FORMAT: 'Invalid email format',
+  INVALID_EMAIL: 'Invalid email address',
+  BROWSE_CAREERS: 'Browse Careers',
+  I_RECRUIT: 'I Recruit',
+  SIGN_IN: 'Sign In',
+  CURRENT_USER_LOCAL_STORAGE:'currentUser',
+  LOGO_PATH: 'assets/carreerLogo.png',
+  USER_AVATAR_PATH: './assets/UserAvatar.png',
+};

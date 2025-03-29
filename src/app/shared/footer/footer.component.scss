@@ -1,0 +1,103 @@
+.footer {
+  background-color: #458ff6;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  .logo2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: center;
+
+
+    .circle-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      color: #458ff6;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .carriere {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+    }
+  }
+
+
+  .terms-and-condition {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 15px;
+    margin-left: 222px;
+    align-self: center;
+
+    div {
+      margin: 5px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .language, .terms-privacy, .security, .status, ._2024-carri-re-llc {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+  }
+
+  .scroll-top {
+    display: none;
+    margin-top: 15px;
+    background-color: #458ff6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    align-self: center;
+
+    &:hover {
+      background-color: #3571d1;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .footer {
+      padding: 10px;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .terms-and-condition {
+      margin-left: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .scroll-top {
+      display: block;
+    }
+  }
+}

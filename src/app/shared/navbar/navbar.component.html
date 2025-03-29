@@ -1,0 +1,102 @@
+<div class="navbar-container" *ngIf="!shouldHideNavbar()">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="toggleMenu()" class="menu-toggle" [ngClass]="{'menu-open': isMenuOpen}">
+        <mat-icon>{{ NavbarConstants.ICONS.REORDER }}</mat-icon>
+      </button>
+      <div class="logo">
+        <img src="assets/carreerLogo.png" alt="LogoCarrière" />
+      </div>
+
+      <span class="spacer"></span>
+
+      <div class="desktop-menu">
+        <a routerLink="/client/home" routerLinkActive="active">{{ NavbarConstants.HOME }}</a>
+        <!-- <a routerLink="/client/jobofferrh" routerLinkActive="active">{{ NavbarConstants.OUR_OFFERS }}</a> -->
+        <a routerLink="/client/joboffer" routerLinkActive="active">{{ NavbarConstants.JOB_OFFERS }}</a>
+        <a routerLink="/client/cv" routerLinkActive="active">{{ NavbarConstants.FOR_RECRUITERS }}</a>
+        <a routerLink="/client/my-cvs" routerLinkActive="active">{{ NavbarConstants.CV }}</a>
+        <a routerLink="/client/contact-us" routerLinkActive="active">{{ NavbarConstants.ABOUT }}</a>
+      </div>
+
+      <div class="user-profile">
+        <div class="user-avatar" [matMenuTriggerFor]="profileMenu">
+          <img src="./assets/UserAvatar.png" alt="User Avatar">
+        </div>
+      </div>
+
+      <mat-menu #profileMenu="matMenu" class="profile-menu">
+        <div class="profile-header">
+          <div class="name">{{getFullName()}}</div>
+        </div>
+
+        <button mat-menu-item routerLink="/client/client-profile">
+          <mat-icon>{{ NavbarConstants.ICONS.PROFILE }}</mat-icon>
+          <span>{{ NavbarConstants.PROFILE_MENU.HEADER }}</span>
+        </button>
+
+        <button mat-menu-item routerLink="/client/change-password">
+          <mat-icon>{{ NavbarConstants.ICONS.SECURITY }}</mat-icon>
+          <span>{{ NavbarConstants.PROFILE_MENU.SECURITY }}</span>
+        </button>
+
+        <button mat-menu-item (click)="signOut()">
+          <mat-icon>{{ NavbarConstants.ICONS.LOGOUT }}</mat-icon>
+          <span>{{ NavbarConstants.PROFILE_MENU.LOGOUT }}</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="over" [opened]="isMenuOpen" (closed)="isMenuOpen = false" class="mobile-sidenav">
+      <div class="sidenav-header">
+      </div>
+      <mat-nav-list>
+        <a mat-list-item>
+          <h3>{{getFullName()}}</h3>
+        </a>
+        <a mat-list-item routerLink="/client/home" (click)="toggleMenu()">
+          <mat-icon>{{ NavbarConstants.ICONS.HOME }}</mat-icon>
+          <span>{{ NavbarConstants.HOME }}</span>
+        </a>
+        <!-- <a mat-list-item routerLink="/client/joboffer" (click)="toggleMenu()">
+          <mat-icon>{{ NavbarConstants.ICONS.WORK }}</mat-icon>
+          <span>{{ NavbarConstants.OUR_OFFERS }}</span>
+        </a> -->
+        <a mat-list-item routerLink="/client/joboffer" (click)="toggleMenu()">
+          <mat-icon>{{ NavbarConstants.ICONS.BUSINESS_CENTER }}</mat-icon>
+          <span>{{ NavbarConstants.JOB_OFFERS }}</span>
+        </a>
+        <a mat-list-item routerLink="/client/cv" (click)="toggleMenu()">
+          <mat-icon>{{ NavbarConstants.ICONS.PEOPLE }}</mat-icon>
+          <span>{{ NavbarConstants.FOR_RECRUITERS }}</span>
+        </a>
+        <a mat-list-item routerLink="/client/my-cvs" (click)="toggleMenu()">
+          <mat-icon>{{ NavbarConstants.ICONS.DESCRIPTION }}</mat-icon>
+          <span>{{ NavbarConstants.CV }}</span>
+        </a>
+        <a mat-list-item routerLink="/client/contact-us" (click)="toggleMenu()">
+          <mat-icon>{{ NavbarConstants.ICONS.CONTACT_SUPPORT }}</mat-icon>
+          <span>{{ NavbarConstants.ABOUT }}</span>
+        </a>
+
+        <mat-divider></mat-divider>
+
+        <a mat-list-item routerLink="/client/client-profile" (click)="toggleMenu()">
+          <mat-icon>{{ NavbarConstants.ICONS.PERSON_OUTLINE }}</mat-icon>
+          <span>{{ NavbarConstants.PROFILE_MENU.HEADER }}</span>
+        </a>
+        <a mat-list-item routerLink="/client/change-password" (click)="toggleMenu()">
+          <mat-icon>{{ NavbarConstants.ICONS.SECURITY }}</mat-icon>
+          <span>{{ NavbarConstants.PROFILE_MENU.SECURITY }}</span>
+        </a>
+        <a mat-list-item (click)="signOut()" class="logout-item">
+          <mat-icon>{{ NavbarConstants.ICONS.LOGOUT }}</mat-icon>
+          <span>{{ NavbarConstants.PROFILE_MENU.LOGOUT }}</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+  </mat-sidenav-container>
+
+</div>

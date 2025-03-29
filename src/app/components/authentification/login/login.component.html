@@ -1,0 +1,64 @@
+<div class="parent">
+    <div class="container" [ngClass]="isSignDivVisiable ? 'active' :'' " id="container">
+      <div class="form-container sign-up">
+      </div>
+      <div class="form-container sign-in">
+        <form [formGroup]="signInForm">
+          <h1>{{authConstant.SIGNIN}}</h1>
+          <mat-form-field class="input-box">
+            <mat-label>{{authConstant.EMAIL_LABEL}}</mat-label>
+            <input formControlName="email" id="email" type="email" matInput placeholder="name@exemple.com" required />
+            <mat-error *ngIf="signInForm.get('email')?.hasError('required') && signInForm.get('email')?.touched">
+              {{authConstant.EMAIL_REQUIRED_ERROR }}
+            </mat-error>
+            <mat-error *ngIf="signInForm.get('email')?.hasError('email') && signInForm.get('email')?.touched">
+              {{authConstant.EMAIL_INVALID_ERROR }}
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field class="input-box">
+            <mat-label>{{authConstant.PASSWORD}}</mat-label>
+            <input formControlName="password" matInput placeholder="password" type="password"/>
+            <mat-error *ngIf="signInForm.get('password')?.errors">
+              {{authConstant.PASSWORD_LENGTH_ERROR }}
+            </mat-error>
+          </mat-form-field>
+  
+          <button *ngIf="!showSpinner" mat-flat-button color="primary" (click)="onSignIn()" class="full-width">
+            {{authConstant.SIGNIN}}
+          </button>
+          <span *ngIf="showSpinner" class="loader"></span>
+          <div class="links">
+  
+            <a href="#" class="forgot-password">{{authConstant.FORGOT_PASSWORD}}</a>
+  
+  
+            <!-- <a class="signin" (click)="navigateToSignUp()">
+              {{authConstant.NO_ACCOUNT_TEXT}}
+              <strong>{{authConstant.SIGNUP}}</strong>
+            </a> -->
+          </div>
+        </form>
+  
+      </div>
+  
+  
+  
+      <div class="toggle-container">
+        <div class="toggle">
+          <div class="toggle-panel toggle-left">
+            <h1> {{authConstant.WELCOME_BACK}}</h1>
+            <p>{{authConstant.PERSONAL_DETAILS_SENTSE}}</p>
+            <button mat-flat-button color="primary" class="hidden" id="login" (click)="isSignDivVisiable = false">Sign In</button>
+          </div>
+          <!-- <div class="toggle-panel toggle-right">
+            <h1>{{authConstant.HELLO_FRIEND}}</h1>
+            <p>{{authConstant.REGISTER_DETAILS_SENTSE}}</p>
+            <button  mat-flat-button color="primary" class="hidden" id="register" (click)="onNavigateToSignUp ()">Sign Up</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

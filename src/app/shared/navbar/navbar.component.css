@@ -1,0 +1,383 @@
+:host {
+  display: block;
+}
+
+.mat-toolbar {
+  z-index: 1000;
+  background-color: white !important;
+  color: #333 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 64px;
+}
+
+.spacer {
+  flex:0.40;
+
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: bolder;
+  background: linear-gradient(90deg, #0e66eb 0%, #0e66eb 100%);
+
+}
+::ng-deep .profile-menu {
+  padding: 0 !important;
+  border-radius: 12px !important;
+  min-width: 200px !important;
+}
+
+::ng-deep .profile-header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+}
+
+::ng-deep .profile-header .name {
+  font-weight: 500;
+  font-size: 16px;
+  color: #142951;
+  margin-bottom: 4px;
+  justify-self: center;
+
+}
+
+::ng-deep .profile-header .title {
+  font-size: 14px;
+  color: #666;
+}
+
+::ng-deep .profile-menu .mat-mdc-menu-item {
+  height: 48px;
+  line-height: 48px;
+  padding: 0 16px;
+}
+
+::ng-deep .profile-menu .mat-mdc-menu-item .mat-icon {
+  color: #666;
+  margin-right: 12px;
+}
+
+::ng-deep .profile-menu .mat-mdc-menu-item span {
+  color: #333;
+  font-size: 14px;
+}
+
+::ng-deep .settings-text {
+  color: #2196F3 !important;
+}
+
+::ng-deep .profile-menu {
+  border-top-left-radius: 16px !important;
+  border-top-right-radius: 16px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+.logo {
+  width: 220px;
+  height: 50px;
+  gap: 10px;
+  margin-right: 48px;
+}
+
+.logo img {
+  max-width: 115px;
+  height: auto;
+}
+
+
+.desktop-menu {
+  margin-left: auto; 
+  margin-right: auto; 
+  display: none;
+}
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+@media (min-width: 768px) {
+  .desktop-menu {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .desktop-menu a {
+    color: #666;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 0;
+    position: relative;
+    font-size: 14px; 
+    transition: text-decoration 0.3s ease;
+
+  }
+.desktop-menu a::after {
+  content: ''; 
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px; 
+  background-color: #4285f4; 
+  transition: width 0.3s ease; 
+}
+  .desktop-menu a:hover {
+    color: #4285f4;
+
+  }
+  .desktop-menu a:hover::after {
+    width: 100%; 
+  }
+
+  .desktop-menu a.active {
+    color: #4285f4;
+  }
+  .desktop-menu {
+    margin-right: auto; 
+    margin-left: 48px; 
+  }
+
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .desktop-menu {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+}
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto; 
+
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .menu-toggle {
+    display: none;
+  }
+}
+
+mat-sidenav-container {
+  background: transparent;
+  pointer-events: none;
+}
+
+mat-sidenav {
+  width: 100%;
+  pointer-events: auto;
+  background-color: white;
+}
+
+@media (max-width: 767px) {
+  mat-sidenav-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+  }
+}
+
+::ng-deep .mat-drawer-container {
+  background-color: transparent;
+}
+::ng-deep .mat-drawer-inner-container {
+  overflow: hidden
+}
+
+mat-nav-list a {
+  color: #333;
+  font-weight: 500;
+}
+mat-nav-list a.mat-list-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+mat-nav-list a.mat-list-item mat-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+mat-nav-list a.mat-list-item span {
+  font-size: 14px; 
+  line-height: 1; 
+  color: #333; 
+}
+
+mat-nav-list a:hover {
+  background-color: #f5f5f5;
+}
+
+.mobile-sidenav {
+  width: 100%;
+  background-color: white;
+  overflow: hidden;
+}
+
+.sidenav-header {
+  padding: 24px 16px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sidenav-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-details h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+mat-nav-list {
+  padding-top: 32px;
+}
+
+mat-nav-list a {
+  height: 48px;
+  margin: 7px 0px;
+  border-radius: 8px;
+}
+
+mat-nav-list a:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+mat-nav-list .mat-icon {
+  margin-right: 16px;
+  color: #666;
+  margin-bottom: -5px;
+}
+
+mat-nav-list span {
+  font-size: 14px;
+  color: #333;
+}
+
+mat-divider {
+  margin: 16px 0;
+}
+
+.logout-item {
+  color: #dc3545 !important;
+}
+
+.logout-item .mat-icon {
+  color: #dc3545;
+}
+
+mat-sidenav {
+  transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 320px) {
+  .mobile-sidenav {
+    width: 100%;
+  }
+}
+
+.menu-toggle {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  margin-right: 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  background: transparent;
+
+  .mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: #333;
+    transition: all 0.2s ease;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+
+    .mat-icon {
+      color: #2196F3; 
+    }
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.08);
+    transform: scale(0.95);
+  }
+
+  @media (max-width: 768px) {
+    margin-right: 8px;
+  }
+}
+.menu-toggle.menu-open {
+  .mat-icon {
+    transform: rotate(180deg);
+  }
+}
+.menu-toggle {
+  border: none; 
+  outline: none; 
+  box-shadow: none; 
+}
+
+@media (max-width: 768px) {
+  .logo {
+    display: none;
+  }
+  .user-profile {
+    display: none;
+  }
+}
