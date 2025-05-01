@@ -25,9 +25,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.css",
+              "./node_modules/intl-tel-input/build/css/intlTelInput.css",              "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": [],
+          "scripts": [
+            "./node_modules/intl-tel-input/build/js/intlTelInput.js"
+          ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -89,6 +93,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -96,5 +101,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "727f1364-ebe7-48c8-8c63-9e679182cbec"
   }
 }

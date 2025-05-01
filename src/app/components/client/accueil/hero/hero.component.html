@@ -1,0 +1,21 @@
+<section class="hero">
+    <div class="heroContent">
+      <h1>
+        {{ heroConstants.PART_1}}
+        <span class="highlight">{{ heroConstants.PART_2 }}</span>
+      </h1>
+      <p> {{ heroConstants.DESCRIPTION}} </p>
+      <div class="button-container">
+        <button class="button-primary" routerLink="/client/ajoutcv">{{ heroConstants.BUTTON_CV}}</button>
+        <button mat-button class="cta-button" routerLink="/client/joboffer/ajout-job-offer">
+          <div class="cta-border"></div>
+          <div class="cta-text">{{heroConstants.BUTTON_TEXT}}</div>
+        </button>
+      </div>
+  
+    </div>
+    <div class="hero-image">
+      <img [src]="heroConstants.IMAGE_SRC" [alt]="heroConstants.IMAGE_ALT">
+    </div>
+  </section>
+  

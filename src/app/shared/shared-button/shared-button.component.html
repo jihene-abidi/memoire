@@ -1,0 +1,14 @@
+<div class="button-container">
+    <button
+      mat-button
+      [type]="type"
+      [color]="color"
+      [ngClass]="{'delete': isDeleteButton, 'edit': isEditButton, 'custom-button': !isDeleteButton && !isEditButton, 'delete-size': isDeleteButton || isEditButton}"   
+      [disabled]="disabled"
+      class="custom-button"
+      (click)="onClick()"
+    ><span>{{ label }}</span>
+    </button>
+  </div>
+  
+  

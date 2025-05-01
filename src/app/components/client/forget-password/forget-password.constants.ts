@@ -1,0 +1,26 @@
+export const forgetPasswordConstants = {
+    SUCCESS: "Mot de passe changé avec succès",
+    CHANGE_PSW_TITLE: "Mot de passe oublié ?",
+    PASW_HOLDER: "Entrez votre email pour le réinitialiser",
+    CHANGE_PSW_SLOGAN: "Veuillez entrer le code de vérification et un nouveau mot de passe.",
+    EMAIL_INVALID_ERROR: "Veuillez entrer une adresse email valide.",
+    VERIFICATION_CODE: "Code de vérification",
+    ENTER_NEW_PASSWORD: "Entrez un nouveau mot de passe sécurisé",
+    NEW_PASSWORD: "Nouveau mot de passe",
+    VERIFICATION_CODE_INCORRECT: "Le code de vérification est incorrect.",
+    EMAIL: "Email",
+    PASSWORD_LENGTH_ERROR: "Le mot de passe doit comporter au moins 6 caractères.",
+    SEND_CODE: "Envoyer le code",
+    EMAIL_CODE_MESSAGE: "Code envoyé à votre email.",
+    CODE_SEND_FAILURE_MESSAGE: "Échec de l'envoi du code. Veuillez réessayer.",
+    VALID_EMAIL_REQUIRED_MESSAGE: "Veuillez entrer une adresse email valide.",
+    ERROR_OCCURED_MESSAGE: "Une erreur est survenue, veuillez réessayer.",
+    RETURN_TO_LOGIN: "Retour à l'écran de connexion",
+    EMAIL_PLACEHOLDER: "Entrez votre adresse email",
+    CODE_PLACEHOLDER: "Entrez le code reçu par email",
+    PASSWORD_PLACEHOLDER: "Entrez un nouveau mot de passe sécurisé",
+    ICON_ARROW_BACK: 'arrow_back',
+    LOCK_ICON:"lock",
+  
+  };
+  

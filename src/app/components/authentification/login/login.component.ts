@@ -51,6 +51,7 @@ export class LoginComponent {
       const password = this.signInForm.get('password')?.value;
       console.log("sign in form value",this.signInForm)
       this.showSpinner = false;
+      this.router.navigate(['/client/client-profile']);
    
     } else {
       //this.toastrService.error(this.authConstant.INVALID_FORM, this.authConstant.INVALID_FORM_TITLE);
@@ -59,4 +60,11 @@ export class LoginComponent {
     }
   }
 
+  onNavigateToSignUp() {
+    console.log('signup')
+    this.router.navigate(['/auth/signup']);
+  }
+  onNavigateToForgetPassword() {
+    this.router.navigate(['/client/forget-password']);
+  }
 }

@@ -1,0 +1,192 @@
+.why-us {
+    padding: 4rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .why-us .title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .black-dash {
+    width: 64.2px;
+    height: 1px;
+    background: #000000;
+    border-radius: 5px;
+  }
+  
+  .why-us .subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 3rem;
+  }
+  
+  .why-us .content {
+    display: flex;
+    gap: 4rem;
+    align-items: flex-start;
+  }
+  
+  .why-us .image-container {
+    flex: 1;
+    align-self: center;
+  }
+  
+  .why-us .image-container img {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+  }
+  
+  .why-us .advantages-container {
+    flex: 1;
+    padding: 2rem;
+    border-radius: 12px;
+  }
+  
+  .why-us .advantages {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .why-us .advantage-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+  }
+  
+  .why-us .check-icon {
+    height: 24px;
+    align-self: flex-start;
+  }
+  
+  .why-us .text-content mat-card-title{
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .why-us .text-content p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+  .why-us .advantages .advantage-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+  
+  .why-us .advantages .advantage-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .why-us {
+      padding: 3rem 4%;
+    }
+  
+    .why-us .content {
+      gap: 3rem;
+    }
+  
+    .why-us .advantages-container {
+      padding: 1.5rem;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .why-us .content {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  
+    .why-us .title {
+      font-size: 1.75rem;
+    }
+  
+    .why-us .image-container,
+    .why-us .advantages-container {
+      flex: none;
+      width: 100%;
+    }
+  
+    .why-us .image-container img {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  
+    .why-us .advantages-container {
+      padding: 1rem 0;
+    }
+  
+    .why-us .advantage-card {
+      padding: 1.25rem;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .why-us {
+      padding: 2rem 3%;
+    }
+  
+    .why-us .title {
+      font-size: 1.5rem;
+    }
+  
+    .why-us .subtitle {
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+    }
+  
+    .why-us .image-container img {
+      max-width: 100%;
+    }
+  
+    .why-us .advantages {
+      gap: 1rem;
+    }
+  
+    .why-us .advantage-card {
+      padding: 1rem;
+      gap: 0.75rem;
+    }
+  
+    .why-us .check-icon {
+      height: 20px;
+    }
+  
+    .why-us .text-content mat-card-title {
+      font-size: 0.9rem;
+    }
+  
+    .why-us .text-content p {
+      font-size: 0.85rem;
+    }
+  
+    .why-us .advantage-card:hover {
+      transform: none;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  @media screen and (max-width: 380px) {
+    .why-us .black-dash {
+      width: 50px;
+    }
+  
+    .why-us .advantage-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+  

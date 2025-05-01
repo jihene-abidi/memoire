@@ -1,0 +1,234 @@
+.key-features {
+    padding: 4rem 5%;
+    text-align: center;
+  }
+  .title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .key-features p{
+    color: #7d7987;
+  
+  }
+  .black-dash {
+    width: 64.2px;
+    height: 1px;
+    background: #000000;
+    border-radius: 5px;
+  }
+  .section-description{
+    color: #7d7987;
+    text-align: center;
+    font-family: "Mulish-Light", sans-serif;
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: 300;
+    position: relative;
+  }
+  .key-features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .key-feature-item {
+    padding: 2rem;
+    border: 1px solid #eee;
+    text-align: left;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: var(
+      --drop-shadow-box-shadow,
+      10px 40px 50px 0px rgba(229, 233, 246, 0.4)
+    );
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .key-feature-item > img:first-of-type {
+    align-self: flex-start;
+    height: 48px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  .key-feature-item h3 {
+    font-size: 1.25rem;
+    margin: 0;
+    color: #000;
+  }
+  
+  .key-feature-item p {
+    flex-grow: 1;
+    color: #7D7987;
+    line-height: 1.6;
+  }
+  .key-feature-item > img:last-of-type {
+    align-self: flex-end;
+    object-fit: contain;
+    margin-top: 1rem;
+  }
+  .cta-button {
+    width: 229.29px;
+    height: 61.89px;
+    position: relative;
+    margin: 2rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+  
+  .cta-button:hover {
+    transform: scale(1.05);
+  }
+  .cta-border {
+    border-radius: 55px;
+    border-style: solid;
+    border-color: #458ff6;
+    border-width: 1.4px;
+    width: 100%;
+    height: 93.33%;
+    position: absolute;
+    right: 0%;
+    left: 0%;
+    bottom: 1.67%;
+    top: 5%;
+  }
+  
+  .cta-button:hover .cta-border {
+    background-color: #458ff6;
+    border-color: #2a6bc3;
+  }
+  .cta-text {
+    color: #458ff6;
+    text-align: left;
+    font-family: "Mulish-Bold", sans-serif;
+    font-size: 18px;
+    line-height: 60px;
+    font-weight: 700;
+    position: absolute;
+    right: 14.5%;
+    left: 25.5%;
+    width: 60%;
+    bottom: 0%;
+    top: 0%;
+    height: 100%;
+  }
+  .cta-button:hover .cta-text {
+    color: #ffffff;
+  }
+  .key-features-grid .key-feature-item img {
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+  
+  .key-features-grid .key-feature-item img:hover {
+    transform: translateX(10px);
+    filter: brightness(1.2);
+  }
+  .key-features-grid .key-feature-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+  
+  .key-features-grid .key-feature-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .key-features-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  
+    .title {
+      font-size: 1.75rem;
+    }
+  
+    .section-description {
+      font-size: 16px;
+      line-height: 26px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .key-features {
+      padding: 3rem 4%;
+    }
+  
+    .key-features-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  
+    .key-feature-item {
+      padding: 1.5rem;
+    }
+  
+    .cta-button {
+      width: 200px;
+      height: 55px;
+    }
+  
+    .cta-text {
+      font-size: 16px;
+      line-height: 55px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .key-features {
+      padding: 2rem 3%;
+    }
+  
+    .title {
+      font-size: 1.5rem;
+    }
+  
+    .section-description {
+      font-size: 14px;
+      line-height: 24px;
+    }
+  
+    .key-feature-item {
+      padding: 1.25rem;
+    }
+  
+    .key-feature-item h3 {
+      font-size: 1.1rem;
+    }
+  
+    .key-feature-item p {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  
+    .key-feature-item > img:first-of-type {
+      height: 40px;
+    }
+  
+    .black-dash {
+      width: 50px;
+    }
+  
+    .cta-button {
+      width: 180px;
+      height: 50px;
+      margin: 1.5rem auto;
+    }
+  
+    .cta-text {
+      font-size: 14px;
+      line-height: 50px;
+    }
+  }
+  

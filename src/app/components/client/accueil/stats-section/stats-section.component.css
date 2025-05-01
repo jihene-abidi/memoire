@@ -1,0 +1,59 @@
+.stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 6rem 5%;
+    background-color: #E1EDFD;
+    margin: 2rem 0;
+  }
+  
+  .stat-item {
+    text-align: center;
+    padding: 0 1rem;
+  }
+  
+  .stat-icon {
+    margin-bottom: 1rem;
+  }
+  
+  .stat-icon svg {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .stat-icon img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
+  
+  .stat-item h2 {
+    color: #458DFC;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+  }
+  
+  .stat-item p {
+    color: #4089ed;
+    margin: 0;
+    font-size: 19px;
+    font-family: "Roboto-Regular", sans-serif;
+  }
+  
+  @media (max-width: 768px) {
+    .stats {
+      flex-direction: column;
+      gap: 2rem;
+      padding: 2rem 5%;
+    }
+  
+    .stat-item {
+      width: 100%;
+    }
+  
+    .stat-item h2 {
+      font-size: 2rem;
+    }
+  }
+  

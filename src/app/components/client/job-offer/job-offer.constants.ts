@@ -1,0 +1,81 @@
+export const JobOfferConstant = {
+  BUTTON_UPDATE_OFFER: 'jobOfferConstants.BUTTON_UPDATE_OFFER',
+  COMPANY_NAME: 'jobOfferConstants.COMPANY_NAME',
+  LOCATION: 'jobOfferConstants.LOCATION',
+  JOB_TECHNOLOGIES: 'jobOfferConstants.JOB_TECHNOLOGIES',
+  OFFER_PUBLISHED: 'jobOfferConstants.OFFER_PUBLISHED',
+  OFFER_EXPIRED: 'jobOfferConstants.OFFER_EXPIRED',
+  LEVEL: 'jobOfferConstants.LEVEL',
+  SKILLS: 'jobOfferConstants.SKILLS',
+  DATE: 'jobOfferConstants.DATE',
+  JOB_OFFER_SLOGAN: 'jobOfferConstants.JOB_OFFER_SLOGAN',
+  OFFER_TITLE: 'jobOfferConstants.OFFER_TITLE',
+  BREADCRUMB_OFFER: 'jobOfferConstants.BREADCRUMB_OFFER',
+  BUTTON_ADD_OFFER: 'jobOfferConstants.BUTTON_ADD_OFFER',
+  
+  DROP_ICON: 'more_vert',
+  EDIT_ICON: 'edit',
+  DELETE_ICON: 'delete',
+  EDIT_SPAN: 'jobOfferConstants.EDIT_SPAN',
+  DELETE_SPAN: 'jobOfferConstants.DELETE_SPAN',
+  DIALOG_TITLE: 'jobOfferConstants.DIALOG_TITLE',
+  CLOSE_ICON: 'close',
+  DESC_ICON: 'description',
+
+  CHECK_ICON: 'check_circle',
+  PHONE_NUMBER:'+1831 9992537',
+  CVS_LIST: 'jobOfferConstants.CVS_LIST',
+BACK: 'jobOfferConstants.BACK',
+
+
+LOAD_MORE: 'jobOfferConstants.LOAD_MORE',
+CANDIDATES: 'jobOfferConstants.CANDIDATES',
+LOADING_CANDIDATES: 'jobOfferConstants.LOADING_CANDIDATES',
+NO_CANDIDATES: 'jobOfferConstants.NO_CANDIDATES',
+DOWNLOAD_REPORT: 'jobOfferConstants.DOWNLOAD_REPORT',
+DOWNLOAD_CV: 'jobOfferConstants.DOWNLOAD_CV',
+AUDIO_INTERVIEW: 'jobOfferConstants.AUDIO_INTERVIEW',
+APPLY_DIALOG_TITLE: 'jobOfferConstants.APPLY_DIALOG_TITLE',
+SELECT_INTERVIEW_TYPE: 'jobOfferConstants.SELECT_INTERVIEW_TYPE',
+CALL_OPTION: 'jobOfferConstants.CALL_OPTION',
+AUDIO_OPTION: 'jobOfferConstants.AUDIO_OPTION',
+TEXT_OPTION: 'jobOfferConstants.TEXT_OPTION',
+PROCEED_BUTTON: 'jobOfferConstants.PROCEED_BUTTON',
+FEATURE_IN_PROGRESS: 'jobOfferConstants.FEATURE_IN_PROGRESS',
+
+DOWNLOAD_BUTTON: 'jobOfferConstants.DOWNLOAD_BUTTON',
+ 
+  BUTTON_TEXTSMS: 'textsms BUTTON',
+  BUTTON_PHONE: 'phone button',
+  BUTTON_MIC: 'mic button',
+  FAILED_LOAD_JOB_OFFER: 'jobOfferConstants.FAILED_LOAD_JOB_OFFER',
+  PHONE_DIAL: 'jobOfferConstants.PHONE_DIAL',
+
+
+  CANCEL_BUTTON: 'jobOfferConstants.CANCEL_BUTTON',
+SUBMIT_BUTTON: 'jobOfferConstants.SUBMIT_BUTTON',
+CONF_TITLE: 'jobOfferConstants.CONF_TITLE',
+INTERVIEW_MESSAGE: 'jobOfferConstants.INTERVIEW_MESSAGE',
+PHONE_INSTR: 'jobOfferConstants.PHONE_INSTR',
+IDENTIFIER_INSTRUCTION: 'jobOfferConstants.IDENTIFIER_INSTRUCTION',
+IDENTIFIER_INST: 'jobOfferConstants.IDENTIFIER_INST',
+DO_NOT_LOSE_IDENTIFIER: 'jobOfferConstants.DO_NOT_LOSE_IDENTIFIER',
+POPUP_IDENTIFIER_MESSAGE: 'jobOfferConstants.POPUP_IDENTIFIER_MESSAGE',
+VALIDATE_BUTTON: 'jobOfferConstants.VALIDATE_BUTTON',
+HEADER_TITLE: 'jobOfferConstants.HEADER_TITLE',
+VISIBILITY: 'jobOfferConstants.VISIBILITY',
+
+  ALREADY_APPLIED: 'jobOfferConstants.ALREADY_APPLIED',
+  WELCOME_TO_THE_JUNGLE: 'Welcome to the Jungle',
+  CANDIDATES_LABEL:'jobOfferConstants.CANDIDATES_LABEL',
+  APPLY_LABEL:'jobOfferConstants.APPLY_LABEL',
+  VISIBILITY_FILTER:{
+  All:'jobOfferConstants.VISIBILITY_FILTER.All',
+  Public:'jobOfferConstants.VISIBILITY_FILTER.Public',
+  Private:'jobOfferConstants.VISIBILITY_FILTER.Private'
+
+},
+  DELETE_UNAUTHORIZED: 'jobOfferConstants.DELETE_UNAUTHORIZED',
+  UPDATE_UNAUTHORIZED:'jobOfferConstants.UPDATE_UNAUTHORIZED',
+  
+};

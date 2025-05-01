@@ -1,0 +1,110 @@
+
+<div class="parent" dir="ltr">
+    <div class="container" [ngClass]="isSignDivVisiable ? '' : 'active'" id="container">
+      <!-- Signup Form -->
+      <div class="form-container sign-up">
+        <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+          <h1>{{authConstant.SIGNUP}}</h1>
+  
+  
+  
+  
+  
+  
+          <mat-form-field class="input-box">
+            <mat-label>{{authConstant.EMAIL_LABEL }}</mat-label>
+            <input matInput formControlName="email" type="email" [placeholder]="authConstant.EMAIL_PLACEHOLDER " required />
+            <mat-error *ngIf="signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched">
+              {{authConstant.EMAIL_REQUIRED_ERROR }}
+            </mat-error>
+            <mat-error *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched">
+              {{authConstant.EMAIL_INVALID_ERROR }}
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field class="input-box">
+            <mat-label>{{authConstant.PASSWORD }}</mat-label>
+            <input
+              matInput
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              aria-label="Password"
+              required
+            />
+            <mat-icon matSuffix (click)="togglePasswordVisibility('password')" class="eye-icon">
+              {{ showPassword ? 'visibility' : 'visibility_off' }}
+            </mat-icon>
+            <mat-error *ngIf="signupForm.get('password')?.errors">
+              {{authConstant.PASSWORD_LENGTH_ERROR }}
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field class="input-box">
+            <mat-label>{{authConstant.CONFIRM_PASSWORD }}</mat-label>
+            <input
+              matInput
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              aria-label="Confirm Password"
+              required
+            />
+            <mat-icon
+              matSuffix
+              (click)="togglePasswordVisibility('confirm')"
+              class="eye-icon"
+            >
+              {{ showConfirmPassword ? 'visibility' : 'visibility_off' }}
+            </mat-icon>
+            <mat-error *ngIf="signupForm.get('confirmPassword')?.errors">
+              {{authConstant.PASSWORD_MUST_MATCH }}
+            </mat-error>
+          </mat-form-field>
+  
+          <!-- <div class="recaptcha-container  "  *ngIf="captchaKey">
+            <re-captcha
+              [siteKey]="captchaKey"
+              formControlName="recaptcha"
+            ></re-captcha>
+          </div> -->
+  
+  
+  
+          <button
+            mat-raised-button
+            class="signup-btn"
+            [disabled]="signupForm.invalid"
+            aria-label="Create Account"
+          >
+            {{authConstant.SIGNUP }}
+          </button>
+  
+  
+          <div class="links">
+            <a class="signin" (click)="navigateToSignIn()">
+              {{authConstant.ALREADY_HAVE_AN_ACCOUNT }}
+              <strong>{{authConstant.SIGNIN }}</strong>
+            </a>
+          </div>
+  
+        </form>
+  
+  
+  
+  
+      </div>
+  
+  
+  
+  
+      <div class="toggle-container">
+        <div class="toggle">
+          <div class="toggle-panel toggle-left">
+            <h1> {{authConstant.WELCOME_BACK }}</h1>
+            <p>{{authConstant.PERSONAL_DETAILS_SENTSE }}</p>
+            <button mat-flat-button color="primary" class="hidden" id="login" (click)="navigateToSignIn()">{{authConstant.SIGNIN }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

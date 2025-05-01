@@ -30,13 +30,13 @@
           <span *ngIf="showSpinner" class="loader"></span>
           <div class="links">
   
-            <a href="#" class="forgot-password">{{authConstant.FORGOT_PASSWORD}}</a>
+            <a (click)="onNavigateToForgetPassword()" class="forgot-password">{{authConstant.FORGOT_PASSWORD}}</a>
   
   
-            <!-- <a class="signin" (click)="navigateToSignUp()">
+            <a class="signin" (click)="onNavigateToSignUp()">
               {{authConstant.NO_ACCOUNT_TEXT}}
               <strong>{{authConstant.SIGNUP}}</strong>
-            </a> -->
+            </a>
           </div>
         </form>
   
@@ -51,11 +51,11 @@
             <p>{{authConstant.PERSONAL_DETAILS_SENTSE}}</p>
             <button mat-flat-button color="primary" class="hidden" id="login" (click)="isSignDivVisiable = false">Sign In</button>
           </div>
-          <!-- <div class="toggle-panel toggle-right">
+          <div class="toggle-panel toggle-right">
             <h1>{{authConstant.HELLO_FRIEND}}</h1>
             <p>{{authConstant.REGISTER_DETAILS_SENTSE}}</p>
-            <button  mat-flat-button color="primary" class="hidden" id="register" (click)="onNavigateToSignUp ()">Sign Up</button>
-          </div> -->
+            <button  mat-flat-button color="primary" class="hidden" id="register" (click)="onNavigateToSignUp()">Sign Up</button>
+          </div>
         </div>
       </div>
     </div>

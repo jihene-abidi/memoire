@@ -61,7 +61,14 @@ export const AuthentificationConstant = {
   USER_NAME_REQUIRED:'username is required',
   PASSWORD_REQUIRED: ' Password is required',
   USER_MIN_LENGTH:'username must be at least 3 characters ',
-  ERROR_SIGN_UP:'',
+  ERROR_SIGN_UP:'authentificationConstants.ERROR_SIGN_UP',
+  SIGNUP_ERROR:'authentificationConstants.SIGNUP_ERROR',
   ERROR_INVALID_COGNITO_RESPONSE: 'Invalid Cognito user response during signup.',
   ERROR_RECAPTCHA : 'Captcha key not found in configuration.',
+  SIGNUP_SUCCESSFUL: "Inscription réussie",
+  SIGNIN_BUTTON: "Se connecter",
+  SIGNUP_BUTTON: "S'inscrire",
+  EMAIL_PLACEHOLDER: "prenom@exemple.com",
+  PASSWORD_PLACEHOLDER: "Mot de passe"
+ 
 };

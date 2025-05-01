@@ -1,0 +1,163 @@
+<div class="container">
+    <h1 class="title">{{ jobOfferConstant.OFFER_TITLE}}</h1>
+    <div class="containerheader">
+      <p class="subtitle">{{ jobOfferConstant.JOB_OFFER_SLOGAN}}</p>
+    </div>
+    <div class="header">
+  
+  
+      <app-shared-button
+        routerLink="/client/joboffer/ajout-job-offer"
+        label=" {{jobOfferConstant.BUTTON_ADD_OFFER | translate}}"
+      >
+      </app-shared-button>
+    </div>
+    <div class="filter-container">
+      <label for="visibilityFilter">{{jobOfferConstant.VISIBILITY}}</label>
+      <select id="visibilityFilter" [(ngModel)]="selectedFilter" (change)="applyFilter()">
+        <option value="all">{{jobOfferConstant.VISIBILITY_FILTER.All}}</option>
+        <option value="public">{{jobOfferConstant.VISIBILITY_FILTER.Public}}</option>
+        <option value="private">{{jobOfferConstant.VISIBILITY_FILTER.Private}}</option>
+      </select>
+    </div>
+  
+    <div style="padding-right: inherit ;" *ngFor="let offer of Offers">
+      <mat-card class="job-card" >
+  
+  
+        <div class="job-container">
+          <div class="job-content">
+  
+            <div class="premium-header">
+              <span>{{ offer.title }}</span>
+            
+            </div>
+            <div class="company-header">
+              <div class="company-details">
+  
+                <img [src]="offer?.logo || 'assets/joboffericons/default.png'" class="company-logo" alt="Company Logo" />
+  
+                <div class="location-info"  *ngIf="offer.location && offer.location !== 'Unknown'">
+                  <mat-card-subtitle class="company-info">
+                    {{ offer?.company }}
+                  </mat-card-subtitle>
+                  <div class="location">
+                    <mat-icon>location_on</mat-icon>
+                    <p>{{ offer.location }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-card-content>
+              <h3>{{ jobOfferConstant.JOB_TECHNOLOGIES}}</h3>
+              <div class="chips-container">
+                <mat-chip-listbox class="tech-chip">
+                  <mat-chip
+                    style="background-color: rgba(171, 202, 255, 0.12)"
+                    class="tech"
+                    *ngFor="let tech of offer.technologies"
+                  >
+                    <p class="tech-text">{{ tech }}</p>
+                  </mat-chip>
+                </mat-chip-listbox>
+              </div>
+                <h3>{{ jobOfferConstant.SKILLS}}</h3>
+  
+                <div class="chips-container">
+                  <mat-chip-listbox class="tech-chip">
+                    <mat-chip
+                      style="background-color: rgba(171, 202, 255, 0.12)"
+                      class="tech"
+                      *ngFor="let skill of offer.skills"
+                    >
+                      <span class="tech-text">{{ skill }}</span>
+                    </mat-chip>
+                  </mat-chip-listbox>
+                </div>
+  
+            </mat-card-content>
+          </div>
+  
+          <div class="job-metadata">
+            <div class="header-buttons">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More options">
+                <mat-icon>{{jobOfferConstant.DROP_ICON }}</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openDialog('update',offer._id)">
+                  <mat-icon color="primary">{{jobOfferConstant.EDIT_ICON }}</mat-icon>
+                  <span>{{jobOfferConstant.EDIT_SPAN}}</span>
+                </button>
+                <button mat-menu-item (click)="openDialog('delete',offer._id)">
+                  <mat-icon color="warn">{{jobOfferConstant.DELETE_ICON }}</mat-icon>
+                  <span>{{jobOfferConstant.DELETE_SPAN}}</span>
+                </button>
+              </mat-menu>
+            </div>
+            <div class="metadata-section">
+              <div class="metadata-icon-container">
+                <img src="assets/joboffericons/CalendarBlank.svg" class="metadata-icon" alt="calendar" />
+              </div>
+  
+              <div class="metadata-text">
+                <p class="metadata-title">{{ jobOfferConstant.OFFER_PUBLISHED}}</p>
+                <p class="metadata-value">{{ offer.offerDateFormatted }}</p>
+              </div>
+            </div>
+  
+  
+  
+            <div class="metadata-section" *ngIf="offer.level && offer.level !== 'Unknown'">
+              <div class="metadata-icon-container">
+                <img src="assets/joboffericons/Stack.svg" class="metadata-icon" alt="stack" />
+              </div>
+              <div class="metadata-text" style="display: flex;">
+                <p class="metadata-title">{{ jobOfferConstant.LEVEL}}</p>
+                <p class="metadata-value">{{ offer.level : {} : 'Unknown' }}</p>
+  
+              </div>
+            </div>
+            <div class="metadata-spacer"></div>
+           <div class="bottom-button" style="margin-top: auto;">
+            <mat-card-actions align="end">
+              <div class="button-group">
+  
+                <app-shared-button
+                  color="primary"
+                  type="button"
+                  [label]="jobOfferConstant.CANDIDATES_LABEL | translate"
+                  (click)="openSelectDialog(offer)"
+                  *ngIf="currentUser._id==offer.user._id"
+  
+                > 
+                
+              </app-shared-button>
+  
+                <app-shared-button
+                  *ngIf="!hasAppliedToJob(offer._id)"
+                  color="CVS"
+                  type="button"
+                  [label]="jobOfferConstant.APPLY_LABEL | translate"
+                  (click)="applyToJob(offer)"
+                >
+                </app-shared-button>
+                <div *ngIf="hasAppliedToJob(offer._id)"
+                class="already-applied"
+                (click)="showApplicationDetails(offer)">
+                <span class="application-status">{{jobOfferConstant.ALREADY_APPLIED}}</span>
+              </div>
+              </div>
+            </mat-card-actions>
+  
+          </div>
+          </div>
+  
+        </div>
+  
+  
+      </mat-card>
+    </div>
+  
+  
+  </div>
+  
