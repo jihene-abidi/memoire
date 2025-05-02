@@ -1,27 +1,30 @@
 
+<!-- Conteneur principal en sens de lecture gauche à droite -->
 <div class="parent" dir="ltr">
+    <!-- Conteneur global du formulaire, la classe 'active' est ajoutée dynamiquement si isSignDivVisiable est faux -->
     <div class="container" [ngClass]="isSignDivVisiable ? '' : 'active'" id="container">
+
       <!-- Signup Form -->
       <div class="form-container sign-up">
+        <!-- Le formulaire est lié à un FormGroup Angular (signupForm) et déclenche onSignup() à la soumission -->
         <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
           <h1>{{authConstant.SIGNUP}}</h1>
-  
-  
-  
-  
-  
-  
+
+          <!-- Champ de saisie Email -->
           <mat-form-field class="input-box">
             <mat-label>{{authConstant.EMAIL_LABEL }}</mat-label>
             <input matInput formControlName="email" type="email" [placeholder]="authConstant.EMAIL_PLACEHOLDER " required />
+            <!-- Message d'erreur si champ requis non rempli -->
             <mat-error *ngIf="signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched">
               {{authConstant.EMAIL_REQUIRED_ERROR }}
             </mat-error>
+            <!-- Message d'erreur si format email invalide -->
             <mat-error *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched">
               {{authConstant.EMAIL_INVALID_ERROR }}
             </mat-error>
           </mat-form-field>
   
+          <!-- Champ de saisie du mot de passe -->
           <mat-form-field class="input-box">
             <mat-label>{{authConstant.PASSWORD }}</mat-label>
             <input
@@ -31,14 +34,17 @@
               aria-label="Password"
               required
             />
+            <!-- Icône pour afficher/masquer le mot de passe -->
             <mat-icon matSuffix (click)="togglePasswordVisibility('password')" class="eye-icon">
               {{ showPassword ? 'visibility' : 'visibility_off' }}
             </mat-icon>
+            <!-- Message d'erreur si contrainte non respectée -->
             <mat-error *ngIf="signupForm.get('password')?.errors">
               {{authConstant.PASSWORD_LENGTH_ERROR }}
             </mat-error>
           </mat-form-field>
   
+          <!-- Champ de confirmation du mot de passe -->
           <mat-form-field class="input-box">
             <mat-label>{{authConstant.CONFIRM_PASSWORD }}</mat-label>
             <input
@@ -48,27 +54,30 @@
               aria-label="Confirm Password"
               required
             />
-            <mat-icon
-              matSuffix
-              (click)="togglePasswordVisibility('confirm')"
-              class="eye-icon"
-            >
+            <!-- Icône pour afficher/masquer le champ de confirmation -->
+            <mat-icon matSuffix (click)="togglePasswordVisibility('confirm')"class="eye-icon">
               {{ showConfirmPassword ? 'visibility' : 'visibility_off' }}
             </mat-icon>
+            <!-- Message d'erreur si les mots de passe ne correspondent pas -->
             <mat-error *ngIf="signupForm.get('confirmPassword')?.errors">
               {{authConstant.PASSWORD_MUST_MATCH }}
             </mat-error>
           </mat-form-field>
+
+          <!-- Sélection du rôle (Candidat ou Recruteur) -->
+          <mat-form-field class="input-box">
+            <mat-label>{{ authConstant.ROLE_LABEL }}</mat-label>
+            <mat-select formControlName="role" required>
+              <mat-option value="candidat">Candidat</mat-option>
+              <mat-option value="recruteur">Recruteur</mat-option>
+            </mat-select>
+            <!-- Message d'erreur si aucun rôle n'est sélectionné -->
+            <mat-error *ngIf="signupForm.get('role')?.hasError('required') && signupForm.get('role')?.touched">
+              {{ authConstant.ROLE_REQUIRED }}
+            </mat-error>
+          </mat-form-field>
   
-          <!-- <div class="recaptcha-container  "  *ngIf="captchaKey">
-            <re-captcha
-              [siteKey]="captchaKey"
-              formControlName="recaptcha"
-            ></re-captcha>
-          </div> -->
-  
-  
-  
+          <!-- Bouton de soumission du formulaire -->
           <button
             mat-raised-button
             class="signup-btn"
@@ -78,29 +87,23 @@
             {{authConstant.SIGNUP }}
           </button>
   
-  
+          <!-- Lien pour retourner vers la page de connexion -->
           <div class="links">
             <a class="signin" (click)="navigateToSignIn()">
               {{authConstant.ALREADY_HAVE_AN_ACCOUNT }}
               <strong>{{authConstant.SIGNIN }}</strong>
             </a>
-          </div>
-  
-        </form>
-  
-  
-  
-  
+          </div> 
+        </form>  
       </div>
-  
-  
-  
-  
+
+      <!-- Panneau latéral avec message de bienvenue -->
       <div class="toggle-container">
         <div class="toggle">
           <div class="toggle-panel toggle-left">
             <h1> {{authConstant.WELCOME_BACK }}</h1>
             <p>{{authConstant.PERSONAL_DETAILS_SENTSE }}</p>
+            <!-- Bouton pour revenir à la page de connexion -->
             <button mat-flat-button color="primary" class="hidden" id="login" (click)="navigateToSignIn()">{{authConstant.SIGNIN }}</button>
           </div>
         </div>

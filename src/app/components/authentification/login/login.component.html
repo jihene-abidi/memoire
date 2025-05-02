@@ -1,59 +1,76 @@
 <div class="parent">
+    <!-- Conteneur principal avec une classe conditionnelle "active" si isSignDivVisiable est true -->
     <div class="container" [ngClass]="isSignDivVisiable ? 'active' :'' " id="container">
+      <!-- Formulaire d'inscription -->
       <div class="form-container sign-up">
       </div>
+      <!-- Formulaire de connexion -->
       <div class="form-container sign-in">
         <form [formGroup]="signInForm">
+          <!-- Titre du formulaire -->
           <h1>{{authConstant.SIGNIN}}</h1>
+
+          <!-- Champ Email avec validation -->
           <mat-form-field class="input-box">
             <mat-label>{{authConstant.EMAIL_LABEL}}</mat-label>
             <input formControlName="email" id="email" type="email" matInput placeholder="name@exemple.com" required />
+            <!-- Erreur si le champ est requis et a été touché -->
             <mat-error *ngIf="signInForm.get('email')?.hasError('required') && signInForm.get('email')?.touched">
               {{authConstant.EMAIL_REQUIRED_ERROR }}
             </mat-error>
+            <!-- Erreur si l'email est invalide -->
             <mat-error *ngIf="signInForm.get('email')?.hasError('email') && signInForm.get('email')?.touched">
               {{authConstant.EMAIL_INVALID_ERROR }}
             </mat-error>
           </mat-form-field>
   
+          <!-- Champ mot de passe avec validation -->
           <mat-form-field class="input-box">
             <mat-label>{{authConstant.PASSWORD}}</mat-label>
             <input formControlName="password" matInput placeholder="password" type="password"/>
+            <!-- Affiche une erreur générique si des erreurs sont présentes -->
             <mat-error *ngIf="signInForm.get('password')?.errors">
               {{authConstant.PASSWORD_LENGTH_ERROR }}
             </mat-error>
           </mat-form-field>
   
+          <!-- Bouton de connexion (visible si showSpinner est false) -->
           <button *ngIf="!showSpinner" mat-flat-button color="primary" (click)="onSignIn()" class="full-width">
             {{authConstant.SIGNIN}}
           </button>
+          <!-- Spinner de chargement (visible pendant l'attente d'une réponse) -->
           <span *ngIf="showSpinner" class="loader"></span>
+
           <div class="links">
-  
+            <!-- Lien pour mot de passe oublié -->
             <a (click)="onNavigateToForgetPassword()" class="forgot-password">{{authConstant.FORGOT_PASSWORD}}</a>
-  
-  
+            <!-- Lien pour aller vers la page d'inscription -->
             <a class="signin" (click)="onNavigateToSignUp()">
               {{authConstant.NO_ACCOUNT_TEXT}}
               <strong>{{authConstant.SIGNUP}}</strong>
             </a>
           </div>
         </form>
-  
       </div>
   
   
-  
+      <!-- Conteneur de bascule pour l’animation visuelle entre SignIn et SignUp -->
       <div class="toggle-container">
         <div class="toggle">
+
+          <!-- Panneau gauche : message pour les utilisateurs déjà inscrits -->
           <div class="toggle-panel toggle-left">
             <h1> {{authConstant.WELCOME_BACK}}</h1>
             <p>{{authConstant.PERSONAL_DETAILS_SENTSE}}</p>
+            <!-- Bascule vers le formulaire Sign In -->
             <button mat-flat-button color="primary" class="hidden" id="login" (click)="isSignDivVisiable = false">Sign In</button>
           </div>
+
+          <!-- Panneau droit : message pour les nouveaux utilisateurs -->
           <div class="toggle-panel toggle-right">
             <h1>{{authConstant.HELLO_FRIEND}}</h1>
             <p>{{authConstant.REGISTER_DETAILS_SENTSE}}</p>
+            <!-- Bascule vers le formulaire Sign Up -->
             <button  mat-flat-button color="primary" class="hidden" id="register" (click)="onNavigateToSignUp()">Sign Up</button>
           </div>
         </div>

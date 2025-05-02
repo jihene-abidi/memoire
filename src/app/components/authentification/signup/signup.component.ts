@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { AuthentificationConstant } from '../authentification.constants';
 import { AuthentificationImports } from '../authentification-imports';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 // import { AmplifyService } from '../../../core/services/amplify';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -28,8 +30,8 @@ import { Router } from '@angular/router';
     MatCard,
     MatCardHeader,
     MatIconModule,
-    RecaptchaModule,
-    RecaptchaFormsModule,
+    MatSelectModule,
+    MatOptionModule,
     AuthentificationImports,
   ],
   templateUrl: './signup.component.html',
@@ -58,7 +60,7 @@ export class SignupComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', Validators.required],
-        recaptcha: ['', Validators.required],
+        role: ['', Validators.required], 
       },
       { validators: this.passwordsMatchValidator }
     );
@@ -170,4 +172,5 @@ export class SignupComponent implements OnInit {
   navigateToSignIn() {
     this.router.navigate(['auth/login']);
   }
+  
 }

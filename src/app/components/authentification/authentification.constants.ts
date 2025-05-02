@@ -45,16 +45,14 @@ export const AuthentificationConstant = {
   INVALID_FORM: 'Please fill out all form fields correctly.',
   INVALID_FORM_TITLE: 'Invalid Form',
   USER_SIGNED_UP_SUCCESS: 'User signed up successfully',
-  USER_CREATION_FAILED:
-    "Échec de la création de l'utilisateur, aucun ID valide retourné.",
+  USER_CREATION_FAILED:"Échec de la création de l'utilisateur, aucun ID valide retourné.",
   VERIFICATION_CODE_SENT: 'A verification code has been sent to your email.',
   VERIFICATION_CODE_FAILED: 'Failed to send the verification code.',
   PASSWORD_RESET_SUCCESS:
     'Password reset successful. You can now sign in with your new password.',
   PASSWORD_RESET_SUCCESSFUL: 'Password reset successful.',
   PASSWORD_REST_FAILED: 'Error in password reset.',
-  USER_NOT_FOUND_ID:
-    "Aucun ID valide n'a été retourné pour l'utilisateur créé.",
+  USER_NOT_FOUND_ID:"Aucun ID valide n'a été retourné pour l'utilisateur créé.",
   SENT_VERIFICATION_CODE: 'Verification code sent.',
   CURRENT_USER_LOCAL_STORAGE: 'currentUser',
   USER_NAME:'Username',
@@ -69,6 +67,8 @@ export const AuthentificationConstant = {
   SIGNIN_BUTTON: "Se connecter",
   SIGNUP_BUTTON: "S'inscrire",
   EMAIL_PLACEHOLDER: "prenom@exemple.com",
-  PASSWORD_PLACEHOLDER: "Mot de passe"
+  PASSWORD_PLACEHOLDER: "Mot de passe",
+  ROLE_LABEL: 'Sélectionnez votre rôle',
+ROLE_REQUIRED: 'Le rôle est requis',
  
 };
