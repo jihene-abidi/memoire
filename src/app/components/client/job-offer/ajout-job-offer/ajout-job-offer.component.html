@@ -1,0 +1,150 @@
+<div class="ajout-cv-container">
+    <div class="header">
+      <h1>{{ ajoutJobOfferConstants.TITLE}}</h1>
+      <p>{{ ajoutJobOfferConstants.SMALL_TITLE}}</p>
+    </div>
+  
+    <div class="breadcrumb">
+      <span class="breadcrumb-item">
+        {{ ajoutJobOfferConstants.ROUTE_OFFRES}}</span
+      >/<span class="active">{{ ajoutJobOfferConstants.ADD_OFFRES}} </span>
+    </div>
+  
+    <div class="main-content">
+      <div class="form-container">
+        <div class="title-section">
+          <mat-label class="titre-label">{{
+            ajoutJobOfferConstants.TITLE_LABEL_1
+          }}</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              [placeholder]="ajoutJobOfferConstants.OFFER_TITLE_PLACEHOLDER"
+              [(ngModel)]="jobOffer.title"
+            />
+          </mat-form-field>
+        </div>
+  
+        <div class="title-section">
+          <mat-label class="titre-label">{{
+            ajoutJobOfferConstants.TITLE_LABEL_2
+          }}</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              [placeholder]="ajoutJobOfferConstants.OFFER_URL_PLACEHOLDER"
+              [(ngModel)]="jobOffer.link"
+            />
+          </mat-form-field>
+        </div>
+  
+        <mat-expansion-panel [(expanded)]="isDetailsExpanded">
+          <mat-expansion-panel-header>
+            <mat-panel-title> {{ ajoutJobOfferConstants.ADVANCED_DETAILS}}</mat-panel-title>
+          </mat-expansion-panel-header>
+  
+          <div class="chatbot-container">
+            <p class="chatbot-question">{{ ajoutJobOfferConstants.COMPANY_LABEL}}</p>
+            <mat-form-field appearance="outline" class="full-width">
+              <input
+                matInput
+                [placeholder]="ajoutJobOfferConstants.COMPANY_NAME_PLACEHOLDER"
+  
+                [(ngModel)]="jobOffer.company"
+              />
+            </mat-form-field>
+  
+            <p class="chatbot-question">{{ ajoutJobOfferConstants.LOCATION_LABEL}}</p>
+            <mat-form-field appearance="outline" class="full-width">
+              <input
+                matInput
+                [placeholder]="ajoutJobOfferConstants.JOB_LOCATION_PLACEHOLDER"
+                [(ngModel)]="jobOffer.location"
+              />
+            </mat-form-field>
+  
+            <p class="chatbot-question">{{ ajoutJobOfferConstants.TECHNOLOGIES_LABEL}}</p>
+            <mat-form-field appearance="outline" class="full-width">
+              <input
+                matInput
+                [placeholder]="ajoutJobOfferConstants.TECHNOLOGIES_PLACEHOLDER"
+                [(ngModel)]="jobOffer.technologies"
+              />
+            </mat-form-field>
+  
+            <p class="chatbot-question">{{ ajoutJobOfferConstants.SKILLS_LABEL}}</p>
+            <mat-form-field appearance="outline" class="full-width">
+              <input
+                matInput
+                [placeholder]="ajoutJobOfferConstants.SKILLS_PLACEHOLDER"
+                [(ngModel)]="jobOffer.skills"
+              />
+            </mat-form-field>
+  
+            <p class="chatbot-question">{{ ajoutJobOfferConstants.LEVEL_LABEL}}</p>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ ajoutJobOfferConstants.EXPERIENCE_LEVEL_LABEL}}</mat-label>
+              <mat-select [(ngModel)]="jobOffer.level">
+                <mat-option *ngFor="let level of levels" [value]="level">{{
+                  level
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+  
+  
+            <p class="chatbot-question">{{ ajoutJobOfferConstants.PUBLISHED_DATE_LABEL}}</p>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ ajoutJobOfferConstants.PUBLISHED_DATE_LABEL}}</mat-label>
+  
+              <input
+                matInput
+                [matDatepicker]="publishedPicker"
+                [(ngModel)]="jobOffer.published"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="publishedPicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #publishedPicker></mat-datepicker>
+            </mat-form-field>
+  
+            <!--- <p class="chatbot-question">{{ ajoutJobOfferConstants.EXPIRATION_DATE_LABEL }}</p>
+            <p class="chatbot-question">{{ ajoutJobOfferConstants.EXPIRATION_DATE_LABEL }}</p>
+             <mat-form-field appearance="outline" class="full-width">
+               <mat-label>Select expiration date</mat-label>
+               <input matInput [matDatepicker]="expiredPicker" [(ngModel)]="jobOffer.expired" />
+               <mat-datepicker-toggle matSuffix [for]="expiredPicker"></mat-datepicker-toggle>
+               <mat-datepicker #expiredPicker></mat-datepicker>
+             </mat-form-field>
+             </mat-form-field> -->
+  
+  
+            <p class="chatbot-question">{{ ajoutJobOfferConstants.VISIBILITY_LABEL}}</p>
+            <mat-radio-group [(ngModel)]="jobOffer.visibility">
+              <mat-radio-button value="public">{{ ajoutJobOfferConstants.PUBLIC_LABEL}}</mat-radio-button>
+              <mat-radio-button value="private">{{ ajoutJobOfferConstants.PRIVATE_LABEL}}</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </mat-expansion-panel>
+      </div>
+  
+      <div class="action-buttons">
+        <app-shared-button
+          label="{{ ajoutJobOfferConstants.RETOUR}}"
+          color="cancel"
+          (click)="navigateToJobOffers()"
+        >
+        </app-shared-button>
+        <app-shared-button
+          label="{{ ajoutJobOfferConstants.VALIDER}}"
+          color="add"
+          (click)="addJobOffer()"
+          *ngIf="!spinner"
+        >
+        </app-shared-button>
+        <span *ngIf="spinner" class="loader"></span>
+      </div>
+    </div>
+  </div>
+  

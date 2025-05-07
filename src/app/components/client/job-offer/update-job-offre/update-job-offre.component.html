@@ -1,0 +1,118 @@
+<div *ngIf="templateType === 'template1'" class="ajout-cv-container">
+    <div class="header">
+      <h1>{{ajoutJobOfferConstants.TITLE_2}}</h1>
+      <p>{{ajoutJobOfferConstants.SMALL_TITLE}}</p>
+    </div>
+    <div class="breadcrumb">
+          <span class="breadcrumb-item">
+              {{ajoutJobOfferConstants.ROUTE_OFFRES}}</span>/<span class="active" >{{ajoutJobOfferConstants.UPDATE_OFFRE}}
+      </span>
+    </div>
+    <div class="main-content">
+      <div class="form-left">
+        <div class="title-section_one">
+          <mat-label class="titre-label_one">{{ajoutJobOfferConstants.TITLE_LABEL_1}}</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input matInput id="titre"  [(ngModel)]="title"  [placeholder]="ajoutJobOfferConstants.EDIT_OFFER_TITLE_PLACEHOLDER"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-right_one">
+        <img src="assets/creative-job-posting.jpg_1.png" alt="Upload CV" class="upload-img" />
+      </div>
+      <div class="action-buttons">
+        <button mat-stroked-button color="primary" routerLink="/client/joboffer" class="btn-back">{{ajoutJobOfferConstants.RETOUR}}</button>
+        <button mat-raised-button color="primary" class="btn-submit  " (click)="updateOffre()">{{ajoutJobOfferConstants.VALIDER}}</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="templateType === 'template2'" class="ajout-cv-container">
+    <div class="header">
+      <h1>{{ajoutJobOfferConstants.TITLE_2}}</h1>
+      <p>{{ajoutJobOfferConstants.SMALL_TITLE}}</p>
+    </div>
+    <div class="breadcrumb">
+          <span class="breadcrumb-item">
+              {{ajoutJobOfferConstants.ROUTE_OFFRES}}</span>/<span class="active" >{{ajoutJobOfferConstants.UPDATE_OFFRE}}
+      </span>
+    </div>
+    <div class="main-content_two">
+      <div class="form-left">
+        <div class="title-section">
+          <mat-label class="titre-label">{{ajoutJobOfferConstants.TITLE_LABEL_1}}</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input matInput id="title" [(ngModel)]="title" #titreInput [placeholder]="ajoutJobOfferConstants.EDIT_OFFER_TITLE_PLACEHOLDER"/>
+  
+          </mat-form-field>
+          <mat-label class="titre-label">{{ajoutJobOfferConstants.COMPANY_LABEL}}</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              id="company"
+              [placeholder]="ajoutJobOfferConstants.COMPANY_NAME_PLACEHOLDER"
+              [(ngModel)]="company"
+            />
+          </mat-form-field>
+          <mat-label class="titre-label">{{ajoutJobOfferConstants.LOCATION_LABEL}}</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              id="location"
+              [placeholder]="ajoutJobOfferConstants.JOB_LOCATION_PLACEHOLDER"
+              [(ngModel)]="location"
+            />
+          </mat-form-field>
+          <mat-label class="titre-label">{{ajoutJobOfferConstants.TECHNOLOGIES_LABEL}}</mat-label>
+  
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              [placeholder]="ajoutJobOfferConstants.TECHNOLOGIES_PLACEHOLDER"
+              [(ngModel)]="technologies"
+            />
+          </mat-form-field>
+  
+        </div>
+      </div>
+      <div class="form-right">
+        <div class="title-section">
+          <mat-label class="titre-label">{{ajoutJobOfferConstants.SKILLS_LABEL}}</mat-label>
+  
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              [placeholder]="ajoutJobOfferConstants.SKILLS_PLACEHOLDER"
+              [(ngModel)]="skills"
+            />
+          </mat-form-field>
+          <mat-label class="titre-label">{{ajoutJobOfferConstants.LEVEL_LABEL}}</mat-label>
+  
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ ajoutJobOfferConstants.EXPERIENCE_LEVEL_LABEL}}</mat-label>
+            <mat-select [(ngModel)]="level">
+              <mat-option *ngFor="let level of levels" [value]="level">{{
+                 level
+  
+                }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-label class="titre-label">{{ajoutJobOfferConstants.EXPIRATION_DATE_LABEL}}</mat-label>
+  
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ ajoutJobOfferConstants.PUBLISHED_DATE_LABEL}}</mat-label>
+  
+            <input matInput [matDatepicker]="publishedPicker" [(ngModel)]="formattedDate" />
+            <mat-datepicker-toggle matSuffix [for]="publishedPicker"></mat-datepicker-toggle>
+            <mat-datepicker #publishedPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+  
+      </div>
+      <div class="action-buttons">
+        <button mat-stroked-button color="primary" routerLink="/client/joboffer" class="btn-back">{{ajoutJobOfferConstants.RETOUR}}</button>
+        <button mat-raised-button color="primary" class="btn-submit  " (click)="updateOffre()">{{ajoutJobOfferConstants.VALIDER}}</button>
+      </div>
+    </div>
+  </div>
+  

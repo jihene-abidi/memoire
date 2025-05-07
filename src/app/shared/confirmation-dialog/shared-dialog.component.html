@@ -1,0 +1,33 @@
+<div class="header">
+    <div class="content">
+      <div class="featured-icon">
+        <img
+          [src]="iconSrc"
+          class="trash-01"
+          [alt]="iconAlt"
+        />
+      </div>
+      <div class="title">
+        <h2 class="title" mat-dialog-title>{{ data.title }}</h2>
+      </div>
+      <div class="icon-close-x">
+        <img
+          src="assets/closeButton.svg"
+          class="x-close"
+          alt="close icon"
+          (click)="onNoClick()"
+        />
+      </div>
+    </div>
+  </div>
+  
+  <mat-dialog-content>
+    <p>{{ data.message }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="cancel-btn" mat-button (click)="onCancel()">{{Shared_dialogConstant.CANCEL}}</button>
+    <button class="custom-btn" mat-raised-button [color]="data.actionButtonColor || 'primary'" (click)="onConfirm()">
+      {{ data.actionButtonText || 'Confirm' }}
+    </button>
+  </mat-dialog-actions>
+  

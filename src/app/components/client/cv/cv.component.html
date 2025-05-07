@@ -1,0 +1,68 @@
+<div class="container">
+
+
+    <div class="grid-container">
+      <mat-grid-list [cols]="titleColNumber" [rowHeight]="rowHeight">
+        <mat-grid-tile colspan="1">
+          <div class="two title-container">
+            <h1>
+              {{ cvConstants.HIRING}}
+              <span *ngIf="titleColNumber == 2">
+                {{ cvConstants.HIRING_MESSAGE}}
+              </span>
+            </h1>
+          </div>
+        </mat-grid-tile>
+        <!-- <mat-grid-tile colspan="1">
+          <mat-form-field class="mat-mdc-form-field search-field">
+            <mat-label class="search-label">
+              {{ cvConstants.SEARCH }}
+            </mat-label>
+            <input type="search" matInput [placeholder]="cvConstants.SEARCH_PLACEHOLDER" />
+            <button matSuffix mat-icon-button>
+              <mat-icon class="search-icon">{{ cvConstants.SEARCH_ICON }}</mat-icon>
+            </button>
+          </mat-form-field>
+        </mat-grid-tile> -->
+      </mat-grid-list>
+  
+      <div *ngIf="isLoading" class="loading-indicator" >
+        <mat-spinner ></mat-spinner>
+      </div>
+      <div *ngIf="!isLoading && cvs.length === 0" class="no-results">
+        {{cvConstants.NO_CV}}
+      </div>
+  
+      <mat-grid-list [cols]="cvsColNumber" rowHeight="1:1" *ngIf="cvs.length > 0">
+        <mat-grid-tile *ngFor="let cv of cvs; let i = index">
+          <div class="card-container">
+  
+            <div *ngIf="isCvImageLoading(cv._id!)" class="cv-image-loading">
+              <mat-spinner diameter="40"></mat-spinner>
+            </div>
+  
+  
+  
+            <img [src]="cv.imageSrc" alt="CV Preview" class="cvImage"
+                 [ngClass]="{'hidden': isCvImageLoading(cv._id!)}" />
+  
+            <div class="info-overlay">
+              <h2 style="margin: 0; font-size: 1rem">{{ cv.title }}</h2>
+            </div>
+            <div class="icon-overlay">
+              <mat-icon class="icon" (click)="downloadCv(cv)">
+                {{cvConstants.CLOUD_ICON }}
+              </mat-icon>
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  
+    <div class="load-more-container">
+      <button mat-stroked-button (click)="loadMoreCvs()" *ngIf="hasMoreCvs && !isLoading">
+        {{ cvConstants.LOAD_MORE}}
+      </button>
+    </div>
+  </div>
+  

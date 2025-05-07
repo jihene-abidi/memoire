@@ -1,0 +1,71 @@
+<div class="modifier-cv-container">
+    <div class="header">
+      <h1>{{ constants.HEADER_TITLE}}</h1>
+      <p>{{ constants.HEADER_SUBTITLE}}</p>
+    </div>
+  
+    <div class="breadcrumb">
+      <span class="breadcrumb-item">{{ constants.BREADCRUMB_CVS}}</span> /
+      <span class="active">{{ constants.BREADCRUMB_MODIFY}}</span>
+    </div>
+  
+    <form [formGroup]="uploadForm" class="main-content">
+      <div class="form-left">
+        <div class="title-section">
+          <mat-label class="titre-label">{{ constants.TITLE_PLACEHOLDER}}</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input matInput id="titre" formControlName="titre" [placeholder]="constants.TITLE_PLACEHOLDER" required />
+            <mat-error>{{ constants.TITLE_REQUIRED}}</mat-error>
+          </mat-form-field>
+        </div>
+  
+        <div class="visibility">
+          <label>{{ constants.VISIBILITY_LABEL}}</label>
+          <mat-radio-group formControlName="visibility">
+            <mat-radio-button value="public">{{ constants.VISIBILITY_PUBLIC}}</mat-radio-button>
+            <mat-radio-button value="private">{{ constants.VISIBILITY_PRIVATE}}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+  
+        <div class="file-upload" (drop)="onDrop($event)" (dragover)="onDragOver($event)" [class.disabled]="true">
+          <div class="upload-left">
+            <div class="upload-icon">
+              <img src="assets/images/logoupload.png" alt="Upload Icon" />
+            </div>
+            <div class="upload-text">
+              <p><span>{{ constants.UPLOAD_TEXT}}</span></p>
+              <small>{{ constants.UPLOAD_HELP}}</small>
+              <p *ngIf="uploadStatus" class="upload-status">{{ uploadStatus }}</p>
+              <p class="warning-text"> {{ constants.WARNING_TEXT}}</p>
+            </div>
+          </div>
+          <div class="upload-right">
+            <button mat-button color="primary" (click)="fileInput.click()" disabled>
+              {{ constants.SELECT_FILE_BUTTON}}
+            </button>
+            <input type="file" hidden (change)="onFileSelected($event)" #fileInput formControlName="file"  />
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-right">
+        <img src="assets/images/uploadCV_1.png" alt="Upload CV" class="upload-img" />
+        <div class="action-buttons">
+          <app-shared-button
+            routerLink="/client/my-cvs"
+            label="{{constants.BACK_BUTTON}}"
+            color="cancel"
+          >
+          </app-shared-button>
+          <app-shared-button
+            [disabled]="uploadForm.invalid"
+            label="{{ constants.MODIFIER}}"
+            color="add"
+            (click)="updateCv()"
+          >
+          </app-shared-button>
+        </div>
+      </div>
+    </form>
+  </div>
+  

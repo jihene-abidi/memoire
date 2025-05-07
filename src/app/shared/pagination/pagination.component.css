@@ -1,0 +1,52 @@
+.custom-paginator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+    button {
+      color: #5a5a5a;
+      border: none;
+  
+      &:hover {
+        color: #007bff;
+      }
+  
+      &[disabled] {
+        color: #605d5d;
+      }
+      margin: 0 0.5rem;
+    }
+  
+    .page-info {
+      font-size: 0.9rem;
+      color: #555;
+      strong {
+        color: #000;
+      }
+    }
+  
+    .items-per-page {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+  
+  
+      span {
+        font-size: 0.85rem;
+        color: #555;
+        min-width: 120px;
+        text-align: right;
+      }
+  
+      mat-select {
+        min-width: 60px;
+        font-size: 1.2rem;
+      }
+    }
+  }
+  
+  

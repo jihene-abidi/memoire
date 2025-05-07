@@ -1,0 +1,97 @@
+<p>ajout-cv works!</p>
+<div class="ajout-cv-container">
+    <header class="header">
+      <h1> {{ CvConstants.ADD_CV_TITLE}}</h1>
+      <p>{{ CvConstants.ADD_CV_TEXT}}</p>
+    </header>
+  
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <span class="breadcrumb-item">{{ CvConstants.BREADCRUMB_CVS}}</span> /
+      <span class="active">{{ CvConstants.BREADCRUMB_ADD}}</span>
+    </nav>
+  
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="form-container">
+      <div class="main-content">
+        <div class="form-left">
+          <div class="title-section">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label class="titre-label">{{ CvConstants.Title_Label}}</mat-label>
+              <input
+                matInput
+                id="title"
+                [placeholder]="CvConstants.ADD_TITLE_PLACEHOLDER"
+                formControlName="title"
+                required
+                aria-required="true"
+              />
+              <mat-error *ngIf="uploadForm.get('title')?.invalid && uploadForm.get('title')?.touched">
+                {{ CvConstants.TITLE_REQUIRED}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+  
+          <div class="visibility">
+            <label>{{ CvConstants.VISIBILITY_LABEL}}</label>
+            <mat-radio-group formControlName="visibility">
+              <mat-radio-button value="public">{{ CvConstants.VISIBILITY_PUBLIC}}</mat-radio-button>
+              <mat-radio-button value="private">{{ CvConstants.VISIBILITY_PRIVATE}}</mat-radio-button>
+            </mat-radio-group>
+          </div>
+  
+          <div
+            class="file-upload"
+            (drop)="onDrop($event)"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            aria-label="Zone de dépôt pour le fichier"
+          >
+            <div class="upload-left">
+              <div class="upload-icon">
+                <img src="assets/images/logoupload.png" alt="Upload Icon" />
+              </div>
+              <div class="upload-text">
+                <p><span>{{ CvConstants.selectFileText}}</span></p>
+                <small>{{ CvConstants.fileSizeInfo}}</small>
+                <p *ngIf="uploadStatus" class="upload-status">{{ uploadStatus }}</p>
+              </div>
+            </div>
+            <div class="upload-right">
+              <button mat-button color="primary" type="button" (click)="fileInput.click()">{{ CvConstants.SELECT_FILE_BUTTON}}</button>
+              <input
+                type="file"
+                hidden
+                (change)="onFileSelected($event)"
+                #fileInput
+              />
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-right">
+          <img
+            src="assets/images/uploadCV_1.png"
+            alt="Upload CV"
+            class="upload-img"
+          />
+          <div class="action-buttons">
+            <app-shared-button
+              label="{{CvConstants.BACK_BUTTON}}"
+              color="cancel"
+              (click)="navigateAllCvs()"
+            >
+            </app-shared-button>
+            <app-shared-button
+              label="{{ CvConstants.SUBMIT_BUTTON}}"
+              [disabled]="uploadForm.invalid || !fileToUpload"
+              (clicked)="onSubmit()"
+              *ngIf="!spinner"
+              color="add"
+            >
+            </app-shared-button>
+            <span *ngIf="spinner" class="loader"></span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  

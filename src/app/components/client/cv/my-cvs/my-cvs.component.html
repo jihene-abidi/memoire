@@ -1,0 +1,86 @@
+<div class="container">
+    <div style="margin: 1%">
+      <mat-grid-list [cols]="titleColNumber" [rowHeight]="rowHeight" *ngIf="!hideAddCvButton">
+        <mat-grid-tile colspan="1">
+          <div style="padding-top: 5%" class="two">
+            <h1>
+              {{ cvConstants.CREATION}}
+              <span *ngIf="titleColNumber == 2">
+                {{ cvConstants.CREATION_MESSAGE}}
+              </span>
+            </h1>
+          </div>
+        </mat-grid-tile>
+        
+      </mat-grid-list>
+      <mat-grid-list cols="1" rowHeight="80px" gutterSize="12px" *ngIf="!hideAddCvButton">
+        <mat-grid-tile>
+          <div class="mat-grid-tile-content">
+            <app-shared-button
+              routerLink="/client/ajoutcv"
+              label="{{ cvConstants.ADD_NEW_CV}}"
+            >
+            </app-shared-button>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+  
+        <div *ngIf="isLoading" class="loading-indicator" >
+          <mat-spinner></mat-spinner>
+        </div>
+  
+      <div *ngIf="!isLoading && displayedCvs.length === 0" class="no-results">
+        {{cvConstants.NO_CV}}
+      </div>
+  
+        <mat-grid-list rowHeight="1:1" [cols]="cvsColNumber" gutterSize="16px" *ngIf="displayedCvs.length > 0">
+          <mat-grid-tile *ngFor="let cv of displayedCvs; let i = index">
+            <div class="card-container" (click)="cvClicked.emit(cv)"   [ngClass]="{ 'selected': selectedCv?._id === cv._id }">
+              <span class="cv-type-badge"
+                    [ngClass]="{'private': cv.visibility.toLowerCase() === 'private',
+                               'public': cv.visibility.toLowerCase() === 'public'}">
+                {{ cv.visibility }}
+              </span>
+  
+              <div *ngIf="isCvImageLoading(cv._id!)" class="cv-image-loading">
+                <mat-spinner diameter="40"></mat-spinner>
+              </div>
+  
+              <img [src]="cv.imageSrc" alt="CV Preview" class="cvImage"
+                   [ngClass]="{'hidden': isCvImageLoading(cv._id!)}" />
+  
+              <div class="info-overlay">
+                <h2 class="h2Title">{{ cv.title }}</h2>
+                <h2 class="h2Title">
+                  {{ (cv.updatedAt || cv.createdAt) | date:'yyyy-MM-dd' }}
+                </h2>
+              </div>
+  
+  
+              <div class="icon-overlay" *ngIf="!hideAddCvButton">
+                <mat-icon [routerLink]="['/client/modifier-cv', cv._id]"   [matTooltip]="cvConstants.MATTOOL_EDIT" matTooltipPosition="above" class="icon">{{ cvConstants.BUTTON_EDIT }}</mat-icon>
+  
+                <mat-icon [matTooltip]="cvConstants.MATTOOL_Delete" matTooltipPosition="above" class="icon" (click)="openDialog(cv._id!, i)">{{ cvConstants.BUTTON_DELETE }}</mat-icon>
+                <img
+                  [matTooltip]="cvConstants.MATTOOL_Improve" matTooltipPosition="above"
+                  [routerLink]="['/client/chat', cv._id]"
+                  width="24"
+                  class="icon"
+                  height="24"
+                  src="https://img.icons8.com/ios-filled/50/FFFFFF/message-bot.png"
+                  alt="message-bot"
+                  style="cursor: pointer;"
+                />
+              </div>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+  
+        <div *ngIf="hasMoreCvs && !isLoading && displayedCvs.length > 0" class="load-more-container">
+          <button mat-button (click)="loadMoreCvs()" color="primary">
+            Load More
+          </button>
+        </div>
+      </div>
+    </div>
+  
