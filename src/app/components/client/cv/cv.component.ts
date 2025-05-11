@@ -6,7 +6,7 @@ import {ToastrService} from "ngx-toastr";
 import {CvService} from "../../../core/services/cv.service";
 import {FileService} from "../../../core/services/file.service";
 import {CvConstants} from "../../client/cv/cv.constants";
-import * as pdfjsLib from 'pdfjs-dist';
+//import * as pdfjsLib from 'pdfjs-dist';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
@@ -109,7 +109,7 @@ export class CvComponent implements OnInit {
         this.cvs = cvs;
 
         for (let cv of cvs) {
-          this.fileService.showFile(cv.cv_s3).subscribe({
+        /*  this.fileService.showFile(cv.cv_s3).subscribe({
             next: (pdfData) => {
               this.getPdfThumbnail(pdfData.source, cv);
               this.isLoading = false;
@@ -118,7 +118,7 @@ export class CvComponent implements OnInit {
               console.error(this.cvConstants.ERROR_RETRIEVING_PDF, err);
               this.isLoading = false;
             }
-          });
+          });*/
         }
       },
       error: (error) => {
@@ -140,7 +140,7 @@ export class CvComponent implements OnInit {
       return;
     }
 
-    const loadingTask = pdfjsLib.getDocument(pdfUrl);
+   /* const loadingTask = pdfjsLib.getDocument(pdfUrl);
     loadingTask.promise
       .then((pdf) => {
         return pdf.getPage(1);
@@ -173,7 +173,7 @@ export class CvComponent implements OnInit {
       .catch((error) => {
         console.error(this.cvConstants.ERROR_INVALID_FORMAT, error);
         this.loadingImages[cv._id!] = false;
-      });
+      });*/
   }
 
 

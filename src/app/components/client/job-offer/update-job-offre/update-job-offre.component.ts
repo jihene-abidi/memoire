@@ -110,7 +110,7 @@ export class UpdateJobOffreComponent {
     if (!this.title || this.title.trim() === '') {
       this.cacheService.clearByPattern('/offre');
       this.toastrService.error(
-       // this.translate.instant(ajoutJobOfferConstants.UPDATE_ERROR_TOAST)
+       // this.translate.instant(AjoutJobOfferConstants.UPDATE_ERROR_TOAST)
       );
       return;
     }

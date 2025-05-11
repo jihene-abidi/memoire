@@ -17,10 +17,10 @@ import {
 import {UserService} from './user';
 import {FileModel} from '../models/file';
 import {map} from "rxjs/operators";
-import * as pdfjsLib from "pdfjs-dist"; // biblio pour lire, analyser et afficher des fichiers PDF
+// import * as pdfjsLib from "pdfjs-dist"; // biblio pour lire, analyser et afficher des fichiers PDF
 import axios from "axios"; //facilite les appels HTTP utilisée pour communiquer avec des API REST
 import {CvConstants} from "../../components/client/cv/cv.constants";
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+//pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 
 @Injectable({

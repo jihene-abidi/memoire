@@ -8,7 +8,7 @@
   
       <app-shared-button
         routerLink="/client/joboffer/ajout-job-offer"
-        label=" {{jobOfferConstant.BUTTON_ADD_OFFER | translate}}"
+        label=" {{jobOfferConstant.BUTTON_ADD_OFFER }}"
       >
       </app-shared-button>
     </div>
@@ -113,7 +113,7 @@
               </div>
               <div class="metadata-text" style="display: flex;">
                 <p class="metadata-title">{{ jobOfferConstant.LEVEL}}</p>
-                <p class="metadata-value">{{ offer.level : {} : 'Unknown' }}</p>
+                <p class="metadata-value">{{ offer.level }}</p>
   
               </div>
             </div>
@@ -125,7 +125,7 @@
                 <app-shared-button
                   color="primary"
                   type="button"
-                  [label]="jobOfferConstant.CANDIDATES_LABEL | translate"
+                  [label]="jobOfferConstant.CANDIDATES_LABEL "
                   (click)="openSelectDialog(offer)"
                   *ngIf="currentUser._id==offer.user._id"
   
@@ -137,7 +137,7 @@
                   *ngIf="!hasAppliedToJob(offer._id)"
                   color="CVS"
                   type="button"
-                  [label]="jobOfferConstant.APPLY_LABEL | translate"
+                  [label]="jobOfferConstant.APPLY_LABEL "
                   (click)="applyToJob(offer)"
                 >
                 </app-shared-button>

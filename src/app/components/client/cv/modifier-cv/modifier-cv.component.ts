@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { CvConstants } from '../cv.constants';
-import { AmplifyService } from '../../../../core/services/amplify';
+//import { AmplifyService } from '../../../../core/services/amplify';
 //import { ToastrService } from 'ngx-toastr';
 import { NgIf } from '@angular/common';
 import { UserModel } from '../../../../core/models/user';
@@ -58,7 +58,7 @@ export class ModifierCvComponent implements OnInit {
   constructor(
     private fileService: FileService,
     private fb: FormBuilder,
-    private amplifyService: AmplifyService,
+   // private amplifyService: AmplifyService,
     //private toastrService: ToastrService,
     private cvService: CvService,
     private route: ActivatedRoute,
@@ -155,7 +155,7 @@ export class ModifierCvComponent implements OnInit {
       };
 
       if (this.fileToUpload) {
-        this.amplifyService.upload(this.fileToUpload).subscribe({
+       /* this.amplifyService.upload(this.fileToUpload).subscribe({
           next: (response) => {
             this.submitCvUpdate(updatedCv);
           },
@@ -163,7 +163,7 @@ export class ModifierCvComponent implements OnInit {
            // this.uploadStatus = this.translate.instant(CvConstants.UPLOAD_STATUSES.UPLOAD_FAILED) ;
            // this.toastrService.error(this.translate.instant(CvConstants.Modify_Failed));
           },
-        });
+        });*/
       } else {
         this.submitCvUpdate(updatedCv);
       }
