@@ -17,7 +17,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
-// import { AuthService } from '../../../core/services/auth';
+import { AuthService } from '../../../core/services/auth';
 // import { UserService } from '../../../core/services/user';
 // import { TranslateService } from '@ngx-translate/core';
 
@@ -48,10 +48,10 @@ export class SignupComponent implements OnInit {
   captchaKey: string = '';
   constructor(
     private fb: FormBuilder,
-    // private toastrService: ToastrService,
+    private toastrService: ToastrService,
     private router: Router,
     //private configService: ConfigService,
-    // private authservice: AuthService,
+    private authservice: AuthService,
     // private userService: UserService, 
     // private translate: TranslateService
   ) {
@@ -111,59 +111,39 @@ export class SignupComponent implements OnInit {
   onSignup(): void {
     this.formSubmitted = true;
 
-    if (!this.signupForm.controls['recaptcha'].value) {
-    //   this.toastrService.error(
-    //     this.translate.instant(this.authConstant.RECAPTCHA_NOT_VERIFIED),
-    //     this.translate.instant(this.authConstant.ERROR_TITLE)
-    //   );
-      return;
-    }
 
     const email = this.signupForm.controls['email'].value;
-    if (this.signupForm.invalid || !this.isValidEmail(email)) {
-      if (!this.isValidEmail(email)) {
-        // this.toastrService.error(
-        //   this.translate.instant(this.authConstant.EMAIL_INVALID_ERROR),
-        //   this.translate.instant(this.authConstant.INVALID_FORM_TITLE)
-        // );
-      } else {
-        this.signupForm.markAllAsTouched();
-        // this.toastrService.error(
-        //   this.translate.instant(this.authConstant.INVALID_FORM),
-        //   this.translate.instant(this.authConstant.INVALID_FORM_TITLE)
-        // );
-      }
-      return;
-    }
+    const role ="candidat";
+
     
     const userName = this.getUsernameFromEmail(email);
     const { password } = this.signupForm.value;
     this.showSpinner = true;
-    // this.authservice.signUp(userName, password, email).subscribe({
-    //   next: () => {
-    //     this.showSpinner = false;
-    //     this.toastrService.success(
-    //       this.translate.instant(this.authConstant.SIGN_UP_SUCCESS),
-    //       this.translate.instant(this.authConstant.SIGNUP_SUCCESSFUL)
-    //     );
-    //     this.router.navigateByUrl('/auth/login');
-    //   },
-    //   error: (error) => {
-    //     this.showSpinner = false;
-    //     console.error('Signup error:', error);
-    //     if (error.code === 'UsernameExistsException') {
-    //       this.toastrService.error(
-    //         this.translate.instant(this.authConstant.USER_ALREADY_EXISTS),
-    //         this.translate.instant(this.authConstant.ERROR_TITLE)
-    //       );
-    //     } else {
-    //       this.toastrService.error(
-    //         this.translate.instant(this.authConstant.UNKNOWN_ERROR),
-    //         this.translate.instant(this.authConstant.SIGNUP_ERROR)
-    //       );
-    //     }
-    //   },
-    // });
+     this.authservice.signUp(userName, password, email, role).subscribe({
+       next: () => {
+         this.showSpinner = false;
+         this.toastrService.success(
+          this.authConstant.SIGN_UP_SUCCESS,
+           this.authConstant.SIGNUP_SUCCESSFUL
+         );
+         this.router.navigateByUrl('/auth/login');
+       },
+      error: (error) => {
+         this.showSpinner = false;
+        console.error('Signup error:', error);
+        if (error.code === 'UsernameExistsException') {
+          this.toastrService.error(
+           this.authConstant.USER_ALREADY_EXISTS,
+            this.authConstant.ERROR_TITLE
+         );
+         } else {
+           this.toastrService.error(
+             this.authConstant.UNKNOWN_ERROR,
+            this.authConstant.SIGNUP_ERROR
+          );
+         }
+       },
+     });
   }
   isValidEmail(email: string): boolean {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
