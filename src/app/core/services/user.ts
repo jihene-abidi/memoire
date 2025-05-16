@@ -4,12 +4,13 @@ import { UserApi } from '../api/user';
 import { Observable } from 'rxjs';
 import { AuthentificationConstant } from '../../components/authentification/authentification.constants';
 import { ResponseStatusModel } from '../models/response-status';
-
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private userApi: UserApi) {}
+  constructor(
+    private userApi: UserApi,
+  ) {}
 
 
 
@@ -50,5 +51,17 @@ export class UserService {
     return userJson ? JSON.parse(userJson) : null;
   }
 
+  /*******************************Mes changements************************************/
+  /*loadUserFromToken(): void {
+    this.AuthService.getUserByToken().subscribe({
+      next: (user: UserModel) => {
+        this.setCurrentUser(user); // 🔹 stocke dans le localStorage
+        console.log('Utilisateur connecté récupéré :', user);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération de l’utilisateur :', err);
+      }
+    });
+}*/
 
 }

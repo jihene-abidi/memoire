@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,18 +8,13 @@ import {
 } from '@angular/forms';
 import { MatCard, MatCardHeader } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { AuthentificationConstant } from '../authentification.constants';
 import { AuthentificationImports } from '../authentification-imports';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-// import { AmplifyService } from '../../../core/services/amplify';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-
 import { AuthService } from '../../../core/services/auth';
-// import { UserService } from '../../../core/services/user';
-// import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-signup',
@@ -50,10 +45,7 @@ export class SignupComponent implements OnInit {
     private fb: FormBuilder,
     private toastrService: ToastrService,
     private router: Router,
-    //private configService: ConfigService,
-    private authservice: AuthService,
-    // private userService: UserService, 
-    // private translate: TranslateService
+    private authservice: AuthService, 
   ) {
     this.signupForm = this.fb.group(
       {
@@ -73,14 +65,6 @@ export class SignupComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    // this.configService.loadConfig().subscribe({
-    //   next: () => {
-    //     this.captchaKey = this.configService.getCaptchaKey();
-    //   },
-    //   error: (err) => {
-    //     console.error(this.authConstant.ERROR_RECAPTCHA, err);
-    //   },
-    // });
   }
 
   passwordsMatchValidator(formGroup: FormGroup): void {
@@ -111,11 +95,24 @@ export class SignupComponent implements OnInit {
   onSignup(): void {
     this.formSubmitted = true;
 
-
     const email = this.signupForm.controls['email'].value;
-    const role ="candidat";
+    if (this.signupForm.invalid || !this.isValidEmail(email)) {
+      if (!this.isValidEmail(email)) {
+        this.toastrService.error(
+          this.authConstant.EMAIL_INVALID_ERROR,
+          this.authConstant.INVALID_FORM_TITLE
+        );
+      } else {
+        this.signupForm.markAllAsTouched();
+        this.toastrService.error(
+          this.authConstant.INVALID_FORM,
+          this.authConstant.INVALID_FORM_TITLE
+        );
+      }
+      return;
+    }
 
-    
+    const role = this.signupForm.controls['role'].value;
     const userName = this.getUsernameFromEmail(email);
     const { password } = this.signupForm.value;
     this.showSpinner = true;
@@ -136,12 +133,7 @@ export class SignupComponent implements OnInit {
            this.authConstant.USER_ALREADY_EXISTS,
             this.authConstant.ERROR_TITLE
          );
-         } else {
-           this.toastrService.error(
-             this.authConstant.UNKNOWN_ERROR,
-            this.authConstant.SIGNUP_ERROR
-          );
-         }
+         } 
        },
      });
   }

@@ -11,15 +11,17 @@ import {
 } from 'rxjs';
 import { AuthentificationConstant } from '../../components/authentification/authentification.constants';
 import { catchError, distinctUntilChanged, map, tap } from 'rxjs/operators';
-
 import { UserService } from './user';
 import { Router } from '@angular/router';
 import { UserApi } from '../api/user';
 import { UserModel } from '../models/user';
 import { ToastrService } from 'ngx-toastr';
-
 import { HttpClient } from '@angular/common/http';
-
+import { jwtDecode } from "jwt-decode";
+interface JwtPayload {
+  user_id: string; // or 'sub' or whatever your backend uses
+  // add other properties if needed
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -145,34 +147,76 @@ export class AuthService {
     this.router.navigateByUrl('/login').then(() => window.location.reload());
   }
 
-
-
-  signUp(userName : string, password : string, email: string, role: string ): Observable<UserModel> {
-
-    return this.http.post<any>('http://127.0.0.1:5000/signup',{userName, password, email, role}).pipe(
-      switchMap((response) => {
-        if (!response) {
-          return throwError(() => new Error(AuthentificationConstant.ERROR_INVALID_COGNITO_RESPONSE));
-        }
-
-
-        const newUser = new UserModel(
-          userName.trim(),
-          email.trim()
-        );
-        newUser.sub = response.userSub;
-        newUser.email_verified = false;
-
-
-
-        return this.userService.create(newUser)
+/**********************************Mes changements***********************************/
+getUserByToken(): Observable<UserModel> {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      return throwError(() => new Error('Aucun token trouvé.'));
+    }
+  
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
+    const decoded = jwtDecode<JwtPayload>(token);
+    console.log(decoded);
+    let userId =decoded.user_id;
+  
+    return this.http.get<UserModel>(`http://127.0.0.1:5000/users/${userId}`, { headers }).pipe(
+      map(user => {
+        // Stocker les données utilisateur localement si besoin
+       // localStorage.setItem('current_user', JSON.stringify(user));
+        return user;
       }),
-      catchError((error) => {
-        this.toastr.error(error.message || this.authConstant.ERROR_SIGN_UP);
+      catchError(error => {
+        this.toastr.error('Impossible de récupérer les informations de l’utilisateur.');
         return throwError(() => error);
       })
     );
   }
+
+
+  signUp(userName: string, password: string, email: string, role: string): Observable<string> {
+    return this.http.post<any>('http://127.0.0.1:5000/signup', {
+      role,
+      email,
+      password
+    }).pipe(
+      map((response) => {
+        // Affiche un message de succès si le backend le renvoie
+        if (response?.message) {
+          this.toastr.success(response.message);
+          return response.message;
+        }
+        throw new Error("Unexpected response from server");
+      }),
+      catchError((error) => {
+        this.toastr.error(error?.error?.error || this.authConstant.ERROR_SIGN_UP);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  signIn(email: string, password: string): Observable<string> {
+    return this.http.post<any>('http://127.0.0.1:5000/sign-in', { email, password }).pipe(
+      map((response) => {
+        console.log("test",response)
+        if (response?.access_token) {
+          // Sauvegarde le token dans le stockage local par exemple
+          localStorage.setItem('access_token', response.access_token);
+          this.toastr.success('Connexion réussie !');
+          return response.access_token;
+        } else {
+          throw new Error('Jeton non reçu du serveur.');
+        }
+      }),
+      catchError((error) => {
+        this.toastr.error(error?.error?.msg || 'Échec de la connexion.');
+        return throwError(() => error);
+      })
+    );
+  }
+  
+
 /*
   SignIn(email: string, password: string): Observable<UserModel> {
     return from(this.amplifyService.signIn(email, password)).pipe(

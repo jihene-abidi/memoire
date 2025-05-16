@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-//import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { clientProfileConstant, errorMessages } from './client-profile.constant';
 import { ClientImports } from '../client-imports';
 
@@ -11,7 +11,7 @@ import { UserModel } from '../../../core/models/user';
 import intlTelInput from 'intl-tel-input';
 import { SuccessConstant } from '../../../core/constants/success.constant';
 import { ErrorConstant } from '../../../core/constants/error.constant';
-
+import { UserService } from '../../../core/services/user';
 
 @Component({
   selector: 'app-client-profile',
@@ -38,8 +38,8 @@ export class ClientProfileComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-   // private toastr: ToastrService,
-
+   private toastr: ToastrService,
+   private userService: UserService,
   ) {
     this.ClientForm = this.fb.group({
       last: [''],
@@ -52,24 +52,8 @@ export class ClientProfileComponent implements OnInit {
     this.ClientForm.get('mail')?.disable();
   }
 
-  ngOnInit(): void {
-    this.userConnected = {
-        "_id": "67f4e462ff07b9acdaa6378d",
-        "userName": "jyhnabgmail",
-        "lastName": "Doe",
-        "phone": "+21634567890",
-        "email": "jyhnab@gmail.com",
-        "email_verified": true,
-        "sub": "577f0a62-4b0d-43a0-beac-5c99b54fc963",
-        "clientId": "6cs2gq8sr0pvl8aa9u2buha5r8",
-        "userPoolId": "eu-west-1_YVxPhI6aA",
-        "roles": {},
-        "isSuperAdmin": false,
-        "img": "https://example.com/images/avatar.png",
-        "deletionDate": "2025-01-01T00:00:00Z",
-        "createdAt": "2025-04-08 08:54:58.453000",
-        "updatedAt": "2025-04-08 08:54:58.453000"
-    };
+  ngOnInit(): void { console.log("test toek",localStorage.getItem('access_token'))
+    this.userConnected = this.userService.getCurrentUser();
     this.ClientForm.patchValue({
       phone: this.userConnected.phone || ''
 
