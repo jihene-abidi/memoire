@@ -52,7 +52,7 @@ export class ClientProfileComponent implements OnInit {
     this.ClientForm.get('mail')?.disable();
   }
 
-  ngOnInit(): void { console.log("test toek",localStorage.getItem('access_token'))
+  ngOnInit(): void {
     this.userConnected = this.userService.getCurrentUser();
     this.ClientForm.patchValue({
       phone: this.userConnected.phone || ''
