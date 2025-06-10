@@ -2,8 +2,8 @@ export type UserRole = 'candidat' | 'recruteur';
 
 export class UserModel {
   public _id: string | undefined;
-  public userName: string | undefined;
-  public lastName: string | undefined;
+  public first_name: string | undefined;
+  public last_name: string | undefined;
   public phone: string | undefined;
   public email: string | undefined;
   public email_verified: boolean | undefined;
@@ -14,8 +14,8 @@ export class UserModel {
 
   constructor(data?: Partial<UserModel>) {
     this._id = data?._id;
-    this.userName = data?.userName;
-    this.lastName = data?.lastName;
+    this.first_name = data?.first_name;
+    this.last_name = data?.last_name;
     this.phone = data?.phone;
     this.email = data?.email;
     this.email_verified = data?.email_verified;

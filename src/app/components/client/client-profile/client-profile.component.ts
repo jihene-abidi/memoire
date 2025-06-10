@@ -42,32 +42,34 @@ export class ClientProfileComponent implements OnInit {
    private userService: UserService,
   ) {
     this.ClientForm = this.fb.group({
-      last: [''],
-      first: [''],
-      mail: [{ value: '', disabled: true }],
+      first_name: [''],
+      last_name: [''],
+      email: [{ value: '', disabled: true }],
+      is_verified:[''],
+      role: [''],
       phone: ['', [
         Validators.required,
         Validators.pattern('^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$')
-      ]]    });
+      ]]
+    });
     this.ClientForm.get('mail')?.disable();
   }
 
-  ngOnInit(): void { console.log("test toek",localStorage.getItem('access_token'))
+  ngOnInit(): void {
     this.userConnected = this.userService.getCurrentUser();
     this.ClientForm.patchValue({
       phone: this.userConnected.phone || ''
-
     });
 
 
     const email = this.userConnected?.email || '';
 
     this.profileForm = this.fb.group({
-      firstName: [this.userConnected.userName || '', [
+      first_name: [this.userConnected.first_name || '', [
         Validators.required,
         Validators.pattern(clientProfileConstant.patterns.name)
       ]],
-      lastName: [this.userConnected.lastName || '', [
+      last_name: [this.userConnected.last_name || '', [
         Validators.required,
         Validators.pattern(clientProfileConstant.patterns.name)
       ]],
@@ -127,8 +129,8 @@ export class ClientProfileComponent implements OnInit {
   getInitials(): string {
     const email = this.userConnected?.email;
     if (email?.includes('@')) {
-      const [firstName, lastName] = email.split('@')[0].split('.');
-      return firstName && lastName ? `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}` : clientProfileConstant.INVALID_FORMAT;
+      const [first_name, lastName] = email.split('@')[0].split('.');
+      return first_name && lastName ? `${first_name[0].toUpperCase()}${lastName[0].toUpperCase()}` : clientProfileConstant.INVALID_FORMAT;
     }
     return clientProfileConstant.INVALID_EMAIL;
   }
@@ -136,8 +138,8 @@ export class ClientProfileComponent implements OnInit {
   getFullName(): string {
     const email = this.userConnected?.email;
     if (email?.includes('@')) {
-      const [firstName, lastName] = email.split('@')[0].split('.');
-      return firstName && lastName ? `${firstName[0].toUpperCase() + firstName.slice(1)} ${lastName[0].toUpperCase() + lastName.slice(1)}` : 'Guest';
+      const [first_name, last_name] = email.split('@')[0].split('.');
+      return first_name && last_name ? `${first_name[0].toUpperCase() + first_name.slice(1)} ${last_name[0].toUpperCase() + last_name.slice(1)}` : 'Guest';
     }
     return 'Guest';
   }
@@ -154,12 +156,21 @@ export class ClientProfileComponent implements OnInit {
       _id: this.userConnected._id,
       email: formValues.email,
       phone: formattedPhone,
-      userName: formValues.firstName,
-      lastName: formValues.lastName,
+      first_name: formValues.first_name,
+      last_name: formValues.last_name,
     };
 
+    this.userService.update(updatedUser).subscribe({
+      next: () => {
+        if (updatedUser._id)
+        this.userService.findOne(updatedUser._id).subscribe({
+          next: (res) => {
+            this.userService.setCurrentUser(res);
+          }
+        })
+      }
+    })
 
-   
   }
 
 }

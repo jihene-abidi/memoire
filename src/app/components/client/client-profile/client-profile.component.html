@@ -3,21 +3,21 @@
       <img src="assets/profile-img.png" alt="Header Image" class="header-image"/>
     </header>
     <div class="title">{{clientProfileConstant.PROFILE }}</div>
-  
+
     <div class="content">
       <div class="profile-box">
         <div class="img-thumbnail img-circle">
           <div>
             <img *ngIf="showPicture" [src]="pic" class="img-circle" alt="User profile image"/>
-  
+
             <ng-template #avatar>
               <div class="avatar">
                 <span>{{ getInitials() }}</span>
               </div>
             </ng-template>
-  
+
             <div *ngIf="!showPicture" [ngTemplateOutlet]="avatar"></div>
-  
+
             <span>
               <img src="assets/baseButton.png" alt="Upload Icon" />
             </span>
@@ -25,50 +25,50 @@
         </div>
         <h1 class="profile-name">{{ getFullName () }}</h1>
       </div>
-  
+
       <div class="info-box">
         <form [formGroup]="profileForm" >
           <mat-card>
             <div class="form-container">
               <div class="form-column">
-  
+
                 <label for="firstName">{{clientProfileConstant.FIRST_NAME }}</label>
                 <mat-form-field appearance="outline" class="full-width">
                   <input
                     matInput
                     type="text"
                     placeholder="{{ clientProfileConstant.PLACEHOLDER.FIRST_NAME }}"
-                    formControlName="firstName"
+                    formControlName="first_name"
                   />
-                  <mat-error *ngIf="formControls['firstName'].hasError('required') && formControls['firstName'].touched">
+                  <mat-error *ngIf="formControls['first_name'].hasError('required') && formControls['first_name'].touched">
                     {{ errorMessages.firstName.required }}
                   </mat-error>
-                  <mat-error *ngIf="formControls['firstName'].hasError('pattern') && formControls['firstName'].touched">
+                  <mat-error *ngIf="formControls['first_name'].hasError('pattern') && formControls['first_name'].touched">
                     {{ errorMessages.firstName.pattern }}
                   </mat-error>
                 </mat-form-field>
-  
+
                 <label for="email">{{clientProfileConstant.EMAIL_ADDRESS }}</label>
                 <mat-form-field appearance="outline">
                   <input matInput type="email" placeholder="{{clientProfileConstant.PLACEHOLDER.EMAIL }}" formControlName="email" [disabled]="true"/>
                 </mat-form-field>
-  
+
               </div>
-  
+
               <div class="form-column">
-  
-                <label for="lastName">{{clientProfileConstant.LAST_NAME }}</label>
+
+                <label for="last_name">{{clientProfileConstant.LAST_NAME }}</label>
                 <mat-form-field appearance="outline">
-                  <input matInput type="text" placeholder="{{clientProfileConstant.PLACEHOLDER.LAST_NAME }}" formControlName="lastName"/>
-                  <mat-error *ngIf="formControls['lastName'].hasError('required') && formControls['lastName'].touched">
+                  <input matInput type="text" placeholder="{{clientProfileConstant.PLACEHOLDER.LAST_NAME }}" formControlName="last_name"/>
+                  <mat-error *ngIf="formControls['last_name'].hasError('required') && formControls['last_name'].touched">
                     {{errorMessages.lastName.required }}
                   </mat-error>
                   <mat-error >
                     {{errorMessages.lastName.pattern }}
                   </mat-error>
                 </mat-form-field>
-                
-  
+
+
                 <div class="form-group">
                   <label for="phone">{{clientProfileConstant.PHONE_NUMBER }}</label>
                   <input
@@ -83,21 +83,21 @@
                     <div *ngIf="profileForm.get('phone')?.errors?.['required']">{{errorMessages.phone.required}}</div>
                   </div>
                 </div>
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
               </div>
             </div>
-  
+
           </mat-card>
-  
+
         </form>
       </div>
     </div>
-  
+
     <div class="actions">
       <div class="action-buttons">
         <button mat-stroked-button color="primary" class="btn-back">{{clientProfileConstant.CANCEL }}</button>
@@ -107,4 +107,3 @@
       </div>
     </div>
   </div>
-  

@@ -20,12 +20,17 @@ export class UserService {
 
   }
 
-  update(user: UserModel) : Observable<ResponseStatusModel> {
-    return this.userApi.update(user)
+  update(user: Partial<UserModel>) : Observable<ResponseStatusModel> {
+    return this.userApi.update(user);
   }
 
+  requestResetPassword(email: string): Observable<string>{
+    return this.userApi.requestResetPassword(email);
+  }
 
-
+  resetPassword(email: string, reset_code: number, new_password:string): Observable<string>{
+    return this.userApi.resetPassword(email,reset_code,new_password);
+  }
 
   findOne(id: string) {
     return this.userApi.findOne(id);
@@ -38,6 +43,7 @@ export class UserService {
   getUsernameFromEmail(str: any): string {
     return str.slice(0, str.indexOf('@'));
   }
+
 
 
 

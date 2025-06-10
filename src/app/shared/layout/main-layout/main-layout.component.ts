@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-//import {NavbarComponent} from "../../navbar/navbar.component";
+import {NavbarComponent} from "../../navbar/navbar.component";
 import {Router, RouterOutlet} from "@angular/router";
 import {FooterComponent} from "../../footer/footer.component";
 import { CommonModule } from '@angular/common';
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [
     CommonModule,
-    //NavbarComponent,
+    NavbarComponent,
     RouterOutlet,
     FooterComponent,
   ],
