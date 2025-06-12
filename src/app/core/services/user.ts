@@ -24,6 +24,10 @@ export class UserService {
     return this.userApi.update(user);
   }
 
+  updateimage(user: Partial<UserModel>, image:File) : Observable<ResponseStatusModel> {
+    return this.userApi.updateimage(user,image);
+  }
+
   requestResetPassword(email: string): Observable<string>{
     return this.userApi.requestResetPassword(email);
   }

@@ -25,14 +25,21 @@ export class UserApi {
   }
 
   findOne(id: string) {
-    return this.http.get<UserModel>(`http://127.0.0.1:5000//users/${id}`);
+    return this.http.get<UserModel>(`http://127.0.0.1:5000/users/${id}`);
   }
   remove(id: string) {
-    return this.http.delete(`http://127.0.0.1:5000//update-profile/${id}`);
+    return this.http.delete(`http://127.0.0.1:5000/update-profile/${id}`);
   }
 
   update(user: Partial<UserModel>): Observable<ResponseStatusModel> {
-    return this.http.put<ResponseStatusModel>(`http://127.0.0.1:5000//update-profile/${user._id}`, user);
+    return this.http.put<ResponseStatusModel>(`http://127.0.0.1:5000/update-profile/${user._id}`, user);
+  }
+
+  updateimage(user: Partial<UserModel>,image:File): Observable<ResponseStatusModel> {
+    const formData = new FormData();
+    formData.append('image', image);
+
+    return this.http.post<ResponseStatusModel>(`http://127.0.0.1:5000/update-profile-image/${user._id}`, formData);
   }
 
   requestResetPassword(email: string): Observable<string>{

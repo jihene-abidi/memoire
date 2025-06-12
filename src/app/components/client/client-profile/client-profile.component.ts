@@ -5,8 +5,6 @@ import { clientProfileConstant, errorMessages } from './client-profile.constant'
 import { ClientImports } from '../client-imports';
 
 import { UserModel } from '../../../core/models/user';
-//import { SuccessConstant } from '../../../core/constants/success.constant';
-//import { ErrorConstant } from '../../../core/constants/error.constant';
 //import {ResponseStatusModel} from "../../../core/models/response-status";
 import intlTelInput from 'intl-tel-input';
 import { SuccessConstant } from '../../../core/constants/success.constant';
@@ -33,7 +31,7 @@ export class ClientProfileComponent implements OnInit {
   ClientForm: FormGroup;
   initialCountry: any;
   selectCountry!: string;
-
+  selectedImageFile?: any;  //Stocke le fichier sélectionné
 
 
   constructor(
@@ -162,15 +160,74 @@ export class ClientProfileComponent implements OnInit {
 
     this.userService.update(updatedUser).subscribe({
       next: () => {
-        if (updatedUser._id)
-        this.userService.findOne(updatedUser._id).subscribe({
-          next: (res) => {
-            this.userService.setCurrentUser(res);
-          }
-        })
+        if (updatedUser._id) {
+          this.userService.findOne(updatedUser._id).subscribe({
+            next: (res) => {
+              this.userService.setCurrentUser(res);
+              this.toastr.success(errorMessages.success, 'Success');
+            },
+            error: () => {
+              this.toastr.error(errorMessages.error, 'Error');
+            }
+          });
+        }
+      },
+      error: () => {
+        this.toastr.error(errorMessages.error, 'Error');
       }
-    })
+    });
 
   }
 
+  // 🔹 AJOUT : Convertit et envoie l'image vers l'API
+  updateProfileImage(): void {
+    if (!this.selectedImageFile || !this.userConnected?._id) {
+      this.toastr.error(errorMessages.error, 'Error');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64Image = reader.result as string;
+
+      const userToUpdate: Partial<UserModel> = {
+        _id: this.userConnected._id,
+        img: base64Image
+      };
+
+      this.userService.updateimage(userToUpdate,this.selectedImageFile).subscribe({
+        next: () => {
+          this.toastr.success(errorMessages.success, 'Success');
+          this.userService.findOne(this.userConnected._id!).subscribe({
+            next: (res) => this.userService.setCurrentUser(res),
+          });
+        },
+        error: () => {
+          this.toastr.error(errorMessages.error, 'Error');
+        }
+      });
+    };
+
+    reader.readAsDataURL(this.selectedImageFile);
+  }
+
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedImageFile = input.files[0];
+
+      // Show preview immediately
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.pic = reader.result as string; // update preview image
+      };
+      reader.readAsDataURL(this.selectedImageFile);
+
+      // Optional: call update function directly here if you want immediate upload
+      this.updateProfileImage();
+    }
+  }
 }
+
+
