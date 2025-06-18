@@ -77,8 +77,8 @@ export const CvConstants = {
     MATTOOL_EDIT: "Modifier",
     MATTOOL_Delete: "Supprimer",
     MATTOOL_Improve: "Améliorer",
-    CLOUD_ICON: "",
-    BUTTON_EDIT: "",
-    BUTTON_DELETE:""
+    CLOUD_ICON: 'cloud_upload',
+    BUTTON_EDIT: "edit",
+    BUTTON_DELETE:"delete"
   }
   

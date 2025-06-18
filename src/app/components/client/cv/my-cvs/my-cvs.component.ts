@@ -13,7 +13,7 @@ import { DialogService } from "../../../../core/services/openDialog.service";
 import { CvService } from "../../../../core/services/cv.service";
 import { FileService } from "../../../../core/services/file.service";
 import {Cv, Visibility} from "../../../../core/models/cv";
-// import * as pdfjsLib from 'pdfjs-dist';
+import * as pdfjsLib from 'pdfjs-dist';
 import {UserService} from "../../../../core/services/user";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
@@ -218,14 +218,14 @@ export class MyCvsComponent implements OnInit {
   }
 
   loadPdfThumbnail(cv: Cv): void {
-    if (!cv.cv_s3 || !cv._id) {
-      //console.error(this.cvConstants.ERROR_CV_S3);
+    if (!cv._id) {
+      console.error('e');
       return;
     }
 
-    this.cvLoadingStates.set(cv._id, true);
+   this.cvLoadingStates.set(cv._id, true);
 
-   /* this.fileService.showFile(cv.cv_s3).subscribe({
+      this.cvService.getCvFilePath(cv._id).subscribe({
       next: (pdfData) => {
         this.getPdfThumbnail(pdfData.source, cv);
       },
@@ -235,7 +235,7 @@ export class MyCvsComponent implements OnInit {
           this.cvLoadingStates.set(cv._id, false);
         }
       },
-    });*/
+    });
   }
 
   getPdfThumbnail(pdfUrl: string, cv: Cv): void {
@@ -243,8 +243,8 @@ export class MyCvsComponent implements OnInit {
       console.error(this.cvConstants.ERROR_PDF_CV);
       return;
     }
-
-   /* const loadingTask = pdfjsLib.getDocument(pdfUrl);
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "assets/pdf.worker.min.mjs";
+    const loadingTask = pdfjsLib.getDocument(pdfUrl);
     loadingTask.promise
       .then((pdf) => {
         return pdf.getPage(1);
@@ -282,7 +282,7 @@ export class MyCvsComponent implements OnInit {
       .catch((error) => {
         console.error(this.cvConstants.ERROR_PDF, error);
         this.cvLoadingStates.set(cv._id!, false);
-      });*/
+      });
   }
 
   searchCvs(event: Event) {

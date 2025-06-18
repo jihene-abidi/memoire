@@ -39,8 +39,11 @@ export class CvApi {
     return this.http.get<Cv[]>(`http://127.0.0.1:5000/users/${userId}/cvs`);
   }
 
-  insert(cv: Cv) {
-    return this.http.post(this.cvUrl, cv);
+  insert(userId: string, cv: FormData) {
+    return this.http.post(`http://127.0.0.1:5000/users/${userId}/cvs`, cv);
+  }
+  getCvFilePath(fileId: any) {
+  return this.http.get<{ source: string; name: string }>(`http://127.0.0.1:5000/cv-path/${fileId}`);
   }
 
   remove(id: string) {

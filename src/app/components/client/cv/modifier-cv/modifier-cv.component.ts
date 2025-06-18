@@ -90,7 +90,7 @@ export class ModifierCvComponent implements OnInit {
       (cv: Cv) => {
         this.cvData = cv;
 
-        if (cv.cv_s3) {
+       /* if (cv.cv_s3) {
           const fileId = cv.cv_s3;
 
           this.fileService.findOne(fileId).subscribe(
@@ -105,7 +105,7 @@ export class ModifierCvComponent implements OnInit {
           );
         } else {
           this.populateFormWithCvData(cv);
-        }
+        }*/
       },
       (error) => {
         //this.toastrService.error(this.translate.instant(ErrorConstant.FAILED_LOAD_CV));
@@ -127,7 +127,7 @@ export class ModifierCvComponent implements OnInit {
     this.titre = cv.title;
     this.visibility = visibilityValue as 'public' | 'private';
 
-    if (cv.cv_s3 && !this.uploadStatus) {
+   /* if (cv.cv_s3 && !this.uploadStatus) {
       this.uploadStatus = `${CvConstants.UPLOAD_STATUSES}: ${cv.cv_s3}`;
 
       
@@ -138,7 +138,7 @@ export class ModifierCvComponent implements OnInit {
       titre: cv.title,
       visibility: visibilityValue,
       cv_s3: cv.cv_s3,
-    });
+    });*/
   }
 
   updateCv(): void {

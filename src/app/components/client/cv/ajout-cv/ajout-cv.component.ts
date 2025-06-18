@@ -11,23 +11,18 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Cv } from '../../../../core/models/cv';
 import { MatButton } from '@angular/material/button';
-import { FileService } from '../../../../core/services/file.service';
 import { NgIf } from '@angular/common';
 import { CvConstants } from '../cv.constants';
 import { CvService } from '../../../../core/services/cv.service';
 import { UserService } from '../../../../core/services/user';
 import { UserModel } from '../../../../core/models/user';
-import { finalize, mergeMap, throwError } from 'rxjs';
 import { MatTooltip } from '@angular/material/tooltip';
-import { catchError } from 'rxjs/operators';
 import { ClientImports } from '../../client-imports';
 import { PaginationComponent } from '../../../../shared/pagination/pagination.component';
 import { SharedButtonComponent } from '../../../../shared/shared-button/shared-button.component';
 import { Router } from '@angular/router';
-import { CacheService } from '../../../../core/services/cache';
-
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -63,12 +58,11 @@ export class AjoutCvComponent {
   cv_text: string = '';
   spinner: boolean = false;
   constructor(
-    private fileService: FileService,
     private fb: FormBuilder,
     private cvService: CvService,
     private userService: UserService,
     private router: Router,
-    private cacheService: CacheService,
+    private toastrService: ToastrService,
   ) {
     this.uploadForm = this.fb.group({
       title: ['', Validators.required],
@@ -109,63 +103,29 @@ export class AjoutCvComponent {
   }
 
   onSubmit(): void {
-    if (this.uploadForm.valid && this.fileToUpload) {
-      this.cacheService.clearByPattern('/cv');
-      this.spinner = true;
-      // this.fileService
-      //   .ngOnUpload(this.fileToUpload)
-      //   .pipe(
-      //     mergeMap((response) => {
-      //       this.uploadForm.patchValue({ file: response });
-      //       const user: UserModel = this.userService.getCurrentUser();
-      //       const cv = new Cv();
-      //       cv.title = this.uploadForm.value.title;
-      //       cv.user._id = user._id;
-      //       cv.user.userName = user.userName;
-      //       cv.cv_s3 = this.uploadForm.value.file;
-      //       cv.visibility = this.uploadForm.value.visibility;
+  if (this.uploadForm.valid && this.fileToUpload) {
+    this.spinner = true;
 
-      //       if (this.fileToUpload?.type === 'application/pdf') {
-      //         return this.fileService
-      //           .extractTextFromPDF(this.fileToUpload)
-      //           .pipe(
-      //             mergeMap((context: string) => {
-      //               cv.cv_txt = context;
-      //               return this.cvService.insert(cv);
-      //             })
-      //           );
-      //       } else {
-      //         cv.cv_txt = this.cv_text;
-      //         return this.cvService.insert(cv);
-      //       }
-      //     }),
-      //     finalize(() => {
-      //       setTimeout(() => {
-      //         this.router.navigate(['client/my-cvs']);
-      //       }, 500);
-      //     })
-      //   )
-      //   .subscribe({
-      //     next: () => {
-      //       const fileName = this.fileToUpload?.name || 'unknown file';
-      //       this.uploadStatus = `${fileName}`;
-      //       this.toastrService.success(this.translate.instant(CvConstants.Ajout_Succes));
-      //       this.router.navigate(['client/my-cvs']);
-      //     },
-      //     error: (error) => {
-      //       this.spinner = false;
-      //       if (
-      //         error.message ===
-      //         CvConstants.ERROR_FILE_TYPE
-      //       ) {
-      //         this.toastrService.error(this.translate.instant(CvConstants.TOASTR_ERROR));
-      //       } else {
-      //         this.toastrService.error(this.translate.instant(CvConstants.Ajout_Failed));
-      //       }
-      //     },
-      //   });
-    }
+    const user: UserModel = this.userService.getCurrentUser()!;
+    
+    const formData = new FormData();
+    formData.append('file', this.fileToUpload);
+    formData.append('title', this.uploadForm.value.title);
+    formData.append('visibility', this.uploadForm.value.visibility || 'private');
+    this.cvService.insert(user._id?? "null",formData).subscribe({
+      next: (res) => {
+        this.spinner = false;
+        this.toastrService.success(CvConstants.Ajout_Succes);
+        this.router.navigate(['client/my-cvs']);
+      },
+      error: (err) => {
+        this.spinner = false;
+        this.toastrService.error(CvConstants.TOASTR_ERROR);
+      },
+    });
   }
+}
+
 
   protected readonly CvConstants = CvConstants;
   protected readonly cvConstants = CvConstants;

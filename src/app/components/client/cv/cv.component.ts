@@ -6,7 +6,7 @@ import {ToastrService} from "ngx-toastr";
 import {CvService} from "../../../core/services/cv.service";
 import {FileService} from "../../../core/services/file.service";
 import {CvConstants} from "../../client/cv/cv.constants";
-//import * as pdfjsLib from 'pdfjs-dist';
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
@@ -16,7 +16,6 @@ import {Cv} from "../../../core/models/cv";
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CacheService} from "../../../core/services/cache";
-
 
 
 @Component({
@@ -109,8 +108,9 @@ export class CvComponent implements OnInit {
         this.cvs = cvs;
 
         for (let cv of cvs) {
-        /*  this.fileService.showFile(cv.cv_s3).subscribe({
+         this.cvService.getCvFilePath(cv._id).subscribe({
             next: (pdfData) => {
+              console.log(pdfData.source)
               this.getPdfThumbnail(pdfData.source, cv);
               this.isLoading = false;
             },
@@ -118,7 +118,7 @@ export class CvComponent implements OnInit {
               console.error(this.cvConstants.ERROR_RETRIEVING_PDF, err);
               this.isLoading = false;
             }
-          });*/
+          });
         }
       },
       error: (error) => {
@@ -134,13 +134,14 @@ export class CvComponent implements OnInit {
   getPdfThumbnail(pdfUrl: string, cv: Cv): void {
     this.loadingImages[cv._id!] = true;
 
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "assets/pdf.worker.min.mjs";
     if (!pdfUrl) {
       console.error(this.cvConstants.ERROR_INVALID_PDFURL);
       this.loadingImages[cv._id!] = false; // Désactiver le chargement en cas d'erreur
       return;
     }
 
-   /* const loadingTask = pdfjsLib.getDocument(pdfUrl);
+   const loadingTask = pdfjsLib.getDocument(pdfUrl);
     loadingTask.promise
       .then((pdf) => {
         return pdf.getPage(1);
@@ -173,7 +174,7 @@ export class CvComponent implements OnInit {
       .catch((error) => {
         console.error(this.cvConstants.ERROR_INVALID_FORMAT, error);
         this.loadingImages[cv._id!] = false;
-      });*/
+      });
   }
 
 
@@ -215,10 +216,10 @@ export class CvComponent implements OnInit {
 
 
   downloadCv(cv: Cv) {
-    if (!cv.cv_s3) {
-      console.error(this.cvConstants.ERROR_FILE_PATH);
-      return;
-    }
+   // if (!cv.cv_s3) {
+    //  console.error(this.cvConstants.ERROR_FILE_PATH);
+   //   return;
+   // }
 
     //this.fileService.awsFile(cv.cv_s3).subscribe({
     //   next: (file) => {

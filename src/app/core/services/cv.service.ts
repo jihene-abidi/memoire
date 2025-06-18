@@ -8,12 +8,8 @@ import { Cv } from "../models/cv";
 export class CvService {
   constructor(private CvUserApi: CvApi) {}
 
-
-
-
-
-  insert(cv: Cv) {
-    return this.CvUserApi.insert(cv);
+  insert(userId: string,cv: FormData) {
+    return this.CvUserApi.insert(userId,cv);
   }
 
   findAll(limit?: number, page?: number, userId?: string, visibility?: string, query?: string) {
@@ -30,6 +26,9 @@ export class CvService {
   }
   update(cv: Cv) {
     return this.CvUserApi.update(cv);
+  }
+  getCvFilePath(fileId: any) {
+    return this.CvUserApi.getCvFilePath(fileId);
   }
 
 

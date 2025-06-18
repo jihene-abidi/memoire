@@ -225,7 +225,7 @@
   .upload-text {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 15px;
   }
   
   .upload-text span {
