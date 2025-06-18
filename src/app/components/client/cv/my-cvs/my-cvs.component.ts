@@ -19,7 +19,6 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {CacheService} from "../../../../core/services/cache";
-import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-my-cvs',

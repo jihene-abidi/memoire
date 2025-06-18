@@ -53,7 +53,12 @@ export class CvApi {
   update(cv: Cv) {
     return this.http.put(`http://127.0.0.1:5000/users/${cv.user._id}/cvs/${cv._id}`,cv);
   }
+  analyseCv_cvid(cv_id: string, cv_txt: string) {
+    return this.http.post(`http://127.0.0.1:5000/cv-analysis/${cv_id}`, cv_txt);
+  }
 
-
+  analyseCv(cv_id: string, cv_txt: string) {
+    return this.http.post(`http://127.0.0.1:5000/cv-analysis-text`, {"cv_txt": cv_txt});
+  }
 
 }

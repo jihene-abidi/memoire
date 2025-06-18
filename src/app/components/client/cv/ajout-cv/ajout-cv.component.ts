@@ -23,8 +23,11 @@ import { PaginationComponent } from '../../../../shared/pagination/pagination.co
 import { SharedButtonComponent } from '../../../../shared/shared-button/shared-button.component';
 import { Router } from '@angular/router';
 import {ToastrService} from "ngx-toastr";
-
-
+import { Cv } from '../../../../core/models/cv';
+import { FileService } from '../../../../core/services/file.service';
+import { finalize, mergeMap, switchMap, throwError,EMPTY, Observable} from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import {CacheService} from "../../../../core/services/cache";
 @Component({
   selector: 'app-ajout-cv',
   standalone: true,
@@ -58,11 +61,13 @@ export class AjoutCvComponent {
   cv_text: string = '';
   spinner: boolean = false;
   constructor(
+    private fileService: FileService,
     private fb: FormBuilder,
     private cvService: CvService,
     private userService: UserService,
     private router: Router,
     private toastrService: ToastrService,
+    private cacheService: CacheService
   ) {
     this.uploadForm = this.fb.group({
       title: ['', Validators.required],
@@ -102,29 +107,117 @@ export class AjoutCvComponent {
     event.stopPropagation();
   }
 
+
   onSubmit(): void {
   if (this.uploadForm.valid && this.fileToUpload) {
+    this.cacheService.clearByPattern('/cv');
     this.spinner = true;
+
+    const allowedTypes = ['.pdf', '.doc', '.docx'];
+    const fileExtension = this.fileToUpload.name?.substring(this.fileToUpload.name?.lastIndexOf('.')).toLowerCase();
+
+    if (!allowedTypes.includes(fileExtension)) {
+      this.spinner = false;
+      this.toastrService.error(CvConstants.ERROR_FILE_TYPE);
+      return;
+    }
 
     const user: UserModel = this.userService.getCurrentUser()!;
     
-    const formData = new FormData();
-    formData.append('file', this.fileToUpload);
-    formData.append('title', this.uploadForm.value.title);
-    formData.append('visibility', this.uploadForm.value.visibility || 'private');
-    this.cvService.insert(user._id?? "null",formData).subscribe({
-      next: (res) => {
-        this.spinner = false;
-        this.toastrService.success(CvConstants.Ajout_Succes);
-        this.router.navigate(['client/my-cvs']);
-      },
-      error: (err) => {
-        this.spinner = false;
-        this.toastrService.error(CvConstants.TOASTR_ERROR);
-      },
-    });
+    const buildFormData = (cv: Cv): FormData => {
+      const formData = new FormData();
+
+      if (cv.title) formData.append('title', cv.title);
+      if (cv.visibility) formData.append('visibility', cv.visibility);
+      if (cv.cv_txt) formData.append('cv_txt', cv.cv_txt);
+      if (this.fileToUpload) formData.append('file', this.fileToUpload);
+
+      if (cv.user.first_name) formData.append('userName', cv.user.first_name);
+
+      // If expertise is defined, send it as a JSON string
+      if (cv.expertise) {
+        formData.append('expertise', JSON.stringify(cv.expertise));
+      }
+
+      return formData;
+    };
+      const insertCv = (cvText: string): Observable<any> => {
+      const cv = new Cv();
+      cv.title = this.uploadForm.value.title;
+      cv.user._id = user._id;
+      cv.user.first_name = user.first_name;
+      cv.visibility = this.uploadForm.value.visibility;
+      cv.cv_txt = cvText;
+
+      const formData = buildFormData(cv);
+      return this.cvService.insert(user._id?? "null", formData);
+    };
+
+    
+    const processCv$ =
+      fileExtension === '.pdf'
+        ? this.fileService.extractTextFromPDF(this.fileToUpload).pipe(
+            switchMap((context: string) =>
+              this.cvService.analyseCv(user._id?? "null",context).pipe(
+                switchMap((data: any) => {
+                  const cv = new Cv();
+                  cv.title = this.uploadForm.value.title;
+                  cv.user._id = user._id;
+                  cv.user.first_name = user.first_name;
+                  cv.visibility = this.uploadForm.value.visibility;
+                  cv.cv_txt = context;
+                  cv.expertise.owner = data.owner;
+                  cv.expertise.contact = {
+                    email: data.contact.email,
+                    phone_number: data.contact.phone_number,
+                  };
+                  cv.expertise.technologies = data.technologies;
+                  cv.expertise.skills = data.skills;
+                  cv.expertise.experience = data.experience;
+                  cv.expertise.levels = {
+                    education_level: data.levels.education_level,
+                    experience_level: data.levels.experience_level,
+                    skills_level: data.levels.skills_level,
+                    language_level: data.levels.language_level,
+                  };
+                  cv.expertise.education = data.education;
+                  cv.expertise.languages = data.languages;
+                  cv.expertise.snapshot = data.snapshot;
+                  cv.expertise.hashtags = data.hashtags;
+                  cv.expertise.certifications = data.certifications;
+                  cv.expertise.atouts = data.atouts;
+
+                  const formData = buildFormData(cv);
+                  return this.cvService.insert(user._id?? "null", formData);
+                })
+              )
+            ),
+            catchError(() => {
+              this.toastrService.error(CvConstants.ERROR_PDF_TEXT);
+              return EMPTY;
+            })
+          )
+        : insertCv(this.cv_text);
+
+    processCv$
+      .pipe(finalize(() => (this.spinner = false)))
+      .subscribe({
+        next: () => {
+          const fileName = this.fileToUpload?.name || 'unknown file';
+          this.uploadStatus = `${fileName}`;
+          this.toastrService.success(CvConstants.Ajout_Succes);
+          this.router.navigate(['client/my-cvs']);
+        },
+        error: () => {
+          this.toastrService.error(CvConstants.TOASTR_ERROR);
+        },
+      });
   }
-}
+ 
+
+
+  }
+
 
 
   protected readonly CvConstants = CvConstants;

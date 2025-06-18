@@ -30,6 +30,9 @@ export class CvService {
   getCvFilePath(fileId: any) {
     return this.CvUserApi.getCvFilePath(fileId);
   }
+  analyseCv(cv_id: string,cv_txt: string){
+    return this.CvUserApi.analyseCv(cv_id, cv_txt)
+  }
 
 
 }
