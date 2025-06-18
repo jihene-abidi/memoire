@@ -6,30 +6,30 @@ import { Cv } from "../models/cv";
   providedIn: "root",
 })
 export class CvService {
-  constructor(private CvChaliceApi: CvApi) {}
+  constructor(private CvUserApi: CvApi) {}
 
 
 
 
 
   insert(cv: Cv) {
-    return this.CvChaliceApi.insert(cv);
+    return this.CvUserApi.insert(cv);
   }
 
   findAll(limit?: number, page?: number, userId?: string, visibility?: string, query?: string) {
-    return this.CvChaliceApi.findAll(limit, page, userId, visibility, query);
+    return this.CvUserApi.findAll(limit, page, userId, visibility, query);
   }
 
 
   findOne(id: any) {
-    return this.CvChaliceApi.findOne(id);
+    return this.CvUserApi.findOne(id);
   }
 
   remove(id: string) {
-    return this.CvChaliceApi.remove(id);
+    return this.CvUserApi.remove(id);
   }
   update(cv: Cv) {
-    return this.CvChaliceApi.update(cv);
+    return this.CvUserApi.update(cv);
   }
 
 

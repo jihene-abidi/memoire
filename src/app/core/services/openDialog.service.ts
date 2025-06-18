@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import {SharedDialogComponent} from "../../shared/confirmation-dialog/shared-dialog.component";
 import {Shared_dialogConstant} from "../../shared/confirmation-dialog/shared-dialog.constants";
-import { TranslateService } from '@ngx-translate/core';
+
 
 export interface DialogResult {
   confirmed: boolean;
@@ -13,7 +13,7 @@ export interface DialogResult {
   providedIn: 'root',
 })
 export class DialogService {
-  constructor(private dialog: MatDialog,private translate: TranslateService) {}
+  constructor(private dialog: MatDialog) {}
 
   openDialog(actionType: 'delete' | 'update' | 'custom'): Observable<DialogResult> {
     const dialogData = this.getDialogData(actionType);
@@ -31,33 +31,33 @@ export class DialogService {
       case 'delete':
         return {
           actionType,
-          title: this.translate.instant(Shared_dialogConstant.DELETE_TITLE),
-          message: this.translate.instant(Shared_dialogConstant.DELETE_MESSAGE),
-          actionButtonText: this.translate.instant(Shared_dialogConstant.DELETE),
+          title: Shared_dialogConstant.DELETE_TITLE,
+          message: Shared_dialogConstant.DELETE_MESSAGE,
+          actionButtonText: Shared_dialogConstant.DELETE,
 
           actionButtonColor: Shared_dialogConstant.BUTTON_COLOR_DELETE,
         };
       case 'update':
         return {
           actionType,
-          title: this.translate.instant(Shared_dialogConstant.UPDATE_TITLE),
-          message: this.translate.instant(Shared_dialogConstant.UPDATE_MESSAGE),
-          actionButtonText: this.translate.instant(Shared_dialogConstant.UPDATE),
+          title: Shared_dialogConstant.UPDATE_TITLE,
+          message: Shared_dialogConstant.UPDATE_MESSAGE,
+          actionButtonText: Shared_dialogConstant.UPDATE,
           actionButtonColor: Shared_dialogConstant.BUTTON_COLOR_UPDATE,
         };
       case 'custom':
         return {
           actionType,
-          title: this.translate.instant(Shared_dialogConstant.CUSTOM_TITLE),
-          message: this.translate.instant(Shared_dialogConstant.CUSTOM_MESSAGE),
+          title: Shared_dialogConstant.CUSTOM_TITLE,
+          message: Shared_dialogConstant.CUSTOM_MESSAGE,
           actionButtonText: Shared_dialogConstant.CUSTOM,
           actionButtonColor: Shared_dialogConstant.BUTTON_COLOR_CUSTOM,
         };
       default:
         return {
           
-          title: this.translate.instant(Shared_dialogConstant.TITLE_DEFAULT),
-          message: this.translate.instant(Shared_dialogConstant.MESSAGE_DEFAULT),
+          title: Shared_dialogConstant.TITLE_DEFAULT,
+          message: Shared_dialogConstant.MESSAGE_DEFAULT,
         };
     }
   }

@@ -8,7 +8,7 @@ import {CacheApi} from "./cache";
   providedIn: "root",
 })
 export class CvApi {
-  public cvUrl = '/cv/';
+  public cvUrl = 'http://127.0.0.1:5000/cvs/';
 
   constructor(
     private http: HttpClient,
@@ -36,7 +36,7 @@ export class CvApi {
     if (query) {
       params = params.append("query", query);
     }
-    return this.http.get<Cv[]>(this.cvUrl, { params });
+    return this.http.get<Cv[]>(`http://127.0.0.1:5000/users/${userId}/cvs`);
   }
 
   insert(cv: Cv) {

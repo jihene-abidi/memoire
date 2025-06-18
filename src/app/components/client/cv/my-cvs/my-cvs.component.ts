@@ -20,7 +20,7 @@ import {ToastrService} from "ngx-toastr";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {CacheService} from "../../../../core/services/cache";
 import {TranslatePipe} from "@ngx-translate/core";
-import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-my-cvs',
   standalone: true,
@@ -60,12 +60,12 @@ export class MyCvsComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private cvChaliceService: CvService,
+    private cvService: CvService,
     private fileService: FileService,
     private userService: UserService,
     private toastr: ToastrService,
     private router: Router,
-    private translate:TranslateService,
+   
     private cacheService: CacheService
 
   ) {
@@ -114,14 +114,14 @@ export class MyCvsComponent implements OnInit {
   }
 
   deleteCv(idCV: string, index: number) {
-    this.cvChaliceService.remove(idCV).subscribe({
+    this.cvService.remove(idCV).subscribe({
       next: () => {
         this.displayedCvs.splice(index, 1);
-        this.toastr.success(this.translate.instant(this.cvConstants.DELETE_SUCCES));
+        this.toastr.success(this.cvConstants.DELETE_SUCCES);
         this.clearStorageKeysWithSubstring('cvchalice/?limit');
       },
       error: (error) => {
-        this.toastr.error(this.translate.instant(this.cvConstants.DELETE_ERROR));
+        this.toastr.error(this.cvConstants.DELETE_ERROR);
       },
     });
   }
@@ -140,10 +140,15 @@ export class MyCvsComponent implements OnInit {
     this.isLoading = true;
     const userId = this.userService.getCurrentUser()?._id;
 
-    this.cvChaliceService
+    this.cvService
       .findAll(this.limit, this.page, userId, '', this.searchQuery)
       .subscribe({
         next: (cvs) => {
+          if (cvs.length === 0) {
+          // No need to load thumbnails
+          this.isLoading = false;
+          return;
+        }
           cvs.forEach((cv) => {
             if (cv._id) {
               this.cvLoadingStates.set(cv._id, true);
@@ -176,7 +181,7 @@ export class MyCvsComponent implements OnInit {
 
     const userId = this.userService.getCurrentUser()?._id;
 
-    this.cvChaliceService
+    this.cvService
       .findAll(
         this.limit,
         this.page,
@@ -293,5 +298,5 @@ export class MyCvsComponent implements OnInit {
   }
 
   protected readonly Visibility = Visibility;
-  protected readonly console = module;
+  protected readonly console = console;
 }
