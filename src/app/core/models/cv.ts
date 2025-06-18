@@ -1,8 +1,8 @@
 import {UserModel} from "./user";
 
 export enum Visibility {
-  Public = 'Public',
-  Private = 'Private',
+  Public = 'public',
+  Private = 'private',
 }
 
 

@@ -17,7 +17,7 @@ export class CvApi {
   {}
 
   findOne(id: string) {
-    return this.http.get<any>(this.cvUrl + id);
+    return this.http.get<any>(`http://127.0.0.1:5000/cv/${id}`);
   }
   findAll(limit?: number, page?: number, userId?: string, visibility?: string, query?: string) {
     let params = new HttpParams();
@@ -51,7 +51,7 @@ export class CvApi {
   }
 
   update(cv: Cv) {
-    return this.http.put(this.cvUrl, cv);
+    return this.http.put(`http://127.0.0.1:5000/users/${cv.user._id}/cvs/${cv._id}`,cv);
   }
 
 

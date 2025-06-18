@@ -11,8 +11,7 @@ import {
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { CvConstants } from '../cv.constants';
-//import { AmplifyService } from '../../../../core/services/amplify';
-//import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { NgIf } from '@angular/common';
 import { UserModel } from '../../../../core/models/user';
 import { ClientImports } from '../../client-imports';
@@ -58,8 +57,7 @@ export class ModifierCvComponent implements OnInit {
   constructor(
     private fileService: FileService,
     private fb: FormBuilder,
-   // private amplifyService: AmplifyService,
-    //private toastrService: ToastrService,
+    private toastrService: ToastrService,
     private cvService: CvService,
     private route: ActivatedRoute,
     private router: Router,
@@ -79,7 +77,7 @@ export class ModifierCvComponent implements OnInit {
       if (this.cvId) {
         this.loadCvData(this.cvId);
       } else {
-        //this.toastrService.error(this.translate.instant(ErrorConstant.CV_ID_NOT_FOUND));
+        this.toastrService.error(ErrorConstant.CV_ID_NOT_FOUND);
         this.router.navigate(['/client/my-cvs']);
       }
     });
@@ -89,26 +87,11 @@ export class ModifierCvComponent implements OnInit {
     this.cvService.findOne(cvId).subscribe(
       (cv: Cv) => {
         this.cvData = cv;
-
-       /* if (cv.cv_s3) {
-          const fileId = cv.cv_s3;
-
-          this.fileService.findOne(fileId).subscribe(
-            (fileData) => {
-              this.uploadStatus = `${fileData.name}`;
-              this.populateFormWithCvData(cv);
-            },
-            (error) => {
-              //console.error(this.translate.instant(ErrorConstant.ERROR_LOADING_FILE), error);
-              this.populateFormWithCvData(cv);
-            }
-          );
-        } else {
-          this.populateFormWithCvData(cv);
-        }*/
+        this.uploadStatus = this.cvData.title;
+        this.populateFormWithCvData(cv);
       },
       (error) => {
-        //this.toastrService.error(this.translate.instant(ErrorConstant.FAILED_LOAD_CV));
+        this.toastrService.error(ErrorConstant.FAILED_LOAD_CV);
         console.error('Error loading CV data:', error);
         this.router.navigate(['/client/my-cvs']);
       }
@@ -126,19 +109,6 @@ export class ModifierCvComponent implements OnInit {
 
     this.titre = cv.title;
     this.visibility = visibilityValue as 'public' | 'private';
-
-   /* if (cv.cv_s3 && !this.uploadStatus) {
-      this.uploadStatus = `${CvConstants.UPLOAD_STATUSES}: ${cv.cv_s3}`;
-
-      
-
-    }
-
-    console.log('Form populated with CV data:', {
-      titre: cv.title,
-      visibility: visibilityValue,
-      cv_s3: cv.cv_s3,
-    });*/
   }
 
   updateCv(): void {
@@ -154,30 +124,19 @@ export class ModifierCvComponent implements OnInit {
             : Visibility.Private,
       };
 
-      if (this.fileToUpload) {
-       /* this.amplifyService.upload(this.fileToUpload).subscribe({
-          next: (response) => {
-            this.submitCvUpdate(updatedCv);
-          },
-          error: (error) => {
-           // this.uploadStatus = this.translate.instant(CvConstants.UPLOAD_STATUSES.UPLOAD_FAILED) ;
-           // this.toastrService.error(this.translate.instant(CvConstants.Modify_Failed));
-          },
-        });*/
-      } else {
         this.submitCvUpdate(updatedCv);
-      }
+      
     }
   }
 
   submitCvUpdate(updatedCv: Cv): void {
     this.cvService.update(updatedCv).subscribe({
       next: () => {
-       // this.toastrService.success(this.translate.instant(CvConstants.Modify_Succes));
+       this.toastrService.success(CvConstants.Modify_Succes);
         this.router.navigate(['/client/my-cvs']);
       },
       error: (error) => {
-       // this.toastrService.error(this.translate.instant(CvConstants.Modify_Failed));
+       this.toastrService.error(CvConstants.Modify_Failed);
         console.error('Error updating CV:', error);
       },
     });
@@ -187,7 +146,7 @@ export class ModifierCvComponent implements OnInit {
     const file = event.target.files[0];
     if (file) {
       this.fileToUpload = file;
-     // this.uploadStatus = `${this.translate.instant(CvConstants.UPLOAD_STATUSES.FILE_SELECTED)} ${file.name}`;
+     this.uploadStatus = `${CvConstants.UPLOAD_STATUSES.FILE_SELECTED} ${file.name}`;
 
     }
   }
@@ -197,7 +156,7 @@ export class ModifierCvComponent implements OnInit {
     const file = event.dataTransfer.files[0];
     if (file) {
       this.fileToUpload = file;
-     // this.uploadStatus = `${this.translate.instant(CvConstants.UPLOAD_STATUSES.FILE_SELECTED)}${file.name}`;
+     this.uploadStatus = `${CvConstants.UPLOAD_STATUSES.FILE_SELECTED}${file.name}`;
 
     }
   }
