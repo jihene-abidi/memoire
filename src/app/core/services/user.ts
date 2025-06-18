@@ -42,8 +42,8 @@ export class UserService {
   resetPassword(email: string, reset_code: number, new_password:string): Observable<string>{
     return this.userApi.resetPassword(email,reset_code,new_password);
   }
-  editPassword(oldPassword: string, newPassword: string): Observable<string> {
-  return this.userApi.editPassword(oldPassword, newPassword);
+  editPassword(oldPassword: string, newPassword: string,userId:string): Observable<string> {
+  return this.userApi.editPassword(oldPassword, newPassword,userId);
 }
 
 

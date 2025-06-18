@@ -13,6 +13,7 @@ import { changePasswordConstants } from './change-password.constants';
 import { MatGridListModule } from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
 import {UserService} from "../../../core/services/user";
+import { UserModel } from '../../../core/models/user';
 
 @Component({
   selector: 'app-change-password',
@@ -38,10 +39,11 @@ export class ChangePasswordComponent {
   }
 
   changePassword() {
+    const user: UserModel = this.userService.getCurrentUser()!;
     if (this.changePasswordForm.valid) {
       const oldPassword = this.changePasswordForm.get('oldPassword')?.value;
       const newPassword = this.changePasswordForm.get('newPassword')?.value;
-         this.userService.editPassword(oldPassword, newPassword).subscribe({
+         this.userService.editPassword(oldPassword, newPassword,user._id?? "null").subscribe({
         next: () => {
           this.toastrService.success(this.passwordConstants.SUCCESS);
           this.router.navigate(['/client/cv/']);
