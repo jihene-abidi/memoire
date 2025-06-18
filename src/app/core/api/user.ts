@@ -55,6 +55,13 @@ export class UserApi {
     }
     return this.http.post<string>(`http://127.0.0.1:5000/reset-password`,req);
   }
+  editPassword(oldPassword: string,  new_password:string): Observable<string>{
+    const req = {
+      oldPassword : oldPassword,
+      new_password : new_password
+    }
+    return this.http.post<string>(`http://127.0.0.1:5000/edit-password`,req);
+  }
 
   private mapApiResponseToResponseStatus(apiResponse: {
     [key: string]: string;
