@@ -21,8 +21,8 @@ export class CvService {
     return this.CvUserApi.findOne(id);
   }
 
-  remove(id: string) {
-    return this.CvUserApi.remove(id);
+  remove(userId: any, cvId: string) {
+    return this.CvUserApi.remove(userId, cvId);
   }
   update(cv: Cv) {
     return this.CvUserApi.update(cv);

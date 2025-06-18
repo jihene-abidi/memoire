@@ -109,12 +109,15 @@ export class MyCvsComponent implements OnInit {
 
   openDialog(idCV: string, index: number) {
     this.dialog.openDialog('delete').subscribe((result) => {
-      this.deleteCv(idCV, index);
+       if (result) {
+              this.deleteCv(idCV, index);
+        }
     });
   }
 
   deleteCv(idCV: string, index: number) {
-    this.cvService.remove(idCV).subscribe({
+    const userId = this.userService.getCurrentUser()?._id;
+    this.cvService.remove(userId, idCV).subscribe({
       next: () => {
         this.displayedCvs.splice(index, 1);
         this.toastr.success(this.cvConstants.DELETE_SUCCES);

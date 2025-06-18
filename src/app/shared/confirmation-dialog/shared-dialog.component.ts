@@ -10,7 +10,6 @@ import {MatButton} from "@angular/material/button";
 import {deleteJobConstant} from "../../components/client/job-offer/supprimer-job-offer/supprimer-job-offer.constants";
 import {CommonModule} from "@angular/common";
 import {Shared_dialogConstant} from "./shared-dialog.constants";
-import {TranslatePipe} from "@ngx-translate/core";
 
 
 @Component({
@@ -23,7 +22,6 @@ import {TranslatePipe} from "@ngx-translate/core";
     MatDialogContent,
     MatDialogTitle,
     CommonModule,
-    TranslatePipe,
   ],
   standalone: true
 })
@@ -36,7 +34,7 @@ export class SharedDialogComponent {
     }
   ) {
     if (data.actionType === 'delete') {
-    this.iconSrc = 'assets/joboffericons/trash-01.svg';
+    this.iconSrc = 'assets/trash-01.svg';
     this.iconAlt = 'trash icon';
   } else if (data.actionType === 'update') {
     this.iconSrc = 'assets/refresh.png';

@@ -46,8 +46,8 @@ export class CvApi {
   return this.http.get<{ source: string; name: string }>(`http://127.0.0.1:5000/cv-path/${fileId}`);
   }
 
-  remove(id: string) {
-    return this.http.delete(this.cvUrl + id);
+  remove(userId: string, cvId: string) {
+    return this.http.delete(`http://127.0.0.1:5000/users/${userId}/cvs/${cvId}`);
   }
 
   update(cv: Cv) {
