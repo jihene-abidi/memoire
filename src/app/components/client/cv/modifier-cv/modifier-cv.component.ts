@@ -19,8 +19,6 @@ import { SharedButtonComponent } from '../../../../shared/shared-button/shared-b
 import { CvService } from '../../../../core/services/cv.service';
 import { Cv, Visibility } from '../../../../core/models/cv';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../../../core/services/user';
-import { FileService } from '../../../../core/services/file.service';
 import { CacheService } from '../../../../core/services/cache';
 import { ErrorConstant } from '../../../../core/constants/error.constant';
 
@@ -55,13 +53,11 @@ export class ModifierCvComponent implements OnInit {
   constants = CvConstants;
 
   constructor(
-    private fileService: FileService,
     private fb: FormBuilder,
     private toastrService: ToastrService,
     private cvService: CvService,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
     private cacheService: CacheService
   ) {
     this.uploadForm = this.fb.group({

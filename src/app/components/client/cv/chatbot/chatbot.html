@@ -1,0 +1,133 @@
+<div class="chat-container" [class.sidebar-collapsed]="!isLeftSidebarOpen"
+  [class.history-collapsed]="!isRightSidebarOpen">
+  <div class="sidebar" [class.collapsed]="!isLeftSidebarOpen">
+    <div class="sidebar-header">
+      <span>{{constants.APP_NAME }}</span>
+    </div>
+
+
+    <div class="history-header">
+      <h2>{{constants.HISTORY_TITLE }}</h2>
+    </div>
+
+    <div class="chat-history">
+      <div *ngIf="chats && chats.length > 0">
+        <div *ngFor="let chat of chats; let i = index" class="history-item">
+          <input type="checkbox">
+          <div class="history-content" (click)="selectChat(i)">
+            <h4>{{ chat.title }}</h4>
+          </div>
+          <button class="delete-chat-btn" (click)="deleteChat(i); $event.stopPropagation()">
+            <mat-icon>{{constants.ICON_DELETE }}</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="chats && chats.length === 0">
+        <p>{{constants.CHATS_AVAILAIBILTY }}</p>
+      </div>
+
+      <button class="clear-history" (click)="clearHistory()">
+        <mat-icon>{{constants.ICON_DELETE }}</mat-icon>
+        {{constants.HISTORY_CLEAR }}
+      </button>
+    </div>
+
+
+  </div>
+
+  <div class="main-content">
+    <div class="top-bar">
+      <div class="search-wrapper">
+        <mat-icon>{{constants.ICON_SEARCH}}</mat-icon>
+        <input type="text" placeholder="{{constants.SEARCH_PLACEHOLDER }}">
+      </div>
+      <div class="top-actions">
+        <mat-icon (click)="forceRefresh()" >{{constants.ICON_HISTORY  }}</mat-icon>
+        <mat-icon (click)="newChat()" *ngIf="showChatNames">{{constants.ICON_ADD }}</mat-icon>
+      </div>
+    </div>
+
+    <div class="chat-content">
+      <div class="messages" #scrollContainer id="chat-container">
+        <div *ngFor="let message of currentChat; let i = index">
+          <div class="message" [ngClass]="i % 2 === 0 ? 'sent' : 'received'">
+            <div class="message-bubble" [innerHTML]="formatMessage(message)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-wrapper">
+      <div class="input-area">
+        <input #inputField type="text" [formControl]="messageControl" placeholder="{{constants.MESSAGE_PLACEHOLDER  }}"  (keydown.enter)="sendMessage(inputField)">
+        <div class="input-actions">
+
+          <button mat-icon-button class="send-btn" (click)="sendMessage(inputField)">
+            <mat-icon>{{constants.ICON_NAVIGATE }}</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="right-sidebar" [class.collapsed]="!isRightSidebarOpen">
+  <div class="scores-header">
+    <h2>{{constants.CV_ANALYSIS }}</h2>
+  </div>
+
+  <div class="scores-container">
+    <div class="score-item">
+      <div class="score-info">
+        <span class="score-label">{{constants.SKILLS_MATCH }}</span>
+        <span class="score-value">65%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="65"></div>
+      </div>
+    </div>
+
+
+
+
+    <div class="score-item">
+      <div class="score-info">
+        <span class="score-label">{{constants.EXPERIENCE_LEVEL }}</span>
+        <span class="score-value">65%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="65"></div>
+      </div>
+    </div>
+
+    <div class="score-item">
+      <div class="score-info">
+        <span class="score-label">{{constants.EDUCATION_MATCH }}</span>
+        <span class="score-value">65%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="65"></div>
+      </div>
+    </div>
+
+    <div class="score-item">
+      <div class="score-info">
+        <span class="score-label">{{constants.LANGUAGE_SCORE }}</span>
+        <span class="score-value">65%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="65"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="toggle-btn left-toggle" (click)="toggleLeftSidebar()">
+  <mat-icon>{{isLeftSidebarOpen ? 'chevron_left' : 'chevron_right'}}</mat-icon>
+</button>
+
+<button class="toggle-btn right-toggle" (click)="toggleRightSidebar()">
+  <mat-icon>{{isRightSidebarOpen ? 'chevron_right' : 'chevron_left'}}</mat-icon>
+</button>
+</div>

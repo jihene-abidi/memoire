@@ -11,6 +11,8 @@ import { UpdateJobOffreComponent } from './job-offer/update-job-offre/update-job
 import { ModifierCvComponent } from './cv/modifier-cv/modifier-cv.component';
 import { SupprimerJobOfferComponent } from './job-offer/supprimer-job-offer/supprimer-job-offer.component';
 import { MyCvsComponent } from './cv/my-cvs/my-cvs.component';
+import { ChatbotComeponent } from './cv/chatbot/chatbot';
+
 
 
 export const ClientRouting: Routes = [
@@ -26,5 +28,6 @@ export const ClientRouting: Routes = [
     { path: 'modifier-cv/:id', component: ModifierCvComponent },
     { path: 'joboffer/supp-job-offer', component: SupprimerJobOfferComponent },
     { path: 'my-cvs', component: MyCvsComponent },
+    { path: 'chat/:id', component: ChatbotComeponent },
 
   ];

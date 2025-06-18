@@ -1,0 +1,123 @@
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .content {
+    background:  #ffffff;
+    padding: 24px 11px 7px 11px;
+    display: flex;
+    align-self: stretch;
+    justify-content: space-between;
+    align-items: center;
+  
+  }
+  .featured-icon{
+    background: #fee4e2;
+    border-radius: 28px;
+    border-style: solid;
+    border-color: #fef3f2;
+    border-width: 8px;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    position: relative;
+  }
+  .trash-01 {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    overflow: visible;
+  }
+  mat-dialog-title {
+    color: #181D27;
+    line-height: 28px;
+    font-weight: 600;
+    font-size: 18px;
+    font-family: "Inter-SemiBold", sans-serif;
+    position: relative;
+    text-align: left;
+    align-self: stretch;
+  }
+  mat-dialog-content p {
+    color: #535862;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    position: relative;
+    align-self: stretch;
+  
+  }
+  
+  
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .x-close {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    overflow: visible;
+  }
+  .icon-close-x {
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    margin-left: auto;
+  }
+  
+  
+  .cancel-btn {
+    background-color: #ffffff;
+    color: #000000;
+    border-style: solid;
+    border-radius: 8px;
+    font-family: "Inter-Medium", sans-serif;
+    font-size: 14px;
+    text-transform: none;
+    padding: 12px 23px;
+    border-color: #D5D7DA;
+    &:hover {
+      background-color: #f7f7f7;
+    }
+  }
+  
+  .delete-btn {
+    background-color: #d92d20;
+    color: #ffffff;
+    padding: 12px 19px;
+    border-radius: 8px;
+    font-family: "Inter-Medium", sans-serif;
+    font-size: 14px;
+    text-transform: none;
+    border-color: #D92D20;
+    border-style: solid;
+    &:hover {
+      background-color: #b71c1c;
+    }
+  
+  }
+  

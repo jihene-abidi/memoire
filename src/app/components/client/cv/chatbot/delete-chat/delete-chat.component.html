@@ -1,0 +1,32 @@
+<div class="header">
+    <div class="content">
+      <div class="featured-icon">
+        <img src="assets/joboffericons/trash-01.svg" class="trash-01" alt="trash icon" />
+      </div>
+      <div class="title">
+        <h2 mat-dialog-title>{{ dialogTitle }}</h2>
+      </div>
+      <div class="icon-close-x">
+        <img
+          src="assets/closeButton.svg"
+          class="x-close"
+          alt="close icon"
+          (click)="onNoClick()"
+        />
+  
+      </div>
+    </div>
+  </div>
+  <mat-dialog-content>
+    <p>{{ dialogMessage }}</p>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions>
+    <button mat-button class="cancel-btn" type="button" (click)="onNoClick()">
+      {{ deleteChatConstant.BUTTON_CANCEL | translate }}
+    </button>
+    <button mat-button class="delete-btn" type="button" color="warn" (click)="onConfirm()">
+      {{ deleteChatConstant.BUTTON_DELETE | translate }}
+    </button>
+  
+  </mat-dialog-actions>

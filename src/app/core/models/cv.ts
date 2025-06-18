@@ -10,8 +10,6 @@ export class Cv {
   public _id: string | undefined;
   public title: string;
   public user: UserModel;
-  //public cv_txt: string | undefined;
-  //public expertise: any;
   imageSrc?: string;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
