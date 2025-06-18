@@ -4,48 +4,14 @@
     <div class="sidebar-header">
       <span>{{constants.APP_NAME }}</span>
     </div>
-
-
-    <div class="history-header">
-      <h2>{{constants.HISTORY_TITLE }}</h2>
-    </div>
-
     <div class="chat-history">
-      <div *ngIf="chats && chats.length > 0">
-        <div *ngFor="let chat of chats; let i = index" class="history-item">
-          <input type="checkbox">
-          <div class="history-content" (click)="selectChat(i)">
-            <h4>{{ chat.title }}</h4>
-          </div>
-          <button class="delete-chat-btn" (click)="deleteChat(i); $event.stopPropagation()">
-            <mat-icon>{{constants.ICON_DELETE }}</mat-icon>
-          </button>
-        </div>
-      </div>
-      <div *ngIf="chats && chats.length === 0">
-        <p>{{constants.CHATS_AVAILAIBILTY }}</p>
-      </div>
-
-      <button class="clear-history" (click)="clearHistory()">
-        <mat-icon>{{constants.ICON_DELETE }}</mat-icon>
-        {{constants.HISTORY_CLEAR }}
-      </button>
+  
     </div>
 
 
   </div>
 
   <div class="main-content">
-    <div class="top-bar">
-      <div class="search-wrapper">
-        <mat-icon>{{constants.ICON_SEARCH}}</mat-icon>
-        <input type="text" placeholder="{{constants.SEARCH_PLACEHOLDER }}">
-      </div>
-      <div class="top-actions">
-        <mat-icon (click)="forceRefresh()" >{{constants.ICON_HISTORY  }}</mat-icon>
-        <mat-icon (click)="newChat()" *ngIf="showChatNames">{{constants.ICON_ADD }}</mat-icon>
-      </div>
-    </div>
 
     <div class="chat-content">
       <div class="messages" #scrollContainer id="chat-container">
