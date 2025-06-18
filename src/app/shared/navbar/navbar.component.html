@@ -19,11 +19,24 @@
         <a routerLink="/client/contact-us" routerLinkActive="active">{{ NavbarConstants.ABOUT }}</a>
       </div>
 
-      <div class="user-profile">
+      <!--<div class="user-profile">
         <div class="user-avatar" [matMenuTriggerFor]="profileMenu">
           <img src="assets/UserAvatar.png" alt="User Avatar">
         </div>
+      </div>-->
+      <div class="user-profile">
+  <div class="user-avatar" [matMenuTriggerFor]="profileMenu">
+    <!-- Show profile image if available -->
+    <img *ngIf="showPicture; else defaultAvatar" [src]="pic" alt="User Avatar" class="navbar-avatar" />
+    
+    <!-- Fallback: default avatar or initials -->
+    <ng-template #defaultAvatar>
+      <div class="navbar-avatar initials-avatar">
+        {{ getInitials() }}
       </div>
+    </ng-template>
+  </div>
+</div>
 
       <mat-menu #profileMenu="matMenu" class="profile-menu">
         <div class="profile-header">

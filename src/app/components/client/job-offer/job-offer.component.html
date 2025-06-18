@@ -127,7 +127,7 @@
                   type="button"
                   [label]="jobOfferConstant.CANDIDATES_LABEL "
                   (click)="openSelectDialog(offer)"
-                  *ngIf="currentUser._id==offer.user._id"
+                  *ngIf="currentUser!._id==offer.user._id"
   
                 > 
                 

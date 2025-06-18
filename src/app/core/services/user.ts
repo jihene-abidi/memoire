@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
 import { UserModel } from '../models/user';
 import { UserApi } from '../api/user';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthentificationConstant } from '../../components/authentification/authentification.constants';
 import { ResponseStatusModel } from '../models/response-status';
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private currentUserSubject: BehaviorSubject<UserModel | null>;
+  public currentUser$: Observable<UserModel | null>;
   constructor(
     private userApi: UserApi,
-  ) {}
+  ) {
+     const storedUser = localStorage.getItem(AuthentificationConstant.CURRENT_USER_LOCAL_STORAGE);
+    const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+    this.currentUserSubject = new BehaviorSubject<UserModel | null>(parsedUser);
+    this.currentUser$ = this.currentUserSubject.asObservable();
+  }
 
 
 
@@ -54,12 +61,13 @@ export class UserService {
   setCurrentUser(user : UserModel): void {
     const userJson = JSON.stringify(user)
     localStorage.setItem(AuthentificationConstant.CURRENT_USER_LOCAL_STORAGE,userJson);
+    this.currentUserSubject.next(user);
   }
 
-  getCurrentUser(): UserModel {
-    const userJson = localStorage.getItem(AuthentificationConstant.CURRENT_USER_LOCAL_STORAGE);
-    return userJson ? JSON.parse(userJson) : null;
+   getCurrentUser(): UserModel | null {
+    return this.currentUserSubject.value;
   }
+   
 
   /*******************************Mes changements************************************/
   /*loadUserFromToken(): void {

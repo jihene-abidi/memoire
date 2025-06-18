@@ -40,7 +40,7 @@ export class AuthService {
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
   public isAuthenticatedd: boolean = false;
 
-  private user: UserModel;
+  private user: UserModel | null = null; 
   public connection = localStorage.getItem('connection provider');
   @Output() outputToparrent = new EventEmitter<any>();
 
@@ -55,7 +55,7 @@ export class AuthService {
   ) {
 
     this.user = <UserModel>{};
-    this.attacchement = this.userService.getCurrentUser();
+    this.attacchement = this.userService.getCurrentUser()!;
   }
 
   populate(result: any) {

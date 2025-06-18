@@ -14,7 +14,7 @@ import { UserService } from '../../../core/services/user';
 @Component({
   selector: 'app-client-profile',
   standalone: true,
-    imports: [ClientImports],
+  imports: [ClientImports],
   templateUrl: './client-profile.component.html',
   styleUrls: ['./client-profile.component.css'],
 })
@@ -25,7 +25,7 @@ export class ClientProfileComponent implements OnInit {
   profileForm!: FormGroup;
   clientProfileConstant = clientProfileConstant;
   errorMessages = errorMessages;
-  userConnected!: UserModel;
+  userConnected: UserModel | null = null; 
   showPicture = false;
   pic = 'assets/profile-img.png';
   ClientForm: FormGroup;
@@ -36,14 +36,14 @@ export class ClientProfileComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-   private toastr: ToastrService,
-   private userService: UserService,
+    private toastr: ToastrService,
+    private userService: UserService,
   ) {
     this.ClientForm = this.fb.group({
       first_name: [''],
       last_name: [''],
       email: [{ value: '', disabled: true }],
-      is_verified:[''],
+      is_verified: [''],
       role: [''],
       phone: ['', [
         Validators.required,
@@ -55,23 +55,27 @@ export class ClientProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.userConnected = this.userService.getCurrentUser();
+    if (this.userConnected?.profile_image) {
+      this.pic = `http://127.0.0.1:5000/${this.userConnected.profile_image}`;
+      this.showPicture = true;
+    }
     this.ClientForm.patchValue({
-      phone: this.userConnected.phone || ''
+      phone: this.userConnected?.phone || ''
     });
 
 
     const email = this.userConnected?.email || '';
 
     this.profileForm = this.fb.group({
-      first_name: [this.userConnected.first_name || '', [
+      first_name: [this.userConnected?.first_name || '', [
         Validators.required,
         Validators.pattern(clientProfileConstant.patterns.name)
       ]],
-      last_name: [this.userConnected.last_name || '', [
+      last_name: [this.userConnected?.last_name || '', [
         Validators.required,
         Validators.pattern(clientProfileConstant.patterns.name)
       ]],
-      phone: [this.userConnected.phone || '', [
+      phone: [this.userConnected?.phone || '', [
         Validators.required,
         Validators.pattern(clientProfileConstant.patterns.phone)
       ]],
@@ -151,7 +155,7 @@ export class ClientProfileComponent implements OnInit {
     const formattedPhone = this.formatPhoneNumber();
 
     const updatedUser: Partial<UserModel> = {
-      _id: this.userConnected._id,
+      _id: this.userConnected?._id,
       email: formValues.email,
       phone: formattedPhone,
       first_name: formValues.first_name,
@@ -191,14 +195,14 @@ export class ClientProfileComponent implements OnInit {
       const base64Image = reader.result as string;
 
       const userToUpdate: Partial<UserModel> = {
-        _id: this.userConnected._id,
-        img: base64Image
+        _id: this.userConnected?._id,
+        profile_image: base64Image
       };
 
-      this.userService.updateimage(userToUpdate,this.selectedImageFile).subscribe({
+      this.userService.updateimage(userToUpdate, this.selectedImageFile).subscribe({
         next: () => {
           this.toastr.success(errorMessages.success, 'Success');
-          this.userService.findOne(this.userConnected._id!).subscribe({
+          this.userService.findOne(this.userConnected?._id!).subscribe({
             next: (res) => this.userService.setCurrentUser(res),
           });
         },
@@ -221,6 +225,7 @@ export class ClientProfileComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = () => {
         this.pic = reader.result as string; // update preview image
+        this.showPicture = true;
       };
       reader.readAsDataURL(this.selectedImageFile);
 
@@ -229,5 +234,4 @@ export class ClientProfileComponent implements OnInit {
     }
   }
 }
-
 

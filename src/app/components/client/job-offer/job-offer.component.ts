@@ -73,7 +73,7 @@ import { TranslateService } from '@ngx-translate/core';
     allOffers: any[] = [];
     selectedFilter: string = 'all';
     currentCvs!: Cv[];
-    currentUser!: UserModel;
+    currentUser: UserModel | null = null; 
     userCandidatures: Candidature[] = [];
     visibility!: string;
    // cvConstants = CvConstants;
@@ -87,7 +87,7 @@ import { TranslateService } from '@ngx-translate/core';
     async refresh() {
         this.JobOfferService.findAll().then((data: JobOffer[]) => {
           this.allOffers = data.map((offer) => {
-            if (offer.user?._id== this.currentUser._id) {
+            if (offer.user?._id== this.currentUser?._id) {
             /*  this.CandidatureService.getAllCandidatures(
                 this.limite,
                 this.pages

@@ -46,8 +46,10 @@ import { MatListModule } from '@angular/material/list';
 })
 export class NavbarComponent{
   isMenuOpen = false;
-  userConnected!: UserModel ;
+  userConnected: UserModel | null = null; 
   NavbarConstants = NavbarConstants;
+  pic = 'assets/UserAvatar.png';
+  showPicture: boolean = false;
   constructor(
     private router: Router,
     private userService :UserService,
@@ -95,6 +97,18 @@ export class NavbarComponent{
   getCurrentUser(): void{
 
     this.userConnected = this.userService.getCurrentUser();
+       this.userService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.userConnected = user;
+        if (user.profile_image) {
+          this.pic = `http://127.0.0.1:5000/${user.profile_image}`;
+          this.showPicture = true;
+        } else {
+          this.pic = 'assets/UserAvatar.png';
+          this.showPicture = false;
+        }
+      }
+    });
    }
   
   toggleMenu() {

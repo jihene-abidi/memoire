@@ -138,7 +138,7 @@ export class MyCvsComponent implements OnInit {
 
   loadMyCvs() {
     this.isLoading = true;
-    const userId = this.userService.getCurrentUser()._id;
+    const userId = this.userService.getCurrentUser()?._id;
 
     this.cvChaliceService
       .findAll(this.limit, this.page, userId, '', this.searchQuery)
@@ -174,7 +174,7 @@ export class MyCvsComponent implements OnInit {
     this.page++;
     this.isLoading = true;
 
-    const userId = this.userService.getCurrentUser()._id;
+    const userId = this.userService.getCurrentUser()?._id;
 
     this.cvChaliceService
       .findAll(

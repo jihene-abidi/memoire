@@ -9,7 +9,7 @@ export class UserModel {
   public email_verified: boolean | undefined;
   public createdAt: string | Date | undefined;
   public updatedAt: string | Date | undefined;
-  public img: string | undefined;
+  public profile_image: string | undefined;
   public role: UserRole | undefined;
 
   constructor(data?: Partial<UserModel>) {
@@ -21,8 +21,7 @@ export class UserModel {
     this.email_verified = data?.email_verified;
     this.createdAt = data?.createdAt;
     this.updatedAt = data?.updatedAt;
-    this.img = data?.img;
+    this.profile_image = data?.profile_image;
     this.role = data?.role;
   }
 }
-
