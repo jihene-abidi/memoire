@@ -95,7 +95,7 @@ export class CvComponent implements OnInit {
   refresh(): void {
     this.isLoading = true;
 
-    this.cvService.findAll(this.limit, this.page, "", this.visibility).subscribe({
+    this.cvService.findAllPublic().subscribe({
       next: (cvs) => {
         // Initialize imageSrc for each CV
         cvs.forEach(cv => {
@@ -108,18 +108,9 @@ export class CvComponent implements OnInit {
         this.cvs = cvs;
 
         for (let cv of cvs) {
-         this.cvService.getCvFilePath(cv._id).subscribe({
-            next: (pdfData) => {
-              console.log(pdfData.source)
-              this.getPdfThumbnail(pdfData.source, cv);
-              this.isLoading = false;
-            },
-            error: (err) => {
-              console.error(this.cvConstants.ERROR_RETRIEVING_PDF, err);
-              this.isLoading = false;
-            }
-          });
+              this.loadPdfThumbnail(cv);
         }
+        this.isLoading = false;
       },
       error: (error) => {
         console.error(this.cvConstants.ERROR_RETRIEVING_CV, error);
@@ -128,20 +119,36 @@ export class CvComponent implements OnInit {
     });
   }
   isCvImageLoading(cvId: string): boolean {
-    return this.loadingImages[cvId] === true;
+    return this.cvLoadingStates.get(cvId) || false;
   }
-
-  getPdfThumbnail(pdfUrl: string, cv: Cv): void {
-    this.loadingImages[cv._id!] = true;
-
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "assets/pdf.worker.min.mjs";
-    if (!pdfUrl) {
-      console.error(this.cvConstants.ERROR_INVALID_PDFURL);
-      this.loadingImages[cv._id!] = false; // Désactiver le chargement en cas d'erreur
+ loadPdfThumbnail(cv: Cv): void {
+    if (!cv._id) {
+      console.error('e');
       return;
     }
 
-   const loadingTask = pdfjsLib.getDocument(pdfUrl);
+   this.cvLoadingStates.set(cv._id, true);
+
+      this.cvService.getCvFilePath(cv._id).subscribe({
+      next: (pdfData) => {
+        this.getPdfThumbnail(pdfData.source, cv);
+      },
+      error: (err) => {
+        console.error('Error retrieving PDF:', err);
+        if (cv._id) {
+          this.cvLoadingStates.set(cv._id, false);
+        }
+      },
+    });
+  }
+
+  getPdfThumbnail(pdfUrl: string, cv: Cv): void {
+    if (!pdfUrl || !cv._id) {
+      console.error(this.cvConstants.ERROR_PDF_CV);
+      return;
+    }
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "assets/pdf.worker.min.mjs";
+    const loadingTask = pdfjsLib.getDocument(pdfUrl);
     loadingTask.promise
       .then((pdf) => {
         return pdf.getPage(1);
@@ -152,8 +159,8 @@ export class CvComponent implements OnInit {
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         if (!context) {
-          console.error(this.cvConstants.ERROR_FAILED_CANVAS);
-          this.loadingImages[cv._id!] = false; // Désactiver le chargement en cas d'erreur
+          console.error(this.cvConstants.FAILED_CANVAS);
+          this.cvLoadingStates.set(cv._id!, false);
           return;
         }
 
@@ -167,13 +174,18 @@ export class CvComponent implements OnInit {
 
         return renderTask.promise.then(() => {
           const imgUrl = canvas.toDataURL();
-          cv.imageSrc = imgUrl;
-          this.loadingImages[cv._id!] = false;
+
+          const img = new Image();
+          img.onload = () => {
+            cv.imageSrc = imgUrl;
+            this.cvLoadingStates.set(cv._id!, false);
+          };
+          img.src = imgUrl;
         });
       })
       .catch((error) => {
-        console.error(this.cvConstants.ERROR_INVALID_FORMAT, error);
-        this.loadingImages[cv._id!] = false;
+        console.error(this.cvConstants.ERROR_PDF, error);
+        this.cvLoadingStates.set(cv._id!, false);
       });
   }
 

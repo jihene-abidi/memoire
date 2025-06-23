@@ -5,12 +5,13 @@ export class JobOffer {
   public link: string;
   public title: string;
   public date: Date | undefined;
+  public start_date: Date | undefined;
   public company?: string;
   public location: string[] | undefined;
   public technologies?: string[] | string;
   public skills?: string[] | string;
   public level?: string;
-  public published?: string;
+  public published_on?: string;
   public expired?: string;
   public visibility?: string;
   public user: UserModel | undefined;

@@ -11,13 +11,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { JobOfferService } from '../../../core/services/JobOfferService';
 import { JobOffer } from '../../../core/models/jobOffer';
 import { SharedButtonComponent } from '../../../shared/shared-button/shared-button.component';
-// import { DialogService } from '../../../core/services/openDialog.service';
+import { DialogService } from '../../../core/services/openDialog.service';
 // import { PaginationComponent } from '../../../shared/pagination/pagination.component';
 // import { ConfirmationDialogComponent } from './confirm-dialog-offre/confirmation-dialog.component';
 // import { SelectCvDialogComponent } from './select-cv-dialog/select-cv-dialog.component';
  import { Candidature } from '../../../core/models/candidature';
-// import { CandidatureService } from '../../../core/services/candidature.service';
- import { Cv } from '../../../core/models/cv';
+import { CandidatureService } from '../../../core/services/candidature.service';
+import { Cv } from '../../../core/models/cv';
 import { UserModel } from '../../../core/models/user';
 import { ErrorConstant } from '../../../core/constants/error.constant';
 import { UserService } from '../../../core/services/user';
@@ -26,13 +26,12 @@ import { UserService } from '../../../core/services/user';
 //import { CvConstants } from '../cv/cv.constants';
 //import { FileService } from '../../../core/services/file.service';
 //import * as pdfjsLib from 'pdfjs-dist';
-//import { CacheService } from '../../../core/services/cache';
+import { CacheService } from '../../../core/services/cache';
 import { JobOfferApi } from '../../../core/api/JobOfferApi';
 import { Router } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { log } from 'console';
 import { DatePipe } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-job-offer',
@@ -55,16 +54,15 @@ import { TranslateService } from '@ngx-translate/core';
     constructor(
      // private CvService: CvService,
       private UserService: UserService,
-     // private CandidatureService: CandidatureService,
+      private CandidatureService: CandidatureService,
       private dialog: MatDialog,
       private JobOfferService: JobOfferService,
-     // private dialogService: DialogService,
+      private dialogService: DialogService,
       private jobOfferservice: JobOfferService,
       private router: Router,
       private datePipe: DatePipe,
-      //private cacheService: CacheService,
-      private toastrService: ToastrService,
-      private translate:TranslateService
+      private cacheService: CacheService,
+      private toastrService: ToastrService
   
   
     ) {}
@@ -79,13 +77,17 @@ import { TranslateService } from '@ngx-translate/core';
    // cvConstants = CvConstants;
     limite: number=100;
     pages: number=1;
+    pageCandidature:number=1;
+    isLoadingCandidatures: boolean = false;
+
     ngOnInit() {
-      this.currentUser = this.UserService.getCurrentUser();
+      this.currentUser = this.UserService.getCurrentUser()!;
   
       this.refresh();
     }
     async refresh() {
         this.JobOfferService.findAll().then((data: JobOffer[]) => {
+          console.log(data)
           this.allOffers = data.map((offer) => {
             if (offer.user?._id== this.currentUser?._id) {
             /*  this.CandidatureService.getAllCandidatures(
@@ -100,48 +102,30 @@ import { TranslateService } from '@ngx-translate/core';
             }else{
               console.warn(this.jobOfferConstant.NO_CANDIDATES)
             }
-            const sanitizedDetails = offer.details
-              ? offer.details.replace(/```/g, '').trim()
-              : '';
-            let details: any = {};
-            try {
-              details = JSON.parse(sanitizedDetails);
-            } catch (error) {}
     
             const origin = this.getOrigin(offer.link);
-            const offerDate = details.offerDate || offer.published || offer.createdAt || '';
+            const offerDate = offer.published_on || '';
             const offerDateFormatted = this.datePipe.transform(
               offerDate,
               'yyyy-MM-dd'
             )!;
-            const location = details.jobAdress || offer.location || '';
-            const skills = details.skillsNeeded
-              ? typeof details.skillsNeeded === 'string'
-                ? details.skillsNeeded.split(',')
-                : Array.isArray(details.skillsNeeded)
-                ? details.skillsNeeded
-                : []
-              : offer.skills || [];
-            const technologies = details.technologiesNeeded
-              ? typeof details.technologiesNeeded === 'string'
-                ? details.technologiesNeeded.split(',')
-                : Array.isArray(details.technologiesNeeded)
-                ? details.technologiesNeeded
-                : []
-              : offer.technologies || [];
+            const location = offer.location || '';
+             const level = offer.level|| '';
+            const skills = offer.skills || [];
+            const technologies =  offer.technologies || [];
             const visibility = offer.visibility || 'public';
-            const level = details.level || offer.level || '';
-            const company = details.companyName || offer.company || '';
-            const expired = details.offerDate || offer.expired || '';
+            const company = offer.company || offer.company || '';
+            const expired = offer.start_date || '';
     
             return {
               ...offer,
+              level,
               location,
               skills,
               technologies,
               origin: origin.name,
               logo:
-                origin.logo || origin.logo || 'assets/joboffericons/default.png',
+                origin.logo || origin.logo || 'assets/default.png',
               offerDate,
               offerDateFormatted,
               visibility,
@@ -165,7 +149,11 @@ import { TranslateService } from '@ngx-translate/core';
         });
       }
       applyFilter() {
-        if (this.selectedFilter === 'all') {
+        if (this.selectedFilter === 'applied') {
+          this.showJobForCandidature();
+          return;
+        }
+        else if (this.selectedFilter === 'all') {
           this.Offers = this.allOffers;
         } else {
           this.Offers = this.allOffers.filter(
@@ -173,6 +161,42 @@ import { TranslateService } from '@ngx-translate/core';
           );
         }
       }
+      
+      showJobForCandidature(): void {
+        this.cacheService.clearByPattern('/candidature');
+        console.log("get candidatures user")
+       /* this.CandidatureService.getAllCandidatures(this.limite, this.pageCandidature, this.currentUser?._id)
+          .pipe(
+            map(candidatures => candidatures.filter(c => c.job.id)),
+
+            switchMap(candidatures => {
+              if (candidatures.length === 0) {
+                this.hasMoreData = false;
+                this.isLoadingMore = false;
+                return of([]);
+              }
+
+              const jobIds = candidatures.map(c => c.job.id);
+              return forkJoin(
+                jobIds
+                  .filter((id): id is string => !!id)
+                  .map(id => this.JobOfferService.findOne(id))
+              );
+            }),
+            map(offers => offers.map(offer => this.transformOffer(offer))),
+            catchError(err => {
+              console.error(err);
+              return of([]);
+            })
+          )
+          .subscribe(newOffers => {
+            this.allOffers = [...newOffers];
+            this.Offers = this.allOffers;
+            this.applySearchFilter();
+            this.isLoadingMore = false;
+          });*/
+      }
+
       getOrigin(link: string | undefined) {
         if (!link) {
           return { name: 'Unknown', logo: 'assets/joboffericons/default.png' };
@@ -192,7 +216,7 @@ import { TranslateService } from '@ngx-translate/core';
         }
       }
       openDialog(actionType: 'delete' | 'update' | 'custom', jobOfferId?: string) {
-       /* this.dialogService.openDialog(actionType).subscribe(async (result) => {
+        this.dialogService.openDialog(actionType).subscribe(async (result) => {
           if (result) {
             const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
             if (actionType === 'delete' && jobOfferId) {
@@ -201,7 +225,7 @@ import { TranslateService } from '@ngx-translate/core';
               if (isOwner) {
                 this.deleteItem(jobOfferId);
               } else {
-                this.toastrService.error(this.translate.instant(this.jobOfferConstant.DELETE_UNAUTHORIZED));
+                this.toastrService.error(this.jobOfferConstant.DELETE_UNAUTHORIZED);
     
                 return;
               }
@@ -212,7 +236,7 @@ import { TranslateService } from '@ngx-translate/core';
               if (isOwner) {
                 this.updateItem(jobOfferId);
               } else {
-                this.toastrService.error(this.translate.instant(this.jobOfferConstant.UPDATE_UNAUTHORIZED));
+                this.toastrService.error(this.jobOfferConstant.UPDATE_UNAUTHORIZED);
                 return;
               }
     
@@ -222,9 +246,10 @@ import { TranslateService } from '@ngx-translate/core';
           } else {
             console.log(`${actionType} canceled`);
           }
-        });*/
+        });
       }
       private deleteItem(jobOfferId: string) {
+        console.log('delete')
        /* this.cacheService.clearByPattern('/offre');
     
         this.jobOfferservice.remove(jobOfferId).subscribe({
@@ -236,7 +261,7 @@ import { TranslateService } from '@ngx-translate/core';
       }
     
       protected updateItem(jobOfferId: string) {
-      /*  this.cacheService.clearByPattern('/offre');*/
+         this.cacheService.clearByPattern('/offre');
         this.router.navigate(['/client/joboffer/update-job-offer'], {
           queryParams: {
             id: jobOfferId,

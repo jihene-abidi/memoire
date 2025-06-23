@@ -15,6 +15,9 @@ export class CvService {
   findAll(limit?: number, page?: number, userId?: string, visibility?: string, query?: string) {
     return this.CvUserApi.findAll(limit, page, userId, visibility, query);
   }
+  findAllPublic(){
+    return this.CvUserApi.findAllPublic()
+  }
 
 
   findOne(id: any) {

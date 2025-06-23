@@ -86,8 +86,8 @@ export class AjoutJobOfferComponent {
     }
 
     if (this.jobOffer.level) jobOfferToSend.level = this.jobOffer.level;
-    if (this.jobOffer.published)
-      jobOfferToSend.published = this.jobOffer.published;
+    if (this.jobOffer.published_on)
+      jobOfferToSend.published = this.jobOffer.published_on;
     if (this.jobOffer.expired) jobOfferToSend.expired = this.jobOffer.expired;
     if (this.jobOffer.visibility)
       jobOfferToSend.visibility = this.jobOffer.visibility;

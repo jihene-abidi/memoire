@@ -15,7 +15,7 @@
         <!-- <a routerLink="/client/jobofferrh" routerLinkActive="active">{{ NavbarConstants.OUR_OFFERS }}</a> -->
         <a routerLink="/client/joboffer" routerLinkActive="active">{{ NavbarConstants.JOB_OFFERS }}</a>
         <a routerLink="/client/cv" routerLinkActive="active" *ngIf="userConnected?.role !== 'candidat'">{{ NavbarConstants.FOR_RECRUITERS }}</a>
-        <a routerLink="/client/my-cvs" routerLinkActive="active">{{ NavbarConstants.CV }}</a>
+        <a routerLink="/client/my-cvs" routerLinkActive="active" *ngIf="userConnected?.role == 'candidat'">{{ NavbarConstants.CV }}</a>
         <a routerLink="/client/contact-us" routerLinkActive="active">{{ NavbarConstants.ABOUT }}</a>
       </div>
 

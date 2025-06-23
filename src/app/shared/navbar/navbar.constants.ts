@@ -2,7 +2,7 @@ export const NavbarConstants = {
   OUR_OFFERS: 'Our Offers',
   JOB_OFFERS: 'Job Offers',
   CV: 'My CVs',
-  FOR_RECRUITERS: 'For Recruiters',
+  FOR_RECRUITERS: 'CVs',
   ABOUT: 'Contact Us',
   HOME: 'Home',
  // Profile Menu

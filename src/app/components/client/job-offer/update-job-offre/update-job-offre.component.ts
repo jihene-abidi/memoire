@@ -102,7 +102,7 @@ export class UpdateJobOffreComponent {
     this.visibility = offer.visibility || 'public';
     this.level = offer.level || offer.level || '';
     this.company = offer.company || offer.company || '';
-    this.offerDate = offer.date || offer.published || '';
+    this.offerDate = offer.date || offer.published_on || '';
     this.formattedDate = new Date(this.offerDate);
   }
 
@@ -146,7 +146,7 @@ export class UpdateJobOffreComponent {
         const fullJobOfferData: JobOffer = {
           ...this.jobOffer,
           title: this.title,
-          published: this.formattedDate?.toString(),
+          published_on: this.formattedDate?.toString(),
           location: this.location,
           skills: this.skills,
           technologies: this.technologies,

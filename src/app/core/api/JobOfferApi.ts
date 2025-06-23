@@ -9,7 +9,7 @@ import {Observable} from "rxjs";
   providedIn: "root",
 })
 export class JobOfferApi {
-  public jobOfferUrl = "/offre";
+  public jobOfferUrl = "http://127.0.0.1:5000";
 
 
   constructor(
@@ -23,20 +23,20 @@ export class JobOfferApi {
     if (page) {
       params = params.append("page", page);
     }
-    return this.http.get<any>(this.jobOfferUrl, { params }).toPromise();
+    return this.http.get<any>(`${this.jobOfferUrl}/job-offers`, { params }).toPromise();
   }
 
   findOne(id: any) {
-    return this.http.get<any>(`${this.jobOfferUrl}/${id}`).toPromise();
+    return this.http.get<any>(`${this.jobOfferUrl}/job-offers/${id}`).toPromise();
   }
 
 
   insert(jobOffer: any): Observable<any> {
-    return this.http.post<any>(`${this.jobOfferUrl}`, jobOffer);
+    return this.http.post<any>(`${this.jobOfferUrl}/create-job-offer`, jobOffer);
   }
 
   update(jobOffer: JobOffer): Observable<any> {
-    return this.http.put(this.jobOfferUrl, jobOffer);
+    return this.http.put(`${this.jobOfferUrl}/job-offers/${jobOffer._id}`, jobOffer);
   }
 
   //
@@ -45,11 +45,11 @@ export class JobOfferApi {
   //   return this.http.delete(url).toPromise()
   // }
   remove(jobOfferId: string): Observable<any> {
-    const url = `${this.jobOfferUrl}/${jobOfferId}`;
+    const url = `${this.jobOfferUrl}/job-offers/${jobOfferId}`;
     return this.http.delete<any>(url);
   }
   patch(jobOfferId: string, updateData: Partial<JobOffer>): Observable<any> {
-    const url = `${this.jobOfferUrl}/${jobOfferId}`;
+    const url = `${this.jobOfferUrl}/job-offers/${jobOfferId}`;
     return this.http.patch<any>(url, updateData);
   }
 

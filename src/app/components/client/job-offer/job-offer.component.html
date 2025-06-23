@@ -6,7 +6,7 @@
     <div class="header">
   
   
-      <app-shared-button
+      <app-shared-button *ngIf="currentUser?.role !== 'candidat'"
         routerLink="/client/joboffer/ajout-job-offer"
         label=" {{jobOfferConstant.BUTTON_ADD_OFFER }}"
       >
@@ -16,8 +16,8 @@
       <label for="visibilityFilter">{{jobOfferConstant.VISIBILITY}}</label>
       <select id="visibilityFilter" [(ngModel)]="selectedFilter" (change)="applyFilter()">
         <option value="all">{{jobOfferConstant.VISIBILITY_FILTER.All}}</option>
-        <option value="public">{{jobOfferConstant.VISIBILITY_FILTER.Public}}</option>
-        <option value="private">{{jobOfferConstant.VISIBILITY_FILTER.Private}}</option>
+        <option value="applied" *ngIf="currentUser?.role == 'candidat'">{{jobOfferConstant.VISIBILITY_FILTER.Public}}</option>
+        <option value="private" *ngIf="currentUser?.role !== 'candidat'">{{jobOfferConstant.VISIBILITY_FILTER.Private}}</option>
       </select>
     </div>
   
@@ -35,7 +35,7 @@
             <div class="company-header">
               <div class="company-details">
   
-                <img [src]="offer?.logo || 'assets/joboffericons/default.png'" class="company-logo" alt="Company Logo" />
+                <img src="assets/default.png" class="company-logo" alt="Company Logo" />
   
                 <div class="location-info"  *ngIf="offer.location && offer.location !== 'Unknown'">
                   <mat-card-subtitle class="company-info">
@@ -79,7 +79,7 @@
           </div>
   
           <div class="job-metadata">
-            <div class="header-buttons">
+            <div class="header-buttons" *ngIf="currentUser?.role !== 'candidat'">
               <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More options">
                 <mat-icon>{{jobOfferConstant.DROP_ICON }}</mat-icon>
               </button>
@@ -96,7 +96,7 @@
             </div>
             <div class="metadata-section">
               <div class="metadata-icon-container">
-                <img src="assets/joboffericons/CalendarBlank.svg" class="metadata-icon" alt="calendar" />
+                <img src="assets/CalendarBlank.svg" class="metadata-icon" alt="calendar" />
               </div>
   
               <div class="metadata-text">
@@ -109,7 +109,7 @@
   
             <div class="metadata-section" *ngIf="offer.level && offer.level !== 'Unknown'">
               <div class="metadata-icon-container">
-                <img src="assets/joboffericons/Stack.svg" class="metadata-icon" alt="stack" />
+                <img src="assets/Stack.svg" class="metadata-icon" alt="stack" />
               </div>
               <div class="metadata-text" style="display: flex;">
                 <p class="metadata-title">{{ jobOfferConstant.LEVEL}}</p>
@@ -117,31 +117,39 @@
   
               </div>
             </div>
+
             <div class="metadata-spacer"></div>
            <div class="bottom-button" style="margin-top: auto;">
             <mat-card-actions align="end">
               <div class="button-group">
-  
+                 <app-shared-button
+                  color="primary"
+                  type="button"
+                  [label]="jobOfferConstant.CANDIDATES_LABEL "
+                  (click)="openSelectDialog(offer)"
+                  *ngIf="currentUser?.role !== 'candidat'"
+                > 
+                 </app-shared-button>
+  <!--
                 <app-shared-button
                   color="primary"
                   type="button"
                   [label]="jobOfferConstant.CANDIDATES_LABEL "
                   (click)="openSelectDialog(offer)"
                   *ngIf="currentUser!._id==offer.user._id"
-  
                 > 
                 
               </app-shared-button>
-  
-                <app-shared-button
-                  *ngIf="!hasAppliedToJob(offer._id)"
+  -->
+                <app-shared-button 
+                  *ngIf="!hasAppliedToJob(offer._id) && currentUser?.role == 'candidat'"
                   color="CVS"
                   type="button"
                   [label]="jobOfferConstant.APPLY_LABEL "
                   (click)="applyToJob(offer)"
                 >
                 </app-shared-button>
-                <div *ngIf="hasAppliedToJob(offer._id)"
+                <div *ngIf="hasAppliedToJob(offer._id) && currentUser?.role == 'candidat'"
                 class="already-applied"
                 (click)="showApplicationDetails(offer)">
                 <span class="application-status">{{jobOfferConstant.ALREADY_APPLIED}}</span>

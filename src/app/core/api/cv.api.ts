@@ -38,6 +38,9 @@ export class CvApi {
     }
     return this.http.get<Cv[]>(`http://127.0.0.1:5000/users/${userId}/cvs`);
   }
+  findAllPublic (){
+    return this.http.get<Cv[]>(`http://127.0.0.1:5000/cvs/public`);
+  }
 
   insert(userId: string, cv: FormData) {
     return this.http.post(`http://127.0.0.1:5000/users/${userId}/cvs`, cv);
