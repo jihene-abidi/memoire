@@ -227,26 +227,23 @@ export class CvComponent implements OnInit {
   }
 
 
-  downloadCv(cv: Cv) {
-   // if (!cv.cv_s3) {
-    //  console.error(this.cvConstants.ERROR_FILE_PATH);
-   //   return;
-   // }
-
-    //this.fileService.awsFile(cv.cv_s3).subscribe({
-    //   next: (file) => {
-    //     this.triggerDownload(file.source, file.name);
-    //     this.openCvInNewTab(file.source);
-    //   },
-    //   error: (error) => {
-    //     console.error(this.cvConstants.ERROR_UPLOADING_CV, error);
-    //   },
-    //});
+  downloadCv(cvId: string) {
+    this.cvService.downloadCv(cvId).subscribe({
+      next: (file: Blob) => {
+        console.log(file);
+       // this.triggerDownload(file.source, file.name);
+       this.openCvInNewTab(file);
+      },
+       error: (error) => {
+         console.error(this.cvConstants.ERROR_UPLOADING_CV, error);
+       },
+    });
   }
 
 
-  openCvInNewTab(fileUrl: string) {
-    window.open(fileUrl, '_blank');
+  openCvInNewTab(fileUrl: Blob) {
+    const blobUrl = URL.createObjectURL(fileUrl);
+    window.open(blobUrl, '_blank');
   }
 
   private triggerDownload(url: string, fileName: string) {

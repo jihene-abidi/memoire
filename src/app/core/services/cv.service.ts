@@ -36,6 +36,8 @@ export class CvService {
   analyseCv(cv_id: string,cv_txt: string){
     return this.CvUserApi.analyseCv(cv_id, cv_txt)
   }
-
+  downloadCv(cv_id: string){
+    return this.CvUserApi.downloadCv(cv_id)
+  }
 
 }

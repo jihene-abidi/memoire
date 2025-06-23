@@ -50,7 +50,7 @@
               <h2 style="margin: 0; font-size: 1rem">{{ cv.title }}</h2>
             </div>
             <div class="icon-overlay">
-              <mat-icon class="icon" (click)="downloadCv(cv)">
+              <mat-icon class="icon" (click)="downloadCv(cv._id!)">
                 {{cvConstants.CLOUD_ICON }}
               </mat-icon>
             </div>

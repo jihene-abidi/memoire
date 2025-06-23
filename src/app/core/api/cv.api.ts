@@ -64,4 +64,7 @@ export class CvApi {
     return this.http.post(`http://127.0.0.1:5000/cv-analysis-text`, {"cv_txt": cv_txt});
   }
 
+  downloadCv(cv_id: string) {
+    return this.http.get(`${this.cvUrl}/download/${cv_id}`,{ responseType: 'blob'});
+  }
 }
