@@ -57,8 +57,8 @@ export class UserApi {
   }
   editPassword(oldPassword: string,  newPassword:string, userId:string): Observable<string>{
     const req = {
-      old_password : oldPassword,
-      new_password : newPassword
+       old_password : oldPassword,
+       new_password : newPassword
     }
     return this.http.post<string>(`http://127.0.0.1:5000/update-password/${userId}`,req);
   }

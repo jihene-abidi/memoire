@@ -1,7 +1,7 @@
 import {UserModel} from "./user";
 import {Expertise} from "./expertise";
 
-export enum Visibility {
+export enum Visibility { // enum car je travaille avec des constantes et limités
   Public = 'public',
   Private = 'private',
 }
