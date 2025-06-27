@@ -35,15 +35,10 @@ export class JobOfferApi {
     return this.http.post<any>(`${this.jobOfferUrl}/create-job-offer`, jobOffer);
   }
 
-  update(jobOffer: JobOffer): Observable<any> {
-    return this.http.put(`${this.jobOfferUrl}/job-offers/${jobOffer._id}`, jobOffer);
+  update(jobOfferId: string, jobOffer: Partial<JobOffer>): Observable<any> {
+    return this.http.put(`${this.jobOfferUrl}/job-offers/${jobOfferId}`, jobOffer);
   }
 
-  //
-  // remove(jobOfferId: string) {
-  //   const url = `${this.jobOfferUrl}/${jobOfferId}`;
-  //   return this.http.delete(url).toPromise()
-  // }
   remove(jobOfferId: string): Observable<any> {
     const url = `${this.jobOfferUrl}/job-offers/${jobOfferId}`;
     return this.http.delete<any>(url);

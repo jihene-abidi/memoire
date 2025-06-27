@@ -14,9 +14,11 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import {
   MatDatepicker,
+  MatDatepickerModule,
   MatDatepickerInput,
   MatDatepickerToggle,
 } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { CacheService } from '../../../../core/services/cache';
 
 @Component({
@@ -31,6 +33,8 @@ import { CacheService } from '../../../../core/services/cache';
     MatDatepicker,
     MatDatepickerInput,
     MatDatepickerToggle,
+     MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [DatePipe],
   templateUrl: './update-job-offre.component.html',
@@ -84,9 +88,7 @@ export class UpdateJobOffreComponent {
         }
       },
       (error: any) => {
-        this.toastrService.error(
-          //this.translate.instant(JobOfferConstant.FAILED_LOAD_JOB_OFFER)
-        );
+        this.toastrService.error(JobOfferConstant.FAILED_LOAD_JOB_OFFER);
       }
     );
   }
@@ -109,9 +111,7 @@ export class UpdateJobOffreComponent {
   updateOffre() {
     if (!this.title || this.title.trim() === '') {
       this.cacheService.clearByPattern('/offre');
-      this.toastrService.error(
-       // this.translate.instant(AjoutJobOfferConstants.UPDATE_ERROR_TOAST)
-      );
+      this.toastrService.error(AjoutJobOfferConstants.UPDATE_ERROR_TOAST);
       return;
     }
 
@@ -127,49 +127,34 @@ export class UpdateJobOffreComponent {
       if (this.jobOffer.link) {
         this.joboffrerservice.patch(this.jobOffer._id, updateData).subscribe(
           () => {
-            this.toastrService.success(
-              //this.translate.instant
-              (
-                AjoutJobOfferConstants.UPDATE_SUCCESS_TOAST
-              )
-            );
+            this.toastrService.success(AjoutJobOfferConstants.UPDATE_SUCCESS_TOAST);
             this.router.navigate(['/client/joboffer']);
           },
           (error: any) => {
             console.error('Error updating job offer:', error);
-            this.toastrService.error(
-             // this.translate.instant(JobOfferConstant.FAILED_LOAD_JOB_OFFER)
-            );
+            this.toastrService.error(JobOfferConstant.FAILED_LOAD_JOB_OFFER);
           }
         );
       } else if (!this.jobOffer.link) {
-        const fullJobOfferData: JobOffer = {
-          ...this.jobOffer,
+        const fullJobOfferData = {
           title: this.title,
           published_on: this.formattedDate?.toString(),
           location: this.location,
           skills: this.skills,
           technologies: this.technologies,
-          visibility: this.visibility,
           level: this.level,
           company: this.company,
           expired: this.expired,
         };
-        this.joboffrerservice.update(fullJobOfferData).subscribe(
+        this.joboffrerservice.update(this.jobOfferId, fullJobOfferData).subscribe(
           () => {
             this.toastrService.success(
-              //this.translate.instant
-              (
-                AjoutJobOfferConstants.UPDATE_SUCCESS_TOAST
-              )
-            );
+                AjoutJobOfferConstants.UPDATE_SUCCESS_TOAST);
             this.router.navigate(['/client/joboffer']);
           },
           (error: any) => {
             console.error('Error updating job offer:', error);
-            this.toastrService.error(
-              //this.translate.instant(JobOfferConstant.FAILED_LOAD_JOB_OFFER)
-            );
+            this.toastrService.error(JobOfferConstant.FAILED_LOAD_JOB_OFFER);
           }
         );
       }

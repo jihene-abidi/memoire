@@ -231,7 +231,6 @@ export class CvComponent implements OnInit {
     this.cvService.downloadCv(cvId).subscribe({
       next: (file: Blob) => {
         console.log(file);
-       // this.triggerDownload(file.source, file.name);
        this.openCvInNewTab(file);
       },
        error: (error) => {
@@ -256,6 +255,6 @@ export class CvComponent implements OnInit {
   }
 
   showUploadToast() {
-   // this.toastrService.success(this.translate.instant(CvConstants.RECRUTER_UPLOAD_CV));
+   this.toastrService.success(CvConstants.RECRUTER_UPLOAD_CV);
   }
 }

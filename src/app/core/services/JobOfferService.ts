@@ -25,8 +25,8 @@ export class JobOfferService {
     return this.jobOfferApi.insert(jobOffer);
   }
 
-  update(jobOffer: JobOffer) {
-    return this.jobOfferApi.update(jobOffer);
+  update(jobOfferId:string, jobOffer: Partial<JobOffer>) {
+    return this.jobOfferApi.update(jobOfferId,jobOffer);
   }
 
   remove(jobOfferId: string) {

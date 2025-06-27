@@ -87,7 +87,6 @@ import { DatePipe } from '@angular/common';
     }
     async refresh() {
         this.JobOfferService.findAll().then((data: JobOffer[]) => {
-          console.log(data)
           this.allOffers = data.map((offer) => {
             if (offer.user?._id== this.currentUser?._id) {
             /*  this.CandidatureService.getAllCandidatures(
@@ -164,7 +163,6 @@ import { DatePipe } from '@angular/common';
       
       showJobForCandidature(): void {
         this.cacheService.clearByPattern('/candidature');
-        console.log("get candidatures user")
        /* this.CandidatureService.getAllCandidatures(this.limite, this.pageCandidature, this.currentUser?._id)
           .pipe(
             map(candidatures => candidatures.filter(c => c.job.id)),
@@ -221,7 +219,7 @@ import { DatePipe } from '@angular/common';
             const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
             if (actionType === 'delete' && jobOfferId) {
               const targetOffer = await this.jobOfferservice.findOne(jobOfferId);
-              const isOwner = targetOffer.user?._id === currentUser._id;
+              const isOwner = targetOffer.created_by?.$oid === currentUser._id;
               if (isOwner) {
                 this.deleteItem(jobOfferId);
               } else {
@@ -232,7 +230,7 @@ import { DatePipe } from '@angular/common';
               this.router.navigate(['/client/joboffer']);
             } else if (actionType === 'update' && jobOfferId) {
               const targetOffer = await this.jobOfferservice.findOne(jobOfferId);
-              const isOwner = targetOffer.user?._id === currentUser._id;
+              const isOwner = targetOffer.created_by?.$oid === currentUser._id;
               if (isOwner) {
                 this.updateItem(jobOfferId);
               } else {
@@ -249,15 +247,14 @@ import { DatePipe } from '@angular/common';
         });
       }
       private deleteItem(jobOfferId: string) {
-        console.log('delete')
-       /* this.cacheService.clearByPattern('/offre');
+        this.cacheService.clearByPattern('/offre');
     
         this.jobOfferservice.remove(jobOfferId).subscribe({
           next: () => {
             this.refresh();
           },
           error: (err: any) => console.error('Error deleting job offer:', err),
-        });*/
+        });
       }
     
       protected updateItem(jobOfferId: string) {
