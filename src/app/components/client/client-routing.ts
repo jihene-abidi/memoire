@@ -12,8 +12,8 @@ import { ModifierCvComponent } from './cv/modifier-cv/modifier-cv.component';
 import { SupprimerJobOfferComponent } from './job-offer/supprimer-job-offer/supprimer-job-offer.component';
 import { MyCvsComponent } from './cv/my-cvs/my-cvs.component';
 import { ChatbotComeponent } from './cv/chatbot/chatbot';
-
-
+import { CandidatesPageComponent } from './job-offer/application/candidates-page.component';
+import { PhoneDialComponent } from './phone-dial/phone-dial/phone-dial.component';
 
 export const ClientRouting: Routes = [
     { path: 'client-profile', component: ClientProfileComponent },
@@ -25,9 +25,11 @@ export const ClientRouting: Routes = [
     { path: 'joboffer/ajout-job-offer', component: AjoutJobOfferComponent },
     { path: 'ajoutcv', component: AjoutCvComponent },
     { path: 'joboffer/update-job-offer', component: UpdateJobOffreComponent },
+    { path: 'joboffer/candidates/:id', component: CandidatesPageComponent },
     { path: 'modifier-cv/:id', component: ModifierCvComponent },
     { path: 'joboffer/supp-job-offer', component: SupprimerJobOfferComponent },
     { path: 'my-cvs', component: MyCvsComponent },
     { path: 'chat/:id', component: ChatbotComeponent },
+    { path: 'phone-dial', component: PhoneDialComponent },
 
   ];

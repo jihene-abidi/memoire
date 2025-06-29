@@ -158,7 +158,6 @@ getUserByToken(): Observable<UserModel> {
       Authorization: `Bearer ${token}`
     };
     const decoded = jwtDecode<JwtPayload>(token);
-    console.log(decoded);
     let userId =decoded.user_id;
   
     return this.http.get<UserModel>(`http://127.0.0.1:5000/users/${userId}`, { headers }).pipe(
@@ -199,7 +198,6 @@ getUserByToken(): Observable<UserModel> {
   signIn(email: string, password: string): Observable<string> {
     return this.http.post<any>('http://127.0.0.1:5000/sign-in', { email, password }).pipe(
       map((response) => {
-        console.log("test",response)
         if (response?.access_token) {
           // Sauvegarde le token dans le stockage local par exemple
           localStorage.setItem('access_token', response.access_token);

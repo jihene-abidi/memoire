@@ -1,0 +1,111 @@
+<div class="page-container">
+  <div class="header-section">
+    <div class="back-button">
+      <app-shared-button
+        color="CVS"
+        type="button"
+        [label]="jobOfferConstant.BACK"
+        (click)="navigateBack()"
+      >
+        <mat-icon>arrow_back</mat-icon> {{ jobOfferConstant.BACK  }}
+      </app-shared-button>
+    </div>
+
+    <div class="page-title">
+      <h1 class="responsive-title">{{jobOfferConstant.CVS_LIST }}</h1>
+    </div>
+
+    <div class="candidates-count">
+      <div class="count-badge">
+        {{ allCandidatures.length }} {{ jobOfferConstant.CANDIDATES  }}
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="container">
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner diameter="60"></mat-spinner>
+        <p>{{ jobOfferConstant.LOADING_CANDIDATES  }}</p>
+      </div>
+
+      <div *ngIf="!loading && displayedCandidatures.length === 0" class="no-candidates">
+        <img src="assets/images/Candidatbackground.jpg" alt="No Candidates" class="empty-image" />
+        <p>{{ jobOfferConstant.NO_CANDIDATES  }}</p>
+      </div>
+
+      <div *ngIf="!loading && displayedCandidatures.length > 0" class="candidates-grid">
+        <div *ngFor="let candidature of displayedCandidatures" class="card-container">
+          <div class="spinner-container" *ngIf="candidature.loading">
+            <mat-spinner diameter="40"></mat-spinner>
+          </div>
+
+          <img class="cvImage"
+               *ngIf="cv.imageSrc"
+               [src]="cv.imageSrc"
+               (load)="onImageLoad(candidature)">
+
+
+          <div class="info-overlay">
+            <div class="cv-info">
+              <div class="title-score-row">
+                <p class="cv-title">{{ cv.title }}</p>
+                <span class="score-percentage">75%</span>
+              </div>
+            </div>
+          </div>
+          <div class="icon-overlay">
+            <div class="icon-overlay-report">
+
+              <mat-icon class="icon"
+                        (click)="!candidature.generatingReport && generateReport(candidature)"
+                        [matTooltip]="jobOfferConstant.GENERATE_REPORT "
+                        [class.disabled]="candidature.report_file_id || candidature.report_s3 || candidature.generatingReport">
+                {{ candidature.generatingReport ? '' : jobOfferConstant.ASSIGNMENT_ICON }}
+                <mat-spinner *ngIf="candidature.generatingReport" diameter="20"></mat-spinner>
+              </mat-icon>
+
+              <mat-icon class="icon"
+                        *ngIf="candidature.report_s3"
+                        (click)="viewReport(candidature)"
+                        [matTooltip]="jobOfferConstant.VIEW_REPORT ">
+                description
+              </mat-icon>
+              <mat-icon class="icon" (click)="downloadCv(candidature)" [matTooltip]="jobOfferConstant.DOWNLOAD_CV ">
+                {{ jobOfferConstant.CLOUD_ICON }}
+              </mat-icon>
+
+              <mat-icon class="icon" (click)="downloadAudio(candidature)" [matTooltip]="jobOfferConstant.AUDIO_INTERVIEW ">graphic_eq</mat-icon>
+            </div>
+          </div>
+          <div  class="icon-overlay">
+            <div class="icon-overlay-statistic">
+
+              <mat-icon class="icon" (click)="openCvPreview(candidature.cv_id)" [matTooltip]="jobOfferConstant.SHOWCV ">turned_in</mat-icon>
+              <mat-icon class="icon" (click)="openImagePopup(imageURL2)" [matTooltip]="jobOfferConstant.SHOWSTATIQUE ">assignment</mat-icon>
+
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngIf="hasMoreCandidatures()" class="load-more-container">
+        <button class="load-more-button" (click)="loadMore()">
+          <span>{{ jobOfferConstant.LOAD_MORE  }}</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="popup-backdrop" *ngIf="showPopup" (click)="closePopup()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <mat-icon (click)="closePopup()" [matTooltip]="jobOfferConstant.CLOSE_ICON ">close</mat-icon>
+    <mat-icon class="download-icon" (click)="downloadImage()" [matTooltip]="jobOfferConstant.DOWNLOAD_REPORT ">download</mat-icon>
+    <img [src]="currentImageUrl" alt="Aperçu du rapport" />
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>{{ jobOfferConstant.CV_MANAGEMENT_TITLE  }}</h2>
+
+<mat-dialog-content>
+  <div class="current-cv-section">
+    <div class="cv-card current-cv">
+      <div class="cv-info">
+        <mat-icon>description</mat-icon>
+        <span class="cv-title">{{ data.currentCvTitle }}</span>
+        <span class="cv-badge">{{ jobOfferConstant.CURRENT_LABEL  }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="available-cvs-section" *ngIf="availableCvs.length > 0">
+    <h3>{{ jobOfferConstant.AVAILABLE_CVS  }}</h3>
+    <div class="cvs-list">
+      <div
+        *ngFor="let cv of availableCvs"
+        class="cv-card selectable-cv"
+        [class.selected]="selectedCvId === cv._id"
+        (click)="selectCv(cv._id!)">
+        <div class="cv-info">
+          <mat-icon>description</mat-icon>
+          <span class="cv-title">{{ cv.title }}</span>
+        </div>
+        <mat-radio-button
+          [value]="cv._id"
+          [checked]="selectedCvId === cv._id"
+          (change)="selectCv(cv._id!)">
+        </mat-radio-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-cvs-message" *ngIf="availableCvs.length === 0 && !isLoading">
+    <mat-icon>info</mat-icon>
+    <p>{{ jobOfferConstant.NO_OTHER_CVS  }}</p>
+  </div>
+
+  <div class="loading-section" *ngIf="isLoading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>{{ jobOfferConstant.LOADING_CVS  }}</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    (click)="closeDialog()"
+    [disabled]="isUpdatingCv">
+    {{ jobOfferConstant.CANCEL  }}
+  </button>
+
+  <button
+    mat-raised-button
+    [disabled]="!selectedCvId || isUpdatingCv"
+    (click)="confirmCvUpdate()">
+    <mat-icon *ngIf="isUpdatingCv">hourglass_empty</mat-icon>
+    {{ isUpdatingCv ? (jobOfferConstant.UPDATING ) : (jobOfferConstant.CHANGE_CV ) }}
+  </button>
+</mat-dialog-actions>

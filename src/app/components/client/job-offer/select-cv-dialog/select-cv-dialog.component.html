@@ -1,0 +1,43 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2>{{ jobOfferConstant.DIALOG_TITLE  }}</h2>
+
+    <button mat-icon-button class="close-button" (click)="dialogRef.close()">
+      <mat-icon>{{ jobOfferConstant.CLOSE_ICON }}</mat-icon>
+    </button>
+  </div >
+
+  <div class="cv-grid">
+    <app-my-cvs
+      [displayedCvs]="data.cvs"
+      [hideAddCvButton]="hideAddCvButton"
+      (cvClicked)="selectedCv = $event"
+      [selectedCv]="selectedCv"
+    >
+      <div class="selection-indicator">
+      <mat-icon *ngIf="selectedCv">
+        {{ jobOfferConstant.CHECK_ICON }}
+      </mat-icon>
+      </div>
+    </app-my-cvs>
+  </div>
+
+
+  <div class="confirmation-message" >
+    <p><i>{{ jobOfferConstant.POPUP_IDENTIFIER_MESSAGE }}</i></p>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-stroked-button (click)="dialogRef.close()" class="cancel-button">
+      {{ jobOfferConstant.CANCEL_BUTTON }}
+    </button>
+    <button mat-raised-button
+    color="primary"
+    (click)="onSelect()"
+    [disabled]="!selectedCv"
+    class="submit-button">
+{{ jobOfferConstant.SUBMIT_BUTTON }}
+
+</button>
+  </div>
+</div>

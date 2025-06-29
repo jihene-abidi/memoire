@@ -230,7 +230,6 @@ export class CvComponent implements OnInit {
   downloadCv(cvId: string) {
     this.cvService.downloadCv(cvId).subscribe({
       next: (file: Blob) => {
-        console.log(file);
        this.openCvInNewTab(file);
       },
        error: (error) => {

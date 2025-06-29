@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>{{ jobOfferConstant.CONF_TITLE }}</h2>
+<mat-dialog-content>
+  <p>{{ jobOfferConstant.HEADER_TITLE }}</p>
+  <p>{{ jobOfferConstant.INTERVIEW_MESSAGE }}</p>
+
+  <div class="info-line phone-info-line">
+    <mat-icon>phone</mat-icon>
+    <span class="info-text">{{ jobOfferConstant.PHONE_INSTR }}</span>
+    <span class="code-box"><strong>{{ jobOfferConstant.PHONE_NUMBER }}</strong></span>
+  </div>
+
+  <div class="info-line">
+    <span class="info-text">
+      <mat-icon>lock</mat-icon>
+      {{ jobOfferConstant.IDENTIFIER_INSTRUCTION }}
+    </span>
+    <span class="code-box"><strong>{{ data.identifier }}</strong></span>
+  </div>
+
+  <p><i>{{ jobOfferConstant.DO_NOT_LOSE_IDENTIFIER  }}</i></p>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+  <button mat-button (click)="closeDialog()">
+    {{ jobOfferConstant.VALIDATE_BUTTON  }}
+  </button>
+  <button mat-button (click)="phoneDial()">
+    {{ jobOfferConstant.PHONE_DIAL}}
+  </button>
+</mat-dialog-actions>

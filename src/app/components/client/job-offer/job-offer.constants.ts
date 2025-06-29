@@ -76,6 +76,10 @@ export const JobOfferConstant = {
   HEADER_TITLE: "Bonjour, merci d'avoir postulé pour cet emploi.",
   VISIBILITY: "Filtrer par visibilité :",
   DOWNLOAD_BUTTON: "Télécharger",
+    BUTTON_TEXTSMS: 'textsms BUTTON',
+  BUTTON_PHONE: 'phone button',
+  BUTTON_MIC: 'mic button',
+
   FAILED_LOAD_JOB_OFFER: "Échec du chargement des détails de l'offre.",
   PHONE_DIAL: "Appel téléphonique",
   CVS_LIST: "Liste des CVS",
@@ -109,6 +113,9 @@ export const JobOfferConstant = {
   DELETE_ICON: 'delete',
   CLOSE_ICON: 'close',
   DESC_ICON: 'description',
+  ASSIGNMENT_ICON : 'assignment_turned_in',
+  CLOUD_ICON: 'cloud_upload',
+
 
   CHECK_ICON: 'check_circle',
   PHONE_NUMBER:'+1831 9992537',

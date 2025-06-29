@@ -10,11 +10,14 @@ export class CandidatureService {
   constructor(private candidatureApi: CandidatureApi) {}
 
 
-  getAllCandidatures(limit: number, page: number, userId?: string, jobId?: string): Observable<Candidature[]> {
-    return this.candidatureApi.findAll(limit, page, userId, jobId);
+  getAllCandidatures(userId?: string): Observable<Candidature[]> {
+    return this.candidatureApi.findAll( userId);
+  }
+  getAllCandidaturesByOffer( jobId?: string): Observable<Candidature[]> {
+    return this.candidatureApi.findAllByOffer(jobId);
   }
 
-  applyToJob(candidature: Candidature): Observable<any> {
+  applyToJob(candidature: any): Observable<any> {
     return this.candidatureApi.insert(candidature);
   }
 

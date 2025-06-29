@@ -7,23 +7,17 @@ import { Candidature } from "../models/candidature";
   providedIn: "root",
 })
 export class CandidatureApi {
-  private candidatureUrl = "/candidature";
+  private candidatureUrl = "http://127.0.0.1:5000/applications";
 
   constructor(private http: HttpClient) {}
 
 
-  findAll(limit: number, page: number , userId?: string,jobId?:string): Observable<Candidature[]> {
-    let params = new HttpParams()
-      .set("limit", limit)
-      .set("page", page);
-    // Add userId parameter if provided
-    if (userId) {
-      params = params.set("userId", userId);
-    }
-    if (jobId) {
-      params = params.set("jobId", jobId);
-    }
-    return this.http.get<Candidature[]>(this.candidatureUrl, { params });
+  findAll( userId?: string): Observable<Candidature[]> {
+    return this.http.get<Candidature[]>(`${this.candidatureUrl}/${userId}`);
+  }
+
+  findAllByOffer(jobId?:string): Observable<Candidature[]> {
+    return this.http.get<Candidature[]>(`${this.candidatureUrl}/job/${jobId}`);
   }
 
 
@@ -32,8 +26,8 @@ export class CandidatureApi {
   }
 
 
-  insert(candidature: Candidature): Observable<Candidature> {
-    return this.http.post<Candidature>(this.candidatureUrl, candidature);
+  insert(candidature: any): Observable<Candidature> {
+    return this.http.post<Candidature>(`http://127.0.0.1:5000/apply`, candidature);
   }
 
   remove(id: string): Observable<void> {

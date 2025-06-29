@@ -13,8 +13,8 @@ import { JobOffer } from '../../../core/models/jobOffer';
 import { SharedButtonComponent } from '../../../shared/shared-button/shared-button.component';
 import { DialogService } from '../../../core/services/openDialog.service';
 // import { PaginationComponent } from '../../../shared/pagination/pagination.component';
-// import { ConfirmationDialogComponent } from './confirm-dialog-offre/confirmation-dialog.component';
-// import { SelectCvDialogComponent } from './select-cv-dialog/select-cv-dialog.component';
+import { ConfirmationDialogComponent } from './confirm-dialog-offre/confirmation-dialog.component';
+import { SelectCvDialogComponent } from './select-cv-dialog/select-cv-dialog.component';
  import { Candidature } from '../../../core/models/candidature';
 import { CandidatureService } from '../../../core/services/candidature.service';
 import { Cv } from '../../../core/models/cv';
@@ -32,6 +32,8 @@ import { Router } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { log } from 'console';
 import { DatePipe } from '@angular/common';
+import {map} from "rxjs/operators";
+import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
 
 @Component({
     selector: 'app-job-offer',
@@ -72,7 +74,7 @@ import { DatePipe } from '@angular/common';
     selectedFilter: string = 'all';
     currentCvs!: Cv[];
     currentUser: UserModel | null = null; 
-    userCandidatures: Candidature[] = [];
+    userCandidatures: any[] = [];
     visibility!: string;
    // cvConstants = CvConstants;
     limite: number=100;
@@ -88,19 +90,11 @@ import { DatePipe } from '@angular/common';
     async refresh() {
         this.JobOfferService.findAll().then((data: JobOffer[]) => {
           this.allOffers = data.map((offer) => {
-            if (offer.user?._id== this.currentUser?._id) {
-            /*  this.CandidatureService.getAllCandidatures(
-                this.limite,
-                this.pages
-                ,offer._id
-              ).subscribe(
-                (candidatures: Candidature[]) => {
-                  this.userCandidatures = candidatures;
+               this.CandidatureService.getAllCandidaturesByOffer(offer._id).subscribe(
+                (candidatures: any[]) => {
+                  this.userCandidatures.push(...candidatures);
                 },
-              );*/
-            }else{
-              console.warn(this.jobOfferConstant.NO_CANDIDATES)
-            }
+              );
     
             const origin = this.getOrigin(offer.link);
             const offerDate = offer.published_on || '';
@@ -156,25 +150,73 @@ import { DatePipe } from '@angular/common';
           this.Offers = this.allOffers;
         } else {
           this.Offers = this.allOffers.filter(
-            (offer) => offer.visibility === this.selectedFilter
+            (offer) => offer.created_by.$oid === this.currentUser?._id
           );
         }
       }
-      
+       private transformOffer(offer: any): any {
+    const sanitizedDetails = offer.details
+      ? offer.details.replace(/```/g, '').trim()
+      : '';
+    let details: any = {};
+    try {
+      details = JSON.parse(sanitizedDetails);
+    } catch (error) {}
+
+    const origin = this.getOrigin(offer.link);
+    const offerDate = details.offerDate || offer.published_on || offer.createdAt || '';
+    const offerDateFormatted = this.datePipe.transform(offerDate, 'yyyy-MM-dd')!;
+    const location = details.jobAdress || offer.location || '';
+    const description = offer.job_description || '';
+    const skills = offer.skills
+      ? typeof offer.skills === 'string'
+        ? offer.skills.split(',')
+        : Array.isArray(offer.skills)
+          ? offer.skills
+          : []
+      : offer.skills || [];
+    const technologies = offer.technologies
+      ? typeof offer.technologies === 'string'
+        ? offer.technologies.split(',')
+        : Array.isArray(offer.technologies)
+          ? offer.technologies
+          : []
+      : offer.technologies || [];
+    const visibility = offer.visibility || 'public';
+    const level = details.level || offer.level || '';
+    const company = details.companyName || offer.company || '';
+    const expired = details.offerDate || offer.expired || '';
+
+    return {
+      ...offer,
+      location,
+      skills,
+      technologies,
+      origin: origin?.name,
+      logo: origin?.logo || 'assets/joboffericons/default.png',
+      offerDate,
+      offerDateFormatted,
+      visibility,
+      company,
+      expired,
+      description
+    };
+  }
+
       showJobForCandidature(): void {
         this.cacheService.clearByPattern('/candidature');
-       /* this.CandidatureService.getAllCandidatures(this.limite, this.pageCandidature, this.currentUser?._id)
+      this.CandidatureService.getAllCandidatures(this.currentUser?._id)
           .pipe(
-            map(candidatures => candidatures.filter(c => c.job.id)),
+            map(candidatures => candidatures.filter(c => c.job_id)),
 
             switchMap(candidatures => {
               if (candidatures.length === 0) {
-                this.hasMoreData = false;
-                this.isLoadingMore = false;
+             //   this.hasMoreData = false;
+              //  this.isLoadingMore = false;
                 return of([]);
               }
 
-              const jobIds = candidatures.map(c => c.job.id);
+              const jobIds = candidatures.map(c => c.job_id);
               return forkJoin(
                 jobIds
                   .filter((id): id is string => !!id)
@@ -190,9 +232,9 @@ import { DatePipe } from '@angular/common';
           .subscribe(newOffers => {
             this.allOffers = [...newOffers];
             this.Offers = this.allOffers;
-            this.applySearchFilter();
-            this.isLoadingMore = false;
-          });*/
+          //  this.applySearchFilter();
+           // this.isLoadingMore = false;
+          });
       }
 
       getOrigin(link: string | undefined) {
@@ -273,51 +315,50 @@ import { DatePipe } from '@angular/common';
         if (!this.userCandidatures || !jobId) {
           return false;
         }
-    
         return this.userCandidatures.some(
-          (candidature) => candidature.job && candidature.job._id === jobId
+          (candidature) => candidature.job_id === jobId
         );
       }
     
       applyToJob(offer: JobOffer & { _id?: string }) {
         if (this.hasAppliedToJob(offer._id)) {
-         /* this.dialog.open(ConfirmationDialogComponent, {
+          this.dialog.open(ConfirmationDialogComponent, {
             width: '400px',
             data: {
-              message: this.translate.instant(this.jobOfferConstant.ALREADY_APPLIED) ,
+              message: this.jobOfferConstant.ALREADY_APPLIED ,
               isError: true,
             },
-          });*/
+          });
           return;
         }
-    /*
+ 
+        
         const dialogRef = this.dialog.open(SelectCvDialogComponent, {
           width: '1400px',
           data: { cvs: this.currentCvs },
-        });*/
-    /*
-        dialogRef.afterClosed().subscribe((selectedCv: Cv) => {
-          if (selectedCv) {
-            const candidature: Candidature = {
-              cv: selectedCv,
-              job: offer,
-              user: this.currentUser,
-            };
+        });
     
-            this.CandidatureService.applyToJob(candidature).subscribe(
+        dialogRef.afterClosed().subscribe((selectedCv) => {
+          if (selectedCv) {
+            const candidature = {
+              cv_id: selectedCv.selectedCv._id,
+              job_id: offer._id,
+              candidate_id: this.currentUser!._id,
+            };
+          this.CandidatureService.applyToJob(candidature).subscribe(
               (response) => {
                 this.userCandidatures.push(response.candidature);
                 this.dialog.open(ConfirmationDialogComponent, {
                   width: '400px',
                   data: {
-                    identifier: response.candidature.identifier,
+                    identifier: response.candidature.application_code,
                   },
                 });
               },
               (error) => console.error(ErrorConstant.ERROR_SEND, error)
             );
           }
-        });*/
+        });
       }
     
     
@@ -330,42 +371,9 @@ import { DatePipe } from '@angular/common';
     
         this.router.navigate(['/client/joboffer/candidates', offer._id]);
       }
-    
-      getPdfThumbnail(pdfUrl: string, cv: Cv): void {
-        /*
-        if (!pdfUrl) {
-          console.error(this.translate.instant(this.cvConstants.ERROR_INVALID_PDFURL));
-          return;
-        }
-    
-        const loadingTask = pdfjsLib.getDocument(pdfUrl);
-        loadingTask.promise
-          .then((pdf) => pdf.getPage(1))
-          .then((page) => {
-            const scale = 2;
-            const viewport = page.getViewport({ scale });
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            if (!context) {
-              console.error(this.translate.instant(this.cvConstants.ERROR_FAILED_CANVAS));
-              return;
-            }
-    
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-    
-            return page
-              .render({ canvasContext: context, viewport })
-              .promise.then(() => {
-                cv.imageSrc = canvas.toDataURL();
-              });
-          })
-          .catch((error) => {
-            console.error(this.translate.instant(this.cvConstants.ERROR_INVALID_FORMAT), error);
-          });*/
-      }
+  
       showApplicationDetails(offer: JobOffer & { _id?: string }) {
-      /*  if (!offer._id) return;
+      if (!offer._id) return;
     
         const candidature = this.getCandidatureInfo(offer._id);
     
@@ -373,11 +381,11 @@ import { DatePipe } from '@angular/common';
           this.dialog.open(ConfirmationDialogComponent, {
             width: '400px',
             data: {
-              identifier: candidature.identifier,
+              identifier: candidature.application_code,
               isDetails: true,
             },
           });
-        }*/
+        }
       }
     
       getCandidatureInfo(jobId: string): Candidature | undefined {
@@ -386,7 +394,7 @@ import { DatePipe } from '@angular/common';
         }
     
         return this.userCandidatures.find(
-          (candidature) => candidature.job && candidature.job._id === jobId
+          (candidature) => candidature.job_id === jobId
         );
       }
     

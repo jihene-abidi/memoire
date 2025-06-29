@@ -1,0 +1,89 @@
+.dialog-container {
+  h2 {
+    text-align: center;
+    margin: 15px;
+  }
+  .options-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .interview-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover .icon-circle {
+      transform: scale(1.1);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    .icon-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #2196F3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+
+      mat-icon {
+        color: white;
+        font-size: 24px;
+        transform: scale(1);
+      }
+    }
+
+    span {
+      margin-top: 10px;
+      text-align: center;
+      transition: color 0.3s ease;
+    }
+
+    &.selected {
+      .icon-circle {
+        background-color: #1976D2;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: -4px;
+          left: -4px;
+          right: -4px;
+          bottom: -4px;
+          border: 2px solid #1976D2;
+          border-radius: 50%;
+          opacity: 0.5;
+          animation: pulse 1.5s infinite;
+        }
+      }
+
+      span {
+        color: #1976D2;
+        font-weight: 600;
+      }
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+  }
+}

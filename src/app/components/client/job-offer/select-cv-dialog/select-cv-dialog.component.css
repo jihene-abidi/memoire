@@ -1,0 +1,323 @@
+.dialog-container {
+    padding: 30px;
+    max-width: 1400px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    transition: background 0.3s ease;
+  }
+
+  .dialog-header:hover {
+    background: linear-gradient(135deg, #f8fbff, #eaf0f9);
+  }
+
+  .dialog-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 12px;
+    right: 12px;
+    height: 2px;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    border-radius: 2px;
+    opacity: 0.8;
+  }
+
+  .dialog-header h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2d3d;
+    letter-spacing: -0.5px;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+  }
+
+
+  .close-button {
+    color: #666;
+  }
+
+  .close-button:hover {
+    color: #1a1a1a;
+    transform: rotate(90deg);
+  }
+
+  .cv-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 24px 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+
+  .cv-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cv-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1976d2, #64b5f6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .cv-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    border-color: rgba(25, 118, 210, 0.3);
+  }
+
+  .cv-card:hover::before {
+    opacity: 1;
+  }
+
+  .cv-card.selected {
+    border: 2px solid #1976d2;
+    background: linear-gradient(145deg, #ffffff, #e3f2fd);
+    transform: scale(1.02);
+  }
+
+  .cv-card.selected::before {
+    opacity: 1;
+  }
+
+  .cv-card-content {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .cv-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .cv-card:hover .cv-icon {
+    transform: rotate(-5deg);
+  }
+
+  .cv-icon mat-icon {
+    font-size: 24px;
+    color: #1976d2;
+  }
+
+  .cv-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cv-details h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cv-date {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .selection-indicator {
+    color: #1976d2;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+  }
+
+  .cv-card.selected .selection-indicator {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    position: relative;
+  }
+
+  .dialog-actions::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -24px;
+    right: -24px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+  }
+
+  .cancel-button,
+  .submit-button {
+    min-width: 100px;
+    transition: all 0.3s ease;
+  }
+.confirmation-message {
+  margin: 16px 0;
+  padding: 12px 20px;
+  background-color: #e8f4ff; /* bleu clair */
+  border-left: 4px solid #2196f3; /* bleu vif */
+  border-radius: 8px;
+  font-style: italic;
+  color: #333;
+  font-size: 14px;
+}
+  .cancel-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .submit-button:not([disabled]):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  }
+
+@media (max-width: 200px) {
+  .dialog-container {
+    width: 100vw;
+    max-width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .dialog-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .dialog-header h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .cv-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 16px 0;
+    padding: 0 8px;
+    gap: 16px;
+    max-height: 60vh;
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .cv-card,
+  ::ng-deep app-my-cvs .card-container {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .dialog-actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .dialog-actions button {
+    width: 100%;
+  }
+
+  .confirmation-message {
+    text-align: center;
+    font-size: 13px;
+  }
+}
+
+
+  .cv-grid::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .cv-grid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 3px;
+  }
+
+  .cv-grid::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+  }
+
+  .cv-grid::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+  .cv-card {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+  ::ng-deep app-my-cvs  .card-container.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #3f51b5;
+  color: #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}

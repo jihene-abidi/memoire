@@ -9,7 +9,9 @@ export class Candidature{
     public user: UserModel;
     public cv: Cv;
     public job: JobOffer;
+    public job_id?: string;
     public identifier?: string;
+    application_code?:string;
     public notes?: string;
     public status?: string;
     public appliedAt?: Date;

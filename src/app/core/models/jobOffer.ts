@@ -14,6 +14,7 @@ export class JobOffer {
   public published_on?: string;
   public expired?: string;
   public visibility?: string;
+  public created_by?:any;
   public user: UserModel | undefined;
   public like: number | undefined;
   public dislike: number | undefined;

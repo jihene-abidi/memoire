@@ -79,7 +79,7 @@
           </div>
   
           <div class="job-metadata">
-            <div class="header-buttons" *ngIf="currentUser?.role !== 'candidat'">
+            <div class="header-buttons" *ngIf="currentUser?.role !== 'candidat' && currentUser!._id==offer.created_by.$oid">
               <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More options">
                 <mat-icon>{{jobOfferConstant.DROP_ICON }}</mat-icon>
               </button>
@@ -127,20 +127,9 @@
                   type="button"
                   [label]="jobOfferConstant.CANDIDATES_LABEL "
                   (click)="openSelectDialog(offer)"
-                  *ngIf="currentUser?.role !== 'candidat'"
+                  *ngIf="currentUser?.role !== 'candidat' && currentUser!._id==offer.created_by.$oid"
                 > 
                  </app-shared-button>
-  <!--
-                <app-shared-button
-                  color="primary"
-                  type="button"
-                  [label]="jobOfferConstant.CANDIDATES_LABEL "
-                  (click)="openSelectDialog(offer)"
-                  *ngIf="currentUser!._id==offer.user._id"
-                > 
-                
-              </app-shared-button>
-  -->
                 <app-shared-button 
                   *ngIf="!hasAppliedToJob(offer._id) && currentUser?.role == 'candidat'"
                   color="CVS"

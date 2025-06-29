@@ -1,0 +1,67 @@
+<div class="dialog-header">
+  <button mat-icon-button (click)="generatePDF()" aria-label="Download PDF">
+    <mat-icon class="download-icon">download</mat-icon>
+  </button>
+
+  <button mat-icon-button (click)="closeDialog()" aria-label="Close">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div class="container">
+<div class="cv-container" id="cv-pdf">
+
+  <div class="header">
+    <h1>{{ name }}</h1>
+    <p>{{ phone }} | {{ email }}</p>
+  </div>
+
+  <div class="content">
+    <!-- Colonne de gauche -->
+    <div class="left">
+      <div class="tags">
+        {{ hashtags.join(' ') }}
+      </div>
+
+      <div class="section snapshot">
+        <h2>SNAPSHOT</h2>
+        <p>{{ snapshot }}</p>
+      </div>
+
+      <div class="section">
+        <h2>LANGUES</h2>
+        <p>{{ languages.join(', ') }}</p>
+      </div>
+    </div>
+
+    <!-- Colonne de droite -->
+    <div class="right">
+      <div class="section">
+        <h2>ATOUTS PRINCIPAUX</h2>
+        <ul>
+          <li *ngFor="let atout of atouts">{{ atout }}</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>FORMATION & CERTIFICATIONS</h2>
+        <ul>
+          <li *ngFor="let cert of certifications">{{ cert }}</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>EDUCATION</h2>
+        <ul>
+          <li *ngFor="let educ of education">
+            <strong>{{ educ.degree }}</strong> - {{ educ.institution }} ({{ educ.year }})
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+
+</div>
+</div>

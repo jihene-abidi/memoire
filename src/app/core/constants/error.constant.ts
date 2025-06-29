@@ -15,9 +15,12 @@ export const ErrorConstant = {
     CANDIDATE_ERROR:'coreConstant.ErrorConstant.CANDIDATE_ERROR',
     FAILED_JOB_LOAD:'coreConstant.ErrorConstant.FAILED_JOB_LOAD',
     INTERVIEW_FAILED:'coreConstant.ErrorConstant.INTERVIEW_FAILED',
-    CANDIDATE_NOT_PASSED_YET:'coreConstant.ErrorConstant.CANDIDATE_NOT_PASSED_YET'
-  }
+    CANDIDATE_NOT_PASSED_YET:'coreConstant.ErrorConstant.CANDIDATE_NOT_PASSED_YET',
+     REPORT_DOWNLOAD_FAILED: 'coreConstant.ErrorConstant.REPORT_DOWNLOAD_FAILED',
+  REPORT_GENERATION_FAILED: 'coreConstant.ErrorConstant.REPORT_GENERATION_FAILED',
+  REPORT_LINK_NOT_FOUND: 'coreConstant.ErrorConstant.REPORT_LINK_NOT_FOUND'
 
+  }
 
 
 

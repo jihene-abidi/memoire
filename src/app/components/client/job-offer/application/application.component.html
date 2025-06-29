@@ -1,0 +1,44 @@
+
+<div style="overflow: hidden;">
+  <h2 class="responsive-title">{{jobOfferConstant.CVS_LIST | translate}}</h2>
+
+<div class="container">
+ 
+    <div *ngFor="let candidature of candidatures" class="card-container">
+
+      <div class="spinner-container" *ngIf="candidature.loading">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+
+      <img class="cvImage"
+      *ngIf="candidature.cv.imageSrc"
+      [src]="candidature.cv.imageSrc"
+      (load)="onImageLoad(candidature)">
+
+    <div  class="info-overlay">
+      <p style="margin: 0; font-size: 1rem">{{ candidature.cv.title }}</p>
+    </div>
+    <div class="icon-overlay">
+        <mat-icon class="icon" (click)="downloadReport(candidature)" >description</mat-icon> 
+
+      <mat-icon class="icon" (click)="downloadCv(candidature)">
+        cloud_upload
+      </mat-icon>
+
+      <mat-icon class="icon"  >graphic_eq</mat-icon>
+
+    </div>
+  </div>
+</div>
+
+<div class="button-container">
+  <app-shared-button
+  color="CVS"
+  type="button"
+  label="close"
+  (click)="closeDialog()"
+  >
+  {{ jobOfferConstant.CLOSE_ICON | translate }}
+  </app-shared-button>
+  </div>
+</div>

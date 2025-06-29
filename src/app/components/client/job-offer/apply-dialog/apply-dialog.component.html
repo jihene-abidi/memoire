@@ -1,0 +1,42 @@
+<div class="dialog-container">
+    <h2 mat-dialog-title>{{ jobOfferConstant.APPLY_DIALOG_TITLE  }}</h2>
+
+    <mat-dialog-content>
+        <p class="dialog-subtitle">{{ jobOfferConstant.SELECT_INTERVIEW_TYPE }}</p>
+
+        <div class="options-container">
+            <div
+                    class="interview-option"
+                    [class.selected]="selectedOption === 'call'"
+                    (click)="selectOption('call')">
+                <div class="icon-circle">
+                    <mat-icon>{{jobOfferConstant.BUTTON_PHONE }}</mat-icon>
+                </div>
+                <span>{{ jobOfferConstant.CALL_OPTION  }}</span>
+            </div>
+
+            <div
+                    class="interview-option"
+                    [class.selected]="selectedOption === 'text'"
+                    (click)="selectOption('text')">
+                <div class="icon-circle">
+                    <mat-icon>{{jobOfferConstant.BUTTON_TEXTSMS }}</mat-icon>
+                </div>
+                <span>{{ jobOfferConstant.TEXT_OPTION }}</span>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button (click)="closeDialog()">
+            {{ jobOfferConstant.CANCEL_BUTTON }}
+        </button>
+        <button
+                mat-raised-button
+                color="primary"
+                (click)="proceed()"
+                [disabled]="!selectedOption">
+            {{ jobOfferConstant.PROCEED_BUTTON }}
+        </button>
+    </mat-dialog-actions>
+</div>
