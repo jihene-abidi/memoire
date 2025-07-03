@@ -348,7 +348,6 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
             this.CandidatureService.applyToJob(candidature).subscribe(
               async (response) => {
                 this.userCandidatures.push(response.candidature);
-                console.log(response.candidature._id)
                 if (result.interviewType === 'text') {
                   await this.router.navigate(['/client/text-chat',response.candidature._id]);
                 } else if (result.interviewType === 'call') {

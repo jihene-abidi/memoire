@@ -71,19 +71,5 @@ export class UserService {
    getCurrentUser(): UserModel | null {
     return this.currentUserSubject.value;
   }
-   
-
-  /*******************************Mes changements************************************/
-  /*loadUserFromToken(): void {
-    this.AuthService.getUserByToken().subscribe({
-      next: (user: UserModel) => {
-        this.setCurrentUser(user); // 🔹 stocke dans le localStorage
-        console.log('Utilisateur connecté récupéré :', user);
-      },
-      error: (err) => {
-        console.error('Erreur lors de la récupération de l’utilisateur :', err);
-      }
-    });
-}*/
 
 }

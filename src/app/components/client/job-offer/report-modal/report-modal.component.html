@@ -1,42 +1,42 @@
-<div class="report-modal-container">
-  <div class="report-modal-header">
-    <h2>{{ JobOfferConstant.EVALUATION_REPORT | translate }}</h2>
-    <div class="report-modal-actions">
-      <button
-        class="download-button"
-        (click)="downloadReport()"
-        [disabled]="loading || !reportUrl"
-      >
-        <mat-icon>{{ ReportModalConstants.CLOUD_DOWNLOAD }}</mat-icon>
-      </button>
-      <mat-icon class="close-icon" (click)="closeModal()">close</mat-icon>
-    </div>
-  </div>
+<div class="dialog-container">
+    <h2 mat-dialog-title>{{ jobOfferConstant.APPLY_DIALOG_TITLE  }}</h2>
 
-  <div class="report-modal-content">
-    <div *ngIf="loading" class="loading-container">
-      <mat-spinner diameter="40"></mat-spinner>
-      <p>{{ JobOfferConstant.LOADING_REPORT | translate }}</p>
-    </div>
+    <mat-dialog-content>
+        <p class="dialog-subtitle">{{ jobOfferConstant.SELECT_INTERVIEW_TYPE }}</p>
 
-    <div *ngIf="!loading && pdfPages.length === 0 && !reportImage" class="no-report-container">
-      <mat-icon class="empty-icon">description_off</mat-icon>
-      <p>{{ JobOfferConstant.NO_REPORT_AVAILABLE | translate }}</p>
-    </div>
+        <div class="options-container">
+            <div
+                    class="interview-option"
+                    [class.selected]="selectedOption === 'call'"
+                    (click)="selectOption('call')">
+                <div class="icon-circle">
+                    <mat-icon>{{jobOfferConstant.BUTTON_PHONE }}</mat-icon>
+                </div>
+                <span>{{ jobOfferConstant.CALL_OPTION  }}</span>
+            </div>
 
-    <div *ngIf="!loading && pdfPages.length > 0" class="pdf-multi-page-viewer">
-      <canvas
-        #pdfCanvas
-        *ngFor="let page of pdfPages"
-        class="pdf-page-canvas"
-      ></canvas>
-    </div>
+            <div
+                    class="interview-option"
+                    [class.selected]="selectedOption === 'text'"
+                    (click)="selectOption('text')">
+                <div class="icon-circle">
+                    <mat-icon>{{jobOfferConstant.BUTTON_TEXTSMS }}</mat-icon>
+                </div>
+                <span>{{ jobOfferConstant.TEXT_OPTION }}</span>
+            </div>
+        </div>
+    </mat-dialog-content>
 
-    <img
-      *ngIf="!loading && reportImage"
-      [src]="reportImage"
-      alt="Report Image"
-      class="report-image-viewer"
-    />
-  </div>
+    <mat-dialog-actions align="end">
+        <button mat-button (click)="closeDialog()">
+            {{ jobOfferConstant.CANCEL_BUTTON }}
+        </button>
+        <button
+                mat-raised-button
+                color="primary"
+                (click)="proceed()"
+                [disabled]="!selectedOption">
+            {{ jobOfferConstant.PROCEED_BUTTON }}
+        </button>
+    </mat-dialog-actions>
 </div>

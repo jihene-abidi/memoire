@@ -11,12 +11,13 @@ export class Candidature{
     public job: JobOffer;
     public job_id?: string;
     public identifier?: string;
-    application_code?:string;
+    public application_code?:string;
     public notes?: string;
     public status?: string;
     public appliedAt?: Date;
     public cv_id?:string
     public report_s3?:string;
+    public report_path?: string;
   constructor() {
       this.user = new UserModel();
       this.cv = new Cv();

@@ -7,9 +7,9 @@ import {
   QueryList,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+
 import { ToastrService } from 'ngx-toastr';
-import { FileService } from '../../../../core/services/file.service';
+import { CandidatureService } from '../../../../core/services/candidature.service';
 import { ReportModalConstants } from './report-modal.constants';
 import { JobOfferConstant } from '../job-offer.constants';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -43,7 +43,6 @@ export interface ReportModalData {
     MatIconButton,
     NgIf,
     NgForOf,
-    TranslatePipe,
   ],
   styleUrls: ['./report-modal.component.scss'],
 })
@@ -60,9 +59,8 @@ export class ReportModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ReportModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ReportModalData,
-    private fileService: FileService,
+    private candidatureService: CandidatureService,
     private toastrService: ToastrService,
-    private translate: TranslateService,
     private sanitizer: DomSanitizer
   ) {
     this.candidatureId = data.candidatureId;
@@ -71,7 +69,7 @@ export class ReportModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.reportUrl) {
+    if (this.candidatureId) {
       this.loadReport();
     }
   }
@@ -80,19 +78,18 @@ export class ReportModalComponent implements OnInit {
     this.loading = true;
     this.cleanUpUrls();
 
-   /* this.fileService.awsFile(this.reportUrl!).subscribe({
+   this.candidatureService.getReportpath(this.candidatureId!).subscribe({
       next: (file) => {
         if (!file) {
           this.handleReportError(new Error('File not found'));
           return;
         }
-
         this.fetchAndProcessFile(file);
       },
       error: (err) => {
         this.handleReportError(err);
       }
-    });*/
+    });
   }
 
   private fetchAndProcessFile(file: { source: string, name?: string }): void {

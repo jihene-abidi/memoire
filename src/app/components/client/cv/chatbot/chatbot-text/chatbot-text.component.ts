@@ -63,8 +63,6 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
     this.currentUser = this.UserService.getCurrentUser()!;
     this.route.paramMap.subscribe(params => {
       this.candidature_id = params.get("id") ?? '';
-      console.log(this.candidature_id)
-
       if (this.candidature_id) {
        this.newChat();
       }
@@ -110,7 +108,6 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
 
     try {
       const response: any = await this.cvIntercationService.startConversation(this.candidature_id);
-      console.log(response)
       this.currentChat.push(response.question || 'No answer received');
     } catch (error) {
       console.error("Chat error:", error);

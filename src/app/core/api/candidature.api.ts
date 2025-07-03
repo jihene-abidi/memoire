@@ -21,7 +21,7 @@ export class CandidatureApi {
   }
 
 
-  findOne(id: string): Observable<Candidature> {
+  findOne(id: string): Observable<any> {
     return this.http.get<Candidature>(`${this.candidatureUrl}/${id}`);
   }
 
@@ -32,5 +32,8 @@ export class CandidatureApi {
 
   remove(id: string): Observable<void> {
     return this.http.delete<void>(`${this.candidatureUrl}/${id}`);
+  }
+  getReportPath(id: string): Observable<any> {
+    return this.http.get<any>(`http://127.0.0.1:5000/report-path/${id}`);
   }
 }

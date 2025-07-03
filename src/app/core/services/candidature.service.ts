@@ -21,7 +21,7 @@ export class CandidatureService {
     return this.candidatureApi.insert(candidature);
   }
 
-  getCandidatureById(id: string): Observable<Candidature> {
+  getCandidatureById(id: string): Observable<any> {
     return this.candidatureApi.findOne(id);
   }
 
@@ -31,5 +31,8 @@ export class CandidatureService {
 
   deleteCandidature(id: string): Observable<void> {
     return this.candidatureApi.remove(id);
+  }
+  getReportpath(id: string): Observable<any> {
+    return this.candidatureApi.getReportPath(id);
   }
 }

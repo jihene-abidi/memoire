@@ -250,30 +250,43 @@ export class CandidatesPageComponent implements OnInit {
       return;
     }
     candidature.generatingReport = true;
-    this.ReportService.downloadReport(candidature.application_code).subscribe({
+    this.ReportService.downloadReport(candidature._id).subscribe({
       next: (response) => {
         candidature.generatingReport = false;
-        if (!response?.file_id) {
-          //this.toastrService.error(this.translate.instant(ErrorConstant.REPORT_LINK_NOT_FOUND));
+        if (!response) {
+          this.toastrService.error(ErrorConstant.REPORT_LINK_NOT_FOUND);
           return;
         }
 
-        candidature.report_s3 = response.file_id;
+        candidature.report_s3 = response.message;
         this.toastrService.success(JobOfferConstant.GENERATE_REPORT_SUCCESS);
-       // this.viewReport(candidature);
+        
+      this.candidatureService.getCandidatureById(candidature.candidate_id).subscribe({
+        next: (res) => {
+          res.forEach((resp: any) => {
+             if(candidature._id === resp._id) {
+              this.viewReport(resp);
+          }
+          });
+         
+          
+        },
+        error: (error) => {
+          console.error('Error downloading report:', error);
+        },
+      });  
       },
       error: (error) => {
         candidature.generatingReport = false;
-       // const errorMessage = this.translate.instant(ErrorConstant.REPORT_GENERATION_FAILED);
-       // console.error(errorMessage, error);
-       // this.toastrService.error(errorMessage);
+      const errorMessage = ErrorConstant.REPORT_GENERATION_FAILED;
+       this.toastrService.error(errorMessage);
       }
     });
   }
 
 
   viewReport(candidature: Candidature): void {
-   /* if (!candidature.report_file_id && !candidature.report_s3) {
+    if (!candidature.report_path) {
       return;
     }
     this.dialog.open(ReportModalComponent, {
@@ -281,12 +294,12 @@ export class CandidatesPageComponent implements OnInit {
       maxWidth: '90vw',
       maxHeight: '90vh',
       data: {
-        candidatureId: candidature.identifier,
-        reportUrl: candidature.report_file_id || candidature.report_s3,
+        candidatureId: candidature._id,
+        reportUrl: candidature.report_path,
         candidatureName: candidature.cv?.title
       },
       panelClass: 'report-modal-dialog'
-    });*/
+    });
   }
 
   downloadAudio(candidature: any) {
