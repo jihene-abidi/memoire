@@ -47,15 +47,6 @@ export class ApplyDialogComponent {
   }
 
   proceed() {
-    if (this.selectedOption) {
-      if (this.selectedOption === 'text') {
-        this.toastrService.error(
-          this.jobOfferConstant.FEATURE_IN_PROGRESS
-        );
-      }
-
-    }
-
       this.dialogRef.close({
         proceed: true,
         interviewType: this.selectedOption,

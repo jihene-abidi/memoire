@@ -338,22 +338,27 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
           data: { cvs: this.currentCvs },
         });
     
-        dialogRef.afterClosed().subscribe((selectedCv) => {
-          if (selectedCv) {
+        dialogRef.afterClosed().subscribe((result: { selectedCv: Cv, interviewType?: string }) => {
+          if (result.selectedCv) {
             const candidature = {
-              cv_id: selectedCv.selectedCv._id,
+              cv_id: result.selectedCv._id,
               job_id: offer._id,
               candidate_id: this.currentUser!._id,
             };
-          this.CandidatureService.applyToJob(candidature).subscribe(
-              (response) => {
+            this.CandidatureService.applyToJob(candidature).subscribe(
+              async (response) => {
                 this.userCandidatures.push(response.candidature);
-                this.dialog.open(ConfirmationDialogComponent, {
-                  width: '400px',
-                  data: {
-                    identifier: response.candidature.application_code,
-                  },
-                });
+                console.log(response.candidature._id)
+                if (result.interviewType === 'text') {
+                  await this.router.navigate(['/client/text-chat',response.candidature._id]);
+                } else if (result.interviewType === 'call') {
+                  this.dialog.open(ConfirmationDialogComponent, {
+                    width: '400px',
+                    data: {
+                      identifier: response.candidature.application_code,
+                    },
+                  });
+                }
               },
               (error) => console.error(ErrorConstant.ERROR_SEND, error)
             );

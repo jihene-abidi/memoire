@@ -1,16 +1,16 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ClientImports } from '../../client-imports';
+import { ClientImports } from '../../../client-imports';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormControl } from '@angular/forms';
-import { ChatConstants } from '../cv.constants';
+import { ChatConstants } from '../../cv.constants';
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
-import { InteractionCVService } from '../../../../core/services/interaction-cv.service';
+import { InteractionCVService } from '../../../../../core/services/interaction-cv.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UserModel } from '../../../../core/models/user';
-import { UserService } from '../../../../core/services/user';
-import { CvService } from '../../../../core/services/cv.service';
-import { Cv } from '../../../../core/models/cv';
+import { UserModel } from '../../../../../core/models/user';
+import { UserService } from '../../../../../core/services/user';
+import { CvService } from '../../../../../core/services/cv.service';
+import { Cv } from '../../../../../core/models/cv';
 
 
 interface ChatMessage { type: string; content: string; }
@@ -19,13 +19,13 @@ interface ChatData { title: string; chat_history: ChatMessage[]; favorite: boole
 
 
 @Component({
-  selector: 'app-chatbot',
+  selector: 'app-chatbot-text',
   standalone: true,
   imports: [ClientImports, MatSidenavModule, MatTab, MatTabGroup],
-  templateUrl: './chatbot.html',
-  styleUrls: ['./chatbot.css'],
+  templateUrl: './chatbot-text.component.html',
+  styleUrls: ['./chatbot-text.component.css'],
 })
-export class ChatbotComeponent implements OnInit, OnDestroy {
+export class TextChatbotComponent implements OnInit, OnDestroy {
   messageControl = new FormControl('');
   constants = ChatConstants;
   isLeftSidebarOpen = window.innerWidth > 850;
@@ -33,6 +33,7 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
   showChatNames = true;
   chats: ChatData[] = [];
   cv_id = '';
+  candidature_id = '';
   id = '';
   CV_interaction: any[] = [];
   currentChat: string[] = [];
@@ -61,30 +62,14 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentUser = this.UserService.getCurrentUser()!;
     this.route.paramMap.subscribe(params => {
-      this.cv_id = params.get("id") ?? '';
+      this.candidature_id = params.get("id") ?? '';
+      console.log(this.candidature_id)
 
-      if (this.cv_id) {
-        this.cvChaliceService.findOne(this.cv_id).subscribe(
-          (cvData: Cv) => {
-            this.cv = cvData;
-            this.newChat();
-          },
-          (error) => {
-            console.error("Error loading CV:", error);
-          }
-        );
-      } else {
-        this.newChat();
+      if (this.candidature_id) {
+       this.newChat();
       }
     });
-
-
     setTimeout(() => this.scrollToBottom(), 500);
-
-  
-    this.pageReloadInterval = window.setInterval(() => {
-      if (!this.isSendingMessage) window.location.reload();
-    }, 120000);
   }
 
 
@@ -114,7 +99,7 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
   }
 
 
-  newChat(): void {
+  async newChat():  Promise<void> {
     this.title = "UNTITLED";
     this.currentChat = [];
     if (this.CV_interaction.length > 0 && this.CV_interaction[0].chats) {
@@ -122,8 +107,19 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
     } else {
       this.selectedChat = 0;
     }
-    this.currentChat.push(ChatConstants.START_CONVERSATION);
+
+    try {
+      const response: any = await this.cvIntercationService.startConversation(this.candidature_id);
+      console.log(response)
+      this.currentChat.push(response.question || 'No answer received');
+    } catch (error) {
+      console.error("Chat error:", error);
+      this.currentChat.push('Error processing your message');
+    } finally {
+      this.isSendingMessage = false;
+    }
   }
+
   @HostListener('document:keydown.enter', ['$event'])
   handleEnterKey(event: KeyboardEvent): void {
     if (document.activeElement === this.userMsgElement?.nativeElement && !this.isSendingMessage) {
@@ -144,11 +140,11 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
     this.messageControl.reset();
 
     try {
-       const response: any = await this.cvIntercationService.update(this.cv_id,question);
-      this.currentChat[this.currentChat.length - 1] = response.answer || 'No answer received';
+       const response: any = await this.cvIntercationService.handleAnswer(this.candidature_id,question);
+      this.currentChat[this.currentChat.length - 1] = response.question || 'No answer received';
     } catch (error) {
       console.error("Chat error:", error);
-      this.currentChat[this.currentChat.length - 1] = 'Error processing your message';
+      this.currentChat[this.currentChat.length - 1] = 'Error processing your message' ;
     } finally {
       this.isSendingMessage = false;
     }

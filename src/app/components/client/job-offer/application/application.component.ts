@@ -12,8 +12,6 @@ import { JobOfferConstant } from '../job-offer.constants';
 import {ToastrService} from "ngx-toastr";
 import {TranslatePipe,TranslateService} from "@ngx-translate/core";
 import { ErrorConstant } from '../../../../core/constants/error.constant';
-import { WarningConstant } from '../../../../core/constants/warning.constant';
-
 
 
 
@@ -72,53 +70,53 @@ export class ApplicationComponent {
   downloadCv(candidature: Candidature) {
     const cv = candidature.cv;
 
-    if (!cv.cv_s3) {
-      console.error('CV file path is missing.');
-      return;
-    }
+    // if (!cv.cv_s3) {
+    //   console.error('CV file path is missing.');
+    //   return;
+    // }
 
-    this.fileService.awsFile(cv.cv_s3).subscribe({
-      next: (file) => {
-        this.triggerDownload(file.source, file.name);
-      },
-      error: (error) => {
-        console.error('Error downloading CV:', error);
-      },
-    });
+    // this.fileService.awsFile(cv.cv_s3).subscribe({
+    //   next: (file) => {
+    //     this.triggerDownload(file.source, file.name);
+    //   },
+    //   error: (error) => {
+    //     console.error('Error downloading CV:', error);
+    //   },
+    // });
   }
   
 
-  downloadReport(candidature: any) {
-    if(!candidature.report_s3){
-      this.toastrService.error(this.translate.instant(ErrorConstant.CANDIDATE_ERROR))
-      return
-    }
+//   downloadReport(candidature: any) {
+//     if(!candidature.report_s3){
+//       this.toastrService.error(this.translate.instant(ErrorConstant.CANDIDATE_ERROR))
+//       return
+//     }
 
   
-    this.fileService.awsFile(candidature.report_s3).subscribe({
-      next: (file) => {
-        this.triggerDownload(file.source, file.name);
-      },
-      error: (error) => {
-        console.error('Erreur lors du téléchargement du rapport :', error);
-      },
-    });
-  }
-  downloadAudio(){
-    this.toastrService.warning(this.translate.instant(WarningConstant.AUDIO_ERROR))
-  }
+//     this.fileService.awsFile(candidature.report_s3).subscribe({
+//       next: (file) => {
+//         this.triggerDownload(file.source, file.name);
+//       },
+//       error: (error) => {
+//         console.error('Erreur lors du téléchargement du rapport :', error);
+//       },
+//     });
+//   }
+//   downloadAudio(){
+//     this.toastrService.warning(this.translate.instant(WarningConstant.AUDIO_ERROR))
+//   }
 
   
 
-  private triggerDownload(url: string, fileName: string) {
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', fileName);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-  onImageLoad(candidature: any) {
-    candidature.loading = false; 
-  }
+//   private triggerDownload(url: string, fileName: string) {
+//     const link = document.createElement('a');
+//     link.href = url;
+//     link.setAttribute('download', fileName);
+//     document.body.appendChild(link);
+//     link.click();
+//     document.body.removeChild(link);
+//   }
+//   onImageLoad(candidature: any) {
+//     candidature.loading = false; 
+//   }
 }

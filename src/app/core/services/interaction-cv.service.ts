@@ -12,4 +12,10 @@ export class InteractionCVService {
   update(id: string, question:string) {
     return this.interactionCvApi.updateModel(id, question);
   }
+    startConversation(id: string) {
+    return this.interactionCvApi.start(id );
+  }
+  handleAnswer(id: string, answer:string) {
+    return this.interactionCvApi.handle(id, answer);
+  }
 }

@@ -39,7 +39,7 @@ onSelect() {
 
   dialogRef.afterClosed().subscribe(result => {
     if (result && result.proceed) {
-      if (result.interviewType === 'call' || result.interviewType === 'audio') {
+      if (result.interviewType === 'call' || result.interviewType === 'text') {
         this.cvService.findOne(this.selectedCv._id).subscribe((cv) => {
           this.dialogRef.close({
             selectedCv:cv,

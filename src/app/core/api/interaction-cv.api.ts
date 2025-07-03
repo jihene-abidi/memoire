@@ -13,4 +13,10 @@ export class InteractionCvApi {
     return this.http.post(`http://127.0.0.1:5000/cv-chat/${id}`, {'question': question}).toPromise();
   }
 
+  start(id: string) {
+    return this.http.post(`http://127.0.0.1:5000/start`,{'application_id': id}).toPromise();
+  }
+  handle(id: string, answer:string) {
+    return this.http.post(`http://127.0.0.1:5000/answer`, {'application_id': id,'answer': answer}).toPromise();
+  }
 }
