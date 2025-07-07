@@ -47,6 +47,7 @@ export interface ReportModalData {
   styleUrls: ['./report-modal.component.scss'],
 })
 export class ReportModalComponent implements OnInit {
+  jobOfferConstant = JobOfferConstant;
   @ViewChildren('pdfCanvas') pdfCanvases!: QueryList<ElementRef<HTMLCanvasElement>>;
 
   loading = false;

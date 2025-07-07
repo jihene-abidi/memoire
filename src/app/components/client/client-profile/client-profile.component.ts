@@ -138,13 +138,14 @@ export class ClientProfileComponent implements OnInit {
   }
 
   getFullName(): string {
-    const email = this.userConnected?.email;
-    if (email?.includes('@')) {
-      const [first_name, last_name] = email.split('@')[0].split('.');
-      return first_name && last_name ? `${first_name[0].toUpperCase() + first_name.slice(1)} ${last_name[0].toUpperCase() + last_name.slice(1)}` : 'Guest';
+    const first_name = this.userConnected?.first_name;
+    const last_name=this.userConnected?.last_name
+    if (first_name && last_name) {
+      return first_name +' ' + last_name
     }
     return 'Guest';
   }
+
 
   get formControls() {
     return this.profileForm.controls;
@@ -167,6 +168,7 @@ export class ClientProfileComponent implements OnInit {
         if (updatedUser._id) {
           this.userService.findOne(updatedUser._id).subscribe({
             next: (res) => {
+              this.userConnected = res;
               this.userService.setCurrentUser(res);
               this.toastr.success(errorMessages.success, 'Success');
             },

@@ -118,21 +118,29 @@ export class NavbarComponent{
 
 
   getFullName(): string {
+     console.log(this.userConnected)
     if (!this.userConnected) {
+      console.log(this.userConnected)
       return 'Guest';
     } else {
-      const email = this.userConnected.email;
-      if (email && email.includes('@')) {
-        const nameParts = email.split('@')[0].split('.');
-        if (nameParts.length === 2) {
-          const [firstName, lastName] = nameParts;
-          return `${firstName.charAt(0).toUpperCase() + firstName.slice(1)} ${lastName.charAt(0).toUpperCase() + lastName.slice(1)}`;
-        } else {
-          return 'Guest';
-        }
+      const first_name= this.userConnected.first_name;
+      if(first_name){
+        return first_name
       } else {
-        return 'Guest';
+        return 'Guest'
       }
+      // const email = this.userConnected.email;
+      // if (email && email.includes('@')) {
+      //   const nameParts = email.split('@')[0].split('.');
+      //   if (nameParts.length === 2) {
+      //     const [firstName, lastName] = nameParts;
+      //     return `${firstName.charAt(0).toUpperCase() + firstName.slice(1)} ${lastName.charAt(0).toUpperCase() + lastName.slice(1)}`;
+      //   } else {
+      //     return 'Guest';
+      //   }
+      // } else {
+      //   return 'Guest';
+      // }
     }
   }
 
