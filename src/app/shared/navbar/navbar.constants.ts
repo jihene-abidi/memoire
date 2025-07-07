@@ -1,15 +1,15 @@
 export const NavbarConstants = {
-  OUR_OFFERS: 'Our Offers',
-  JOB_OFFERS: 'Job Offers',
-  CV: 'My CVs',
+  OUR_OFFERS: 'Nos Offres',
+  JOB_OFFERS: "Offres d'emploi",
+  CV: 'Mes CVs',
   FOR_RECRUITERS: 'CVs',
-  ABOUT: 'Contact Us',
-  HOME: 'Home',
+  ABOUT: 'Contactez-Nous',
+  HOME: 'Accueil',
  // Profile Menu
  PROFILE_MENU: {
-  HEADER: 'My Profile',
-  SECURITY: 'Security',
-  LOGOUT: 'Logout',
+  HEADER: 'Mon Profile',
+  SECURITY: 'Securité',
+  LOGOUT: 'Déconnexion',
 },
  // Icons
  ICONS: {

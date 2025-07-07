@@ -1,9 +1,12 @@
 export const HeroSectionConstants = {
   PART_1: "Votre carriére est notre ",
   PART_2: "priorité !",
-  DESCRIPTION: "Améliorez votre CV, postulez plus intelligemment et réussissez vos entretiens avec notre assistant emploi intelligent.",
+  DESCRIPTION_cv: "Améliorez votre CV, postulez plus intelligemment et réussissez vos entretiens avec notre assistant emploi intelligent.",
   BUTTON_CV: "Améliorez mon CV",
-  BUTTON_TEXT: "Ajouter une offre",
+  PART_3: "Votre recrutement est notre ",
+  PART_4: "priorité !",
+  DESCRIPTION_joboffer: "Trouvez les bons talents, gagnez du temps et optimisez vos processus de sélection avec notre assistant intelligent dédié aux recruteurs.",
+  BUTTON_joboffer: "Ajouter une offre",
   IMAGE_ALT: "Illustration",
   IMAGE_SRC:'../assets/accueil.png',
   };

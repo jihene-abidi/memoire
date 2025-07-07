@@ -6,13 +6,12 @@ import {KeyFeaturesComponent} from './key-features/key-features.component';
 import {ChooseUsComponent} from './choose-us/choose-us.component';
 import {StatsSectionComponent} from './stats-section/stats-section.component';
 import {ContactUsComponent} from './contact-us/contact-us.component'
-import {TranslatePipe} from "@ngx-translate/core";
 
 
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [CommonModule, HeroComponent, FeaturesComponent, KeyFeaturesComponent, ChooseUsComponent, StatsSectionComponent, ContactUsComponent,TranslatePipe],
+  imports: [CommonModule, HeroComponent, FeaturesComponent, KeyFeaturesComponent, ChooseUsComponent, StatsSectionComponent, ContactUsComponent],
   templateUrl: './accueil.component.html',
   styleUrls: ['./accueil.component.css'],
 })

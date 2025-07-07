@@ -1,4 +1,4 @@
-<section class="hero">
+<!-- <section class="hero">
     <div class="heroContent">
       <h1>
         {{ heroConstants.PART_1}}
@@ -18,4 +18,40 @@
       <img [src]="heroConstants.IMAGE_SRC" [alt]="heroConstants.IMAGE_ALT">
     </div>
   </section>
-  
+   -->
+
+<!-- Si rôle = candidat -->
+<section class="hero" *ngIf="userConnected?.role === 'candidat'">
+  <div class="heroContent">
+    <h1>
+      {{ heroConstants.PART_1 }}
+      <span class="highlight">{{ heroConstants.PART_2 }}</span>
+    </h1>
+    <p> {{ heroConstants.DESCRIPTION_cv }} </p>
+    <div class="button-container">
+      <button class="button-primary" routerLink="/client/ajoutcv">{{ heroConstants.BUTTON_CV }}</button>
+    </div>
+  </div>
+  <div class="hero-image">
+    <img [src]="heroConstants.IMAGE_SRC" [alt]="heroConstants.IMAGE_ALT" />
+  </div>
+</section>
+<!-- Si rôle = recruteur -->
+<section class="hero" *ngIf="userConnected?.role === 'recruteur'">
+  <div class="heroContent">
+    <h1>
+      {{ heroConstants.PART_3 }}
+      <span class="highlight">{{ heroConstants.PART_4 }}</span>
+    </h1>
+    <p> {{ heroConstants.DESCRIPTION_joboffer }} </p> <!-- 🔁 texte adapté -->
+    <div class="button-container">
+      <button mat-button class="cta-button" routerLink="/client/joboffer/ajout-job-offer">
+        <div class="cta-border"></div>
+        <div class="cta-text">{{ heroConstants.BUTTON_joboffer }}</div>
+      </button>
+    </div>
+  </div>
+  <div class="hero-image">
+    <img [src]="heroConstants.IMAGE_SRC" [alt]="heroConstants.IMAGE_ALT" />
+  </div>
+</section>

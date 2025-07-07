@@ -118,9 +118,7 @@ export class NavbarComponent{
 
 
   getFullName(): string {
-     console.log(this.userConnected)
     if (!this.userConnected) {
-      console.log(this.userConnected)
       return 'Guest';
     } else {
       const first_name= this.userConnected.first_name;
