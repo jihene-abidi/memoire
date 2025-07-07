@@ -19,12 +19,5 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./contact-us.component.css'],
 })
 export class ContactUsComponent {
-  contactSectionConstants = ContactSectionConstants;
-  constructor(private toastrService: ToastrService, private translate:TranslateService) {}
-
-  submit() {
-    this.toastrService.success( this.translate.instant(this.contactSectionConstants.SUCCES.MESSAGE))
-  }
-
- // protected readonly cvConstants = CvConstants;
+  
 }

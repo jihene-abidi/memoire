@@ -1,110 +1,49 @@
-<div class="contact_us_6">
-    <div class="responsive-container-block container" >
-      <div class="form-box" >
-        <div class="container-block form-wrapper">
-          <div class="mob-text">
-            <p class="text-blk contactus-head">
-              {{ contactSectionConstants.HEADER.TITLE}}
-            </p>
-          </div>
-          <div class="responsive-container-block" id="i2cbk">
-            <div
-              class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12"
-              id="i10mt-3"
-            >
-              <p class="text-blk input-title">
-                {{ contactSectionConstants.FORM_FIELDS.NAME.LABEL}}
-              </p>
-              <input class="input" [placeholder]="contactSectionConstants.INPUT_NAME_PLACEHOLDER | translate" />
-            </div>
-            <div
-              class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12"
-              id="ip1yp"
-            >
-              <p class="text-blk input-title">
-                {{ contactSectionConstants.FORM_FIELDS.EMAIL.LABEL}}
-              </p>
-              <input class="input" [placeholder]="contactSectionConstants.INPUT_EMAIL_PLACEHOLDER | translate" />
-            </div>
-            <div
-              class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12"
-              id="ih9wi"
-            >
-              <p class="text-blk input-title">
-                {{ contactSectionConstants.FORM_FIELDS.PHONE.LABEL}}
-              </p>
-              <input class="input" [placeholder]="contactSectionConstants.INPUT_NUMBER_PLACEHOLDER | translate" />
-            </div>
-            <div
-              class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12"
-              id="i634i-3"
-            >
-              <p class="text-blk input-title">
-                {{ contactSectionConstants.FORM_FIELDS.MESSAGE.LABEL}}
-              </p>
-              <textarea
-                class="textinput"
-                [placeholder]="contactSectionConstants.INPUT_TEXT_PLACEHOLDER | translate"
-              ></textarea>
-            </div>
-          </div>
-          <app-shared-button
-            (click)="submit()"
-            color="ContactSubmit"
-            label="{{ contactSectionConstants.BUTTON.LABEL | translate}}"
-          >
-          </app-shared-button>
-        </div>
-      </div>
-      <div
-        class="responsive-cell-block wk-desk-7 wk-ipadp-12 wk-tab-12 wk-mobile-12"
-        id="i772w"
-      >
-        <div class="map-part">
-          <p class="text-blk map-contactus-head" id="w-c-s-fc_p-1-dm-id">
-            {{ contactSectionConstants.REACH}}
-          </p>
-          <p class="text-blk map-contactus-subhead">
-            {{ contactSectionConstants.CONTACT_INFO_1.TEXT}}
-          </p>
-          <div class="social-media-links mob">
-            <a class="social-icon-link" href="#" id="ix94i-2-2">
-              <img
-                class="link-img image-block"
-                src="https://workik-widget-assets.s3.amazonaws.com/Footer1-83/v1/images/Icon-twitter.png"
-              />
-            </a>
-            <a class="social-icon-link" href="#" id="itixd">
-              <img
-                class="link-img image-block"
-                src="https://workik-widget-assets.s3.amazonaws.com/Footer1-83/v1/images/Icon-facebook.png"
-              />
-            </a>
-            <a class="social-icon-link" href="#" id="izxvt">
-              <img
-                class="link-img image-block"
-                src="https://workik-widget-assets.s3.amazonaws.com/Footer1-83/v1/images/Icon-google.png"
-              />
-            </a>
-            <a class="social-icon-link" href="#" id="izldf-2-2">
-              <img
-                class="link-img image-block"
-                src="https://workik-widget-assets.s3.amazonaws.com/Footer1-83/v1/images/Icon-instagram.png"
-              />
-            </a>
-          </div>
-          <div class="map-box container-block">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d553.1940699413311!2d10.18558635119967!3d36.817980935670285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd49f5e8456bbf%3A0xae8bca5d96755f16!2sAllence%20Tunisie!5e0!3m2!1sfr!2stn!4v1736929809114&hl=fr&z=14&output=embed&kiosk=1"
-              width="100%"
-              height="520px"
-              style="border: 0"
-              allowfullscreen=""
-              loading="lazy"
-            ></iframe>
-          </div>
-        </div>
-      </div>
+<div class="container">
+  <!-- Logo et Titre -->
+  <header class="header">
+    <img src="assets/chosa-color.svg" alt="Logo de Chosa" class="logo chosa-logo" />
+    <h1 class="section-title">Bienvenue chez Chosa</h1>
+  </header>
+
+  <!-- Intro card -->
+  <div class="card intro-card">
+    <p>
+      Chosa est une entreprise spécialisée en conseil informatique, avec une expertise étendue dans le secteur du développement.
+      Depuis plus de 13 ans, elle modernise les systèmes d'information pour suivre les évolutions légales, réglementaires et technologiques.
+    </p>
+  </div>
+
+  <!-- Domaines d'activités -->
+  <h2 class="section-title">Domaines d’activités</h2>
+  <div class="domains">
+    <div class="domain-card">
+        <img src="assets/software.png" alt="Développement" class="domain-icon"/>
+      <p>Développement</p>
+    </div>
+    <div class="domain-card">
+        <img src="assets/stage.png" alt="Formation" class="domain-icon"/>
+      <p>Formation & Stages</p>
+    </div>
+    <div class="domain-card">
+        <img src="assets/startup.png" alt="Incubateur" class="domain-icon"/>
+      <p>Incubateur</p>
     </div>
   </div>
-  
+
+  <!-- Coordonnées -->
+  <h2 class="section-title">Coordonnées</h2>
+<div class="contact-info">
+  <div>
+    <img src="assets/location.png" alt="Adresse" class="contact-icon" />
+    <strong>Adresse :</strong> Montplaisir Immeuble Babel Bloc A
+  </div>
+  <div>
+    <img src="assets/phone.png" alt="Téléphone" class="contact-icon" />
+    <strong>Téléphone :</strong> 25 471 106
+  </div>
+  <div>
+    <img src="assets/email.png" alt="Email" class="contact-icon" />
+    <strong>Email :</strong> contactchosa.net
+  </div>
+</div>
+</div>

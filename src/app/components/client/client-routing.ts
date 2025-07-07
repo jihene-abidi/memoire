@@ -14,6 +14,8 @@ import { MyCvsComponent } from './cv/my-cvs/my-cvs.component';
 import { TextChatbotComponent } from './cv/chatbot/chatbot-text/chatbot-text.component';
 import { CandidatesPageComponent } from './job-offer/application/candidates-page.component';
 import { PhoneDialComponent } from './job-offer/phone-dial/phone-dial.component';
+import { ContactUsComponent } from './accueil/contact-us/contact-us.component';
+
 
 export const ClientRouting: Routes = [
     { path: 'client-profile', component: ClientProfileComponent },
@@ -31,5 +33,8 @@ export const ClientRouting: Routes = [
     { path: 'my-cvs', component: MyCvsComponent },
     { path: 'text-chat/:id', component: TextChatbotComponent },
     { path: 'phone-dial', component: PhoneDialComponent },
+    { path: 'contact-us', component: ContactUsComponent },
+
+
 
   ];
