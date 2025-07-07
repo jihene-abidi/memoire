@@ -57,7 +57,7 @@ export class LoginComponent {
             this.userService.setCurrentUser(user); // 🔹 stocke dans le localStorage
             console.log('Utilisateur connecté récupéré :', user);
             this.toastrService.success('Connexion réussie !');
-            this.router.navigate(['/client/client-profile']);
+            this.router.navigate(['/client/home']);
         },
         error: (err) => {
           this.showSpinner = false;
