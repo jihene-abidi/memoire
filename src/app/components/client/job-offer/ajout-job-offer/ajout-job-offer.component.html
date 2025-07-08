@@ -34,6 +34,7 @@
               matInput
               [placeholder]="ajoutJobOfferConstants.OFFER_URL_PLACEHOLDER"
               [(ngModel)]="jobOffer.link"
+              (blur)="onUrlEntered()"
             />
           </mat-form-field>
         </div>

@@ -118,7 +118,7 @@ export const JobOfferConstant = {
 
 
   CHECK_ICON: 'check_circle',
-  PHONE_NUMBER:'+1831 9992537',
+  PHONE_NUMBER:'+1 775 257 6928',
   VISIBILITY_FILTER: {
     All: "Toutes les offres",
     Public: "Postulé",

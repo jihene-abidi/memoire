@@ -48,5 +48,12 @@ export class JobOfferApi {
     return this.http.patch<any>(url, updateData);
   }
 
+  scrapeFromUrl(userId: string, jobUrl: string, visibility: string = 'PRIVATE'): Observable<any> {
+  const payload = {
+    job_url: jobUrl,
+    visibility: visibility,
+  };
+  return this.http.post<any>(`${this.jobOfferUrl}/create-job-offer-from-url/${userId}`, payload);
+}
 
 }

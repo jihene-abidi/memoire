@@ -111,4 +111,29 @@ export class AjoutJobOfferComponent {
   navigateToJobOffers() {
     this.router.navigate(['/client/joboffer']);
   }
+
+  onUrlEntered(): void {
+  if (this.jobOffer.link) {
+    const userString = localStorage.getItem('currentUser');
+    const user = JSON.parse(userString!);
+    
+    const userId = user._id; // 🔁 Remplace ça dynamiquement selon ton app (auth service, etc.)
+    this.jobofferservice.scrapeFromUrl(userId, this.jobOffer.link).subscribe({
+      next: (response) => {
+        // Remplir les champs du formulaire
+        this.jobOffer.title = response.title;
+        //this.jobOffer.description = response.description;
+        this.jobOffer.company = response.company;
+        this.jobOffer.location = response.location;
+        this.jobOffer.technologies = response.technologies
+        this.jobOffer.skills= response.skills
+        this.jobOffer.published_on = response.published_on
+        this.jobOffer.level = response.level
+      },
+      error: (err) => {
+        console.error('Erreur scraping backend :', err);
+      }
+    });
+  }
+}
 }

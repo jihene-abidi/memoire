@@ -37,4 +37,7 @@ export class JobOfferService {
     return this.jobOfferApi.patch(jobOfferId, updateData); // Pass the updateData to the API
   }
 
+  scrapeFromUrl(userId: string, jobUrl: string, visibility: string = 'PRIVATE') {
+  return this.jobOfferApi.scrapeFromUrl(userId, jobUrl, visibility);
+}
 }

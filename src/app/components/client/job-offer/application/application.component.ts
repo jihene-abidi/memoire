@@ -10,7 +10,6 @@ import { Candidature } from '../../../../core/models/candidature';
 import { UserModel } from '../../../../core/models/user';
 import { JobOfferConstant } from '../job-offer.constants';
 import {ToastrService} from "ngx-toastr";
-import {TranslatePipe,TranslateService} from "@ngx-translate/core";
 import { ErrorConstant } from '../../../../core/constants/error.constant';
 
 
@@ -23,7 +22,7 @@ export interface SelectCvDialogData {
 @Component({
   selector: 'app-application',
   standalone: true,
-  imports: [ClientImports,SharedButtonComponent,TranslatePipe],
+  imports: [ClientImports,SharedButtonComponent],
   templateUrl: './application.component.html',
   styleUrls:['./application.component.css']
  
@@ -46,7 +45,6 @@ export class ApplicationComponent {
     @Inject(MAT_DIALOG_DATA) public data: { cvs: Cv[],candidatures: Candidature[] } ,
     private fileService:FileService,
     private toastrService: ToastrService,
-    private translate: TranslateService
 
 
 
