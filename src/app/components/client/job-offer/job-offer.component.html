@@ -104,8 +104,41 @@
                 <p class="metadata-value">{{ offer.offerDateFormatted }}</p>
               </div>
             </div>
+
+
+             <div class="metadata-section">
+              <div class="metadata-icon-container">
+                <img src="assets/description.png" alt= " description " class="metadata-icon" />
+              </div>
+              <div class="metadata-text">
+                <p class="metadata-title">{{jobOfferConstant.JOB_DESCRIPTION}}</p>
+                <p class="metadata-value">{{ offer.description }}</p>
+              </div>
+            </div>
+
   
-  
+             <div class="metadata-section">
+              <div class="metadata-icon-container">
+                <img src="assets/salaire.png" alt= " description " class="metadata-icon" />
+              </div>
+
+              <div class="metadata-text">
+                <p class="metadata-title">{{ jobOfferConstant.JOB_SALAIR }}</p>
+                <p class="metadata-value">{{ offer.salaire }}</p>
+              </div>
+            </div>
+
+
+            <div class="metadata-section">
+              <div class="metadata-icon-container">
+                <img src="assets/description.png" alt= " description " class="metadata-icon" />
+              </div>
+              <div class="metadata-text">
+                <p class="metadata-title">{{jobOfferConstant.JOB_DATEDEBIT}}</p>
+                <p class="metadata-value">{{ offer.startDateFormatted }}</p>
+              </div>
+            </div>
+
   
             <div class="metadata-section" *ngIf="offer.level && offer.level !== 'Unknown'">
               <div class="metadata-icon-container">

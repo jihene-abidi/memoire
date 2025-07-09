@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="form-right_one">
-        <img src="assets/creative-job-posting.jpg_1.png" alt="Upload CV" class="upload-img" />
+        <img src="assets/creative-job-posting.png" alt="Upload CV" class="upload-img" />
       </div>
       <div class="action-buttons">
         <button mat-stroked-button color="primary" routerLink="/client/joboffer" class="btn-back">{{AjoutJobOfferConstants.RETOUR}}</button>
@@ -73,11 +73,7 @@
             />
           </mat-form-field>
   
-        </div>
-      </div>
-      <div class="form-right">
-        <div class="title-section">
-          <mat-label class="titre-label">{{AjoutJobOfferConstants.SKILLS_LABEL}}</mat-label>
+           <mat-label class="titre-label">{{AjoutJobOfferConstants.SKILLS_LABEL}}</mat-label>
   
           <mat-form-field appearance="outline" class="full-width">
             <input
@@ -86,6 +82,53 @@
               [(ngModel)]="skills"
             />
           </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="form-right">
+        <div class="title-section">
+      
+          <mat-label class="titre-label">{{AjoutJobOfferConstants.DESCRIPTION_LABEL}}</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              id="description"
+              [placeholder]="AjoutJobOfferConstants.DESCRIPTION_LABEL_PLACEHOLDER"
+              [(ngModel)]="description"
+            />
+          </mat-form-field>
+
+          <mat-label class="titre-label">{{AjoutJobOfferConstants.SALARY_LABEL}}</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              id="salaire"
+              [placeholder]="AjoutJobOfferConstants.SALARY_LABEL_PLACEHOLDER"
+              [(ngModel)]="salaire"
+            />
+          </mat-form-field>
+
+          <!-- <mat-label class="titre-label">{{AjoutJobOfferConstants.START_DATE_LABEL}}</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <input
+              matInput
+              id="start_date"
+              [placeholder]="AjoutJobOfferConstants.startDateFormatted"
+              [(ngModel)]="start_date"
+            />
+          </mat-form-field> -->
+
+           <mat-label class="titre-label">{{AjoutJobOfferConstants.START_DATE_LABEL}}</mat-label>
+  
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{ AjoutJobOfferConstants.START_DATE_LABEL}}</mat-label>
+  
+            <input matInput [matDatepicker]="publishedPicker" [(ngModel)]="startDateFormatted" />
+            <mat-datepicker-toggle matSuffix [for]="publishedPicker"></mat-datepicker-toggle>
+            <mat-datepicker #publishedPicker></mat-datepicker>
+          </mat-form-field>
+
           <mat-label class="titre-label">{{AjoutJobOfferConstants.LEVEL_LABEL}}</mat-label>
   
           <mat-form-field appearance="outline" class="full-width">
@@ -97,7 +140,7 @@
                 }}</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-label class="titre-label">{{AjoutJobOfferConstants.EXPIRATION_DATE_LABEL}}</mat-label>
+          <mat-label class="titre-label">{{AjoutJobOfferConstants.PUBLISHED_DATE_LABEL}}</mat-label>
   
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>{{ AjoutJobOfferConstants.PUBLISHED_DATE_LABEL}}</mat-label>

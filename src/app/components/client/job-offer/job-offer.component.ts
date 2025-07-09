@@ -88,7 +88,7 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
       this.refresh();
     }
     async refresh() {
-        this.JobOfferService.findAll().then((data: JobOffer[]) => {
+        this.JobOfferService.findAll().then((data: any[]) => {
           this.allOffers = data.map((offer) => {
                this.CandidatureService.getAllCandidaturesByOffer(offer._id).subscribe(
                 (candidatures: any[]) => {
@@ -98,12 +98,20 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
     
             const origin = this.getOrigin(offer.link);
             const offerDate = offer.published_on || '';
+            const startDate = offer.start_date || '';
             const offerDateFormatted = this.datePipe.transform(
               offerDate,
               'yyyy-MM-dd'
             )!;
+            const startDateFormatted = this.datePipe.transform(
+              startDate,
+              'yyyy-MM-dd'
+            )!;
             const location = offer.location || '';
-             const level = offer.level|| '';
+            const description = offer.job_description || '';
+            const salaire = offer.salary || '';
+            const start_date = offer.start_date || '';
+            const level = offer.level|| '';
             const skills = offer.skills || [];
             const technologies =  offer.technologies || [];
             const visibility = offer.visibility || 'public';
@@ -124,6 +132,10 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
               visibility,
               company,
               expired,
+              start_date,
+              startDateFormatted,
+              description,
+              salaire
             };
           });
     
@@ -167,6 +179,8 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
     const offerDate = details.offerDate || offer.published_on || offer.createdAt || '';
     const offerDateFormatted = this.datePipe.transform(offerDate, 'yyyy-MM-dd')!;
     const location = details.jobAdress || offer.location || '';
+    const start_date = offer.start_date || '';
+    const startDateFormatted = this.datePipe.transform(start_date, 'yyyy-MM-dd')!;
     const description = offer.job_description || '';
     const skills = offer.skills
       ? typeof offer.skills === 'string'
@@ -196,6 +210,8 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
       logo: origin?.logo || 'assets/joboffericons/default.png',
       offerDate,
       offerDateFormatted,
+      start_date,
+      startDateFormatted,
       visibility,
       company,
       expired,

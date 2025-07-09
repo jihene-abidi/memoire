@@ -62,8 +62,7 @@ export class AjoutJobOfferComponent {
 
     if (this.jobOffer.link) jobOfferToSend.link = this.jobOffer.link;
     if (this.jobOffer.company) jobOfferToSend.company = this.jobOffer.company;
-    if (this.jobOffer.location)
-      jobOfferToSend.location = this.jobOffer.location;
+    if (this.jobOffer.location)jobOfferToSend.location = this.jobOffer.location;
 
     if (Array.isArray(this.jobOffer.technologies)) {
       jobOfferToSend.technologies = this.jobOffer.technologies.map(
@@ -85,13 +84,16 @@ export class AjoutJobOfferComponent {
         .map((skill: string) => skill.trim());
     }
 
+    if (this.jobOffer.description)jobOfferToSend.description = this.jobOffer.description;
+    if (this.jobOffer.salaire)jobOfferToSend.salaire = this.jobOffer.salaire;
+    if (this.jobOffer.start_date)jobOfferToSend.start_date = this.jobOffer.start_date;
+
     if (this.jobOffer.level) jobOfferToSend.level = this.jobOffer.level;
     if (this.jobOffer.published_on)
-      jobOfferToSend.published = this.jobOffer.published_on;
+      jobOfferToSend.published_on = this.jobOffer.published_on;
     if (this.jobOffer.expired) jobOfferToSend.expired = this.jobOffer.expired;
     if (this.jobOffer.visibility)
       jobOfferToSend.visibility = this.jobOffer.visibility;
-
     this.spinner = true;
     this.jobofferservice.insert(jobOfferToSend).subscribe(
       (response) => {
@@ -113,27 +115,39 @@ export class AjoutJobOfferComponent {
   }
 
   onUrlEntered(): void {
+
   if (this.jobOffer.link) {
     const userString = localStorage.getItem('currentUser');
     const user = JSON.parse(userString!);
+    const visibility = this.jobOffer.visibility || 'public'
     
     const userId = user._id; // 🔁 Remplace ça dynamiquement selon ton app (auth service, etc.)
-    this.jobofferservice.scrapeFromUrl(userId, this.jobOffer.link).subscribe({
+    this.jobofferservice.scrapeFromUrl(userId, this.jobOffer.link, visibility).subscribe({
       next: (response) => {
         // Remplir les champs du formulaire
         this.jobOffer.title = response.title;
-        //this.jobOffer.description = response.description;
         this.jobOffer.company = response.company;
         this.jobOffer.location = response.location;
         this.jobOffer.technologies = response.technologies
         this.jobOffer.skills= response.skills
+        this.jobOffer.description = response.description;
+        this.jobOffer.salaire = response.salaire;
+        this.jobOffer.start_date = response.start_date;
         this.jobOffer.published_on = response.published_on
         this.jobOffer.level = response.level
+        this.router.navigate(['/client/joboffer']);
       },
       error: (err) => {
         console.error('Erreur scraping backend :', err);
       }
     });
+  }
+}
+OnSubmit (){
+  if(this.jobOffer.link){
+    this.onUrlEntered()
+  } else {
+    this.addJobOffer()
   }
 }
 }

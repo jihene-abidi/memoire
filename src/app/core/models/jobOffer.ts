@@ -3,7 +3,7 @@ import {UserModel} from "./user";
 export class JobOffer {
   public _id!: string;
   public link: string;
-  public title: string;
+  public title?: string;
   public date: Date | undefined;
   public start_date: Date | undefined;
   public company?: string;
@@ -11,6 +11,8 @@ export class JobOffer {
   public technologies?: string[] | string;
   public skills?: string[] | string;
   public level?: string;
+  public description?: string;
+  public salaire?: string;
   public published_on?: string;
   public expired?: string;
   public visibility?: string;

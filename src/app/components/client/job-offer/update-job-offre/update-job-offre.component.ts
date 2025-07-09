@@ -44,7 +44,7 @@ export class UpdateJobOffreComponent {
   jobOfferId!: string;
   jobOffer: JobOffer | null = null;
   isEditing = false;
-  title: string = '';
+  title?: string = '';
   company?: string = '';
   location?: string[] = [];
   templateType: string = 'template2';
@@ -56,6 +56,10 @@ export class UpdateJobOffreComponent {
   level: string = '';
   expired: string = '';
   offerDate: string | Date = '';
+  description?: string = '';
+  salaire?: string = '';
+  startDate: string | Date = '';
+  startDateFormatted?: Date | null = null;
 
   levels: string[] = [
     AjoutJobOfferConstants.JUNIOR_LEVEL,
@@ -92,7 +96,7 @@ export class UpdateJobOffreComponent {
       }
     );
   }
-  getJobOfferDetails(offer: JobOffer) {
+  getJobOfferDetails(offer: any) {
     this.location = offer.location ?? [];
     this.skills = Array.isArray(offer.skills)
       ? offer.skills
@@ -104,6 +108,10 @@ export class UpdateJobOffreComponent {
     this.visibility = offer.visibility || 'public';
     this.level = offer.level || offer.level || '';
     this.company = offer.company || offer.company || '';
+    this.description = offer.description || offer.job_description || '';
+    this.salaire = offer.salaire || offer.salary || '';
+    this.startDate = offer.start_date || offer.start_date || '';
+    this.startDateFormatted = new Date(this.startDate);
     this.offerDate = offer.date || offer.published_on || '';
     this.formattedDate = new Date(this.offerDate);
   }

@@ -48,7 +48,7 @@ export class JobOfferApi {
     return this.http.patch<any>(url, updateData);
   }
 
-  scrapeFromUrl(userId: string, jobUrl: string, visibility: string = 'PRIVATE'): Observable<any> {
+  scrapeFromUrl(userId: string, jobUrl: string, visibility: string): Observable<any> {
   const payload = {
     job_url: jobUrl,
     visibility: visibility,

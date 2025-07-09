@@ -15,10 +15,10 @@ export const FooterConstants = {
   MEDIA_KIT: 'Media kit',
   COMMENCEZ: 'Get Started',
   GET_STARTED: 'Get started for free. Add your whole team as your needs grow.',
-  TERMS_PRIVACY: 'Terms & privacy',
-  SECURITY: 'Security',
-  STATUS: 'Status',
-  COPYRIGHT: '©2024 Carrière LLC.',
-  FRENCH: 'Frensh',
+  TERMS_PRIVACY: 'Termes',
+  SECURITY: 'Securité',
+  STATUS: 'Statut',
+  COPYRIGHT: '©2025 Carrière LLC.',
+  FRENCH: 'Français',
   CARRIERE:'carrière'
 };
