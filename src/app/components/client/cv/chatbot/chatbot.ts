@@ -82,9 +82,7 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
     setTimeout(() => this.scrollToBottom(), 500);
 
   
-    this.pageReloadInterval = window.setInterval(() => {
-      if (!this.isSendingMessage) window.location.reload();
-    }, 120000);
+    
   }
 
 

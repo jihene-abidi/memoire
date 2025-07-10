@@ -72,6 +72,7 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
     Offers: any[] = [];
     allOffers: any[] = [];
     selectedFilter: string = 'all';
+    initialOffers: any[] = [];
     currentCvs!: Cv[];
     currentUser: UserModel | null = null; 
     userCandidatures: any[] = [];
@@ -89,6 +90,7 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
     }
     async refresh() {
         this.JobOfferService.findAll().then((data: any[]) => {
+          this.initialOffers = [...data];
           this.allOffers = data.map((offer) => {
                this.CandidatureService.getAllCandidaturesByOffer(offer._id).subscribe(
                 (candidatures: any[]) => {
@@ -147,6 +149,7 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
                 this.currentCvs = cvs;
               }
             );*/
+
           } else {
             console.warn(ErrorConstant.USER_NOT_FOUND_WARNING);
           }
@@ -159,7 +162,11 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
           return;
         }
         else if (this.selectedFilter === 'all') {
-          this.Offers = this.allOffers;
+            if(this.currentUser?.role == 'candidat'){
+             this.Offers = [...this.initialOffers];
+          } else if (this.currentUser?.role == 'recruteur'){
+            this.Offers = this.allOffers;
+          }
         } else {
           this.Offers = this.allOffers.filter(
             (offer) => offer.created_by.$oid === this.currentUser?._id
@@ -332,7 +339,7 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
           return false;
         }
         return this.userCandidatures.some(
-          (candidature) => candidature.job_id === jobId
+          (candidature) => candidature.job_id === jobId && candidature.candidate_id === this.currentUser?._id
         );
       }
     
@@ -397,14 +404,18 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
     
         const candidature = this.getCandidatureInfo(offer._id);
     
-        if (candidature) {
+        if (!candidature?.conversation) {
           this.dialog.open(ConfirmationDialogComponent, {
             width: '400px',
             data: {
-              identifier: candidature.application_code,
+              identifier: candidature?.application_code,
               isDetails: true,
             },
           });
+          } else if (candidature.conversation && !candidature.interview_completed) {
+          this.router.navigate(['/client/text-chat',candidature._id]);
+        } else {
+           this.toastrService.info("Entretien complété avec succes");
         }
       }
     
