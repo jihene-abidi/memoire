@@ -147,6 +147,7 @@ export class UpdateJobOffreComponent {
         const fullJobOfferData = {
           title: this.title,
           published_on: this.formattedDate?.toString(),
+          start_date: this.startDateFormatted?.toString(),
           location: this.location,
           skills: this.skills,
           technologies: this.technologies,

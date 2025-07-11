@@ -5,7 +5,7 @@ export class JobOffer {
   public link: string;
   public title?: string;
   public date: Date | undefined;
-  public start_date: Date | undefined;
+  public start_date?: string;;
   public company?: string;
   public location: string[] | undefined;
   public technologies?: string[] | string;

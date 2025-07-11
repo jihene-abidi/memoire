@@ -83,7 +83,7 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
     }
     async refresh() {
         this.JobOfferService.findAll().then((data: any[]) => {
-          this.initialOffers = [...data];
+         
           this.allOffers = data.map((offer) => {
                this.CandidatureService.getAllCandidaturesByOffer(offer._id).subscribe(
                 (candidatures: any[]) => {
@@ -133,16 +133,57 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
               salaire
             };
           });
+          this.initialOffers = data.map((offer) => {
+               this.CandidatureService.getAllCandidaturesByOffer(offer._id).subscribe(
+                (candidatures: any[]) => {
+                  this.userCandidatures.push(...candidatures);
+                },
+              );
     
+            const origin = this.getOrigin(offer.link);
+            const offerDate = offer.published_on || '';
+            const startDate = offer.start_date || '';
+            const offerDateFormatted = this.datePipe.transform(
+              offerDate,
+              'yyyy-MM-dd'
+            )!;
+            const startDateFormatted = this.datePipe.transform(
+              startDate,
+              'yyyy-MM-dd'
+            )!;
+            const location = offer.location || '';
+            const description = offer.job_description || '';
+            const salaire = offer.salary || '';
+            const start_date = offer.start_date || '';
+            const level = offer.level|| '';
+            const skills = offer.skills || [];
+            const technologies =  offer.technologies || [];
+            const visibility = offer.visibility || 'public';
+            const company = offer.company || offer.company || '';
+            const expired = offer.start_date || '';
+    
+            return {
+              ...offer,
+              level,
+              location,
+              skills,
+              technologies,
+              origin: origin.name,
+              logo:
+                origin.logo || origin.logo || 'assets/default.png',
+              offerDate,
+              offerDateFormatted,
+              visibility,
+              company,
+              expired,
+              start_date,
+              startDateFormatted,
+              description,
+              salaire
+            };
+          });
           if (this.currentUser && this.currentUser._id) {
             const clientId = this.currentUser._id;
-    
-           /* this.CvService.findAll(undefined, undefined, clientId).subscribe(
-              (cvs: Cv[]) => {
-                this.currentCvs = cvs;
-              }
-            );*/
-
           } else {
             console.warn(ErrorConstant.USER_NOT_FOUND_WARNING);
           }
