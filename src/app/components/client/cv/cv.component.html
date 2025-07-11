@@ -13,17 +13,6 @@
             </h1>
           </div>
         </mat-grid-tile>
-        <!-- <mat-grid-tile colspan="1">
-          <mat-form-field class="mat-mdc-form-field search-field">
-            <mat-label class="search-label">
-              {{ cvConstants.SEARCH }}
-            </mat-label>
-            <input type="search" matInput [placeholder]="cvConstants.SEARCH_PLACEHOLDER" />
-            <button matSuffix mat-icon-button>
-              <mat-icon class="search-icon">{{ cvConstants.SEARCH_ICON }}</mat-icon>
-            </button>
-          </mat-form-field>
-        </mat-grid-tile> -->
       </mat-grid-list>
   
       <div *ngIf="isLoading" class="loading-indicator" >
@@ -59,10 +48,10 @@
       </mat-grid-list>
     </div>
   
-    <div class="load-more-container">
+    <!-- <div class="load-more-container">
       <button mat-stroked-button (click)="loadMoreCvs()" *ngIf="hasMoreCvs && !isLoading">
         {{ cvConstants.LOAD_MORE}}
       </button>
-    </div>
+    </div> -->
   </div>
   

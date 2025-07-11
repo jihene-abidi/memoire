@@ -7,11 +7,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { CvConstants } from '../cv.constants';
 import { inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { SharedButtonComponent } from "../../../../shared/shared-button/shared-button.component";
 import { DialogService } from "../../../../core/services/openDialog.service";
 import { CvService } from "../../../../core/services/cv.service";
-import { FileService } from "../../../../core/services/file.service";
 import {Cv, Visibility} from "../../../../core/models/cv";
 import * as pdfjsLib from 'pdfjs-dist';
 import {UserService} from "../../../../core/services/user";
@@ -60,7 +58,6 @@ export class MyCvsComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private cvService: CvService,
-    private fileService: FileService,
     private userService: UserService,
     private toastr: ToastrService,
     private router: Router,

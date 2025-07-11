@@ -56,6 +56,8 @@ export class ReportModalComponent implements OnInit {
   candidatureId: string;
   candidatureName: string;
   pdfPages: PDFPageProxy[] = [];
+  reportName: string = "";
+  reportSource: string = "";
 
   constructor(
     public dialogRef: MatDialogRef<ReportModalComponent>,
@@ -81,6 +83,8 @@ export class ReportModalComponent implements OnInit {
 
    this.candidatureService.getReportpath(this.candidatureId!).subscribe({
       next: (file) => {
+        this.reportName = file.name;
+        this.reportSource = file.source;
         if (!file) {
           this.handleReportError(new Error('File not found'));
           return;
@@ -164,23 +168,13 @@ export class ReportModalComponent implements OnInit {
 
   downloadReport(): void {
     if (!this.reportUrl) return;
-
-  /*  this.fileService.awsFile(this.reportUrl).subscribe({
-      next: (file) => {
-        if (!file) return;
-
-        const link = document.createElement('a');
-        link.href = file.source;
-        link.download = `Rapport_${this.candidatureName}.pdf`;
+    const link = document.createElement('a');
+        link.href = this.reportSource;
+        link.download = `Rapport_${this.reportName}.pdf`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-      },
-      error: (error) => {
-        console.error('Error downloading report', error);
-        this.toastrService.error(this.translate.instant(ErrorConstant.REPORT_DOWNLOAD_FAILED));
-      },
-    });*/
+
   }
 
   private cleanUpUrls(): void {

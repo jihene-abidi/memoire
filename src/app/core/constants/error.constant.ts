@@ -13,7 +13,7 @@ export const ErrorConstant = {
     CANDIDATE_ERROR: "Le candidat n’a pas encore passé l’entretien",
     FAILED_JOB_LOAD: "Échec du chargement des détails de l’offre",
     INTERVIEW_FAILED: "Le candidat n’a pas réussi l’entretien",
-    CANDIDATE_NOT_PASSED_YET: "Le candidat n’a pas encore réussi l’entretien",
+    CANDIDATE_NOT_PASSED_YET: "Le candidat n’a pas encore passer l’entretien",
     REPORT_DOWNLOAD_FAILED: "Erreur lors du téléchargement du rapport existant.",
     REPORT_GENERATION_FAILED: "Erreur lors de la génération ou du téléchargement du rapport.",
     REPORT_LINK_NOT_FOUND: "Lien du rapport non retourné.",

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientImports } from '../../client-imports';
 import { Cv, Visibility } from '../../../../core/models/cv';
-import { FileService } from '../../../../core/services/file.service';
 import { SharedButtonComponent } from '../../../../shared/shared-button/shared-button.component';
 import { Candidature } from '../../../../core/models/candidature';
 import { UserModel } from '../../../../core/models/user';
@@ -65,7 +64,6 @@ export class CandidatesPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private fileService: FileService,
     private toastrService: ToastrService,
     private candidatureService: CandidatureService,
     private userService: UserService,
@@ -302,30 +300,26 @@ export class CandidatesPageComponent implements OnInit {
     });
   }
 
+
   downloadAudio(candidature: any) {
-    if (!candidature.audio_S3) {
+    if (!candidature.record_path) {
       this.toastrService.error(ErrorConstant.CANDIDATE_NOT_PASSED_YET);
       return;
     }
-/*
-    this.fileService.awsFile(candidature.audio_S3).subscribe({
-      next: (file) => {
-        this.triggerDownload(file.source, file.name);
-      },
-      error: (error) => {
-        console.error('Error downloading report:', error);
-      },
-    });  */
+    // Extraire juste le nom du fichier depuis le chemin (ex: "/opt/app/records/conversation_1234.mp3")
+      const fileName = candidature.record_path.split('\\').pop();
+      this.triggerDownload(`http://localhost:8000/records/${encodeURIComponent(fileName)}`,fileName);
     }
 
-  private triggerDownload(url: string, fileName: string) {
+
+  triggerDownload(fileUrl: string, fileName: string) {
     const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', fileName);
+    link.href = fileUrl;
+    link.download = fileName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }
+}
 
   onImageLoad(candidature: any) {
     candidature.loading = false;

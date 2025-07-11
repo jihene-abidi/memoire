@@ -1,26 +1,21 @@
 import {Injectable} from '@angular/core';
-import {FileAPI} from '../api/file.api';
 import {
-  async,
   catchError,
-  concatMap,
   defer,
   EMPTY,
   forkJoin,
   from,
   Observable,
   of,
-  reduce,
   switchMap,
-  throwError
 } from 'rxjs';
-import {UserService} from './user';
-import {FileModel} from '../models/file';
+
 import {map} from "rxjs/operators";
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
-import axios from "axios"; //facilite les appels HTTP utilisée pour communiquer avec des API REST
+
 import {CvConstants} from "../../components/client/cv/cv.constants";
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+
 
 
 @Injectable({
@@ -29,38 +24,8 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.j
 export class FileService {
   cvConstants = CvConstants;
   constructor(
-    private fileApi: FileAPI,
-    private userService: UserService
   ) {
   }
-
-  add(file: FileModel) {
-    return this.fileApi.add(file);
-  }
-
-  findOne(id: string): Observable<FileModel> {
-    return this.fileApi.findOne(id);
-  }
-
-  checkUrlAws(url: string): Observable<boolean> {
-    return new Observable<boolean>((observer) => {
-      axios({
-        url: url,
-        method: "GET",
-        responseType: "blob",
-      })
-        .then(() => {
-          observer.next(true);
-          observer.complete();
-        })
-        .catch(() => {
-          observer.next(false);
-          observer.complete();
-        });
-    });
-  }
-
-
 
 extractTextFromPDF(file: any): Observable<string> {
   pdfjsLib.GlobalWorkerOptions.workerSrc = "assets/pdf.worker.min.mjs";
@@ -129,6 +94,4 @@ extractTextFromPDF(file: any): Observable<string> {
     });
   });
 }
-
-
 }

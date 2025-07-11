@@ -58,15 +58,15 @@
             <div class="icon-overlay-report">
 
               <mat-icon class="icon"
-                        (click)="!candidature.generatingReport && generateReport(candidature)"
+                        (click)="!candidature.report_path && !candidature.generatingReport && generateReport(candidature)"
                         [matTooltip]="jobOfferConstant.GENERATE_REPORT "
-                        [class.disabled]="candidature.report_file_id || candidature.report_s3 || candidature.generatingReport">
+                        [class.disabled]="candidature.report_path">
                 {{ candidature.generatingReport ? '' : jobOfferConstant.ASSIGNMENT_ICON }}
                 <mat-spinner *ngIf="candidature.generatingReport" diameter="20"></mat-spinner>
               </mat-icon>
 
               <mat-icon class="icon"
-                        *ngIf="candidature.report_s3"
+                        *ngIf="candidature.report_path"
                         (click)="viewReport(candidature)"
                         [matTooltip]="jobOfferConstant.VIEW_REPORT ">
                 description
@@ -82,7 +82,7 @@
             <div class="icon-overlay-statistic">
 
               <mat-icon class="icon" (click)="openCvPreview(candidature.cv_id)" [matTooltip]="jobOfferConstant.SHOWCV ">turned_in</mat-icon>
-              <mat-icon class="icon" (click)="openImagePopup(imageURL2)" [matTooltip]="jobOfferConstant.SHOWSTATIQUE ">assignment</mat-icon>
+              <!-- <mat-icon class="icon" (click)="openImagePopup(imageURL2)" [matTooltip]="jobOfferConstant.SHOWSTATIQUE ">assignment</mat-icon> -->
 
 
             </div>

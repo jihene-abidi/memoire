@@ -4,7 +4,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {ToastrService} from "ngx-toastr";
 import {CvService} from "../../../core/services/cv.service";
-import {FileService} from "../../../core/services/file.service";
 import {CvConstants} from "../../client/cv/cv.constants";
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
@@ -13,7 +12,6 @@ import {MatInput} from "@angular/material/input";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 import {Cv} from "../../../core/models/cv";
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CacheService} from "../../../core/services/cache";
 
@@ -48,7 +46,6 @@ export class CvComponent implements OnInit {
   constructor(
     private toastrService: ToastrService,
     private cvService: CvService,
-    private fileService: FileService,
     private breakpointObserver: BreakpointObserver,
     private cacheService: CacheService
 
@@ -205,14 +202,7 @@ export class CvComponent implements OnInit {
         this.cvs = [...this.cvs, ...newCvs];
 
         newCvs.forEach((cv) => {
-        //   this.fileService.showFile(cv.cv_s3).subscribe({
-        //     next: (pdfData) => {
-        //       this.getPdfThumbnail(pdfData.source, cv);
-        //     },
-        //     error: (err) => {
-        //       console.error(this.cvConstants.ERROR_RETRIEVING_PDF, err);
-        //     }
-        //   });
+        
         });
 
         this.page++;
