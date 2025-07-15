@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { AuthentificationRoutes } from './components/authentification/authentification-routing';
 import {MainLayoutComponent} from "./shared/layout/main-layout/main-layout.component";
 import { ClientRouting } from './components/client/client-routing';
-import { AuthGuard } from './core/services/auth-guard.service';
 
 export const routes: Routes = [
     {

@@ -12,7 +12,7 @@ import { UserService } from '../../../../core/services/user';
 import { CvService } from '../../../../core/services/cv.service';
 import { Cv } from '../../../../core/models/cv';
 
-
+// Définitions des interfaces pour les messages et données de chat
 interface ChatMessage { type: string; content: string; }
 interface ChatData { title: string; chat_history: ChatMessage[]; favorite: boolean; }
 
@@ -26,40 +26,42 @@ interface ChatData { title: string; chat_history: ChatMessage[]; favorite: boole
   styleUrls: ['./chatbot.css'],
 })
 export class ChatbotComeponent implements OnInit, OnDestroy {
-  messageControl = new FormControl('');
+  messageControl = new FormControl(''); // Contrôle du champ de saisie du message
   constants = ChatConstants;
-  isLeftSidebarOpen = window.innerWidth > 850;
+  isLeftSidebarOpen = window.innerWidth > 850; // Affiche/sidebar selon largeur
   isRightSidebarOpen = window.innerWidth > 850;
-  showChatNames = true;
-  chats: ChatData[] = [];
-  cv_id = '';
+  showChatNames = true;          // Indique si les titres de chat sont visibles
+  chats: ChatData[] = [];       // Historique complet des discussions
+  cv_id = '';                  // ID de CV passé dans l’URL
   id = '';
-  CV_interaction: any[] = [];
-  currentChat: string[] = [];
-  title = '';
-  currentUser!: UserModel;
-  cv!: Cv;
-  titre = "History";
+  CV_interaction: any[] = [];  // Interactions liées au CV depuis API
+  currentChat: string[] = [];  // Messages actuels affichés dans le chat
+  title = '';                 // Titre du chat en cours
+  currentUser!: UserModel;    // Utilisateur connecté
+  cv!: Cv;                    // CV chargé
+  titre = "History";         // Titre du composant
   limit = 10;
   page = 1;
-  selectedChat = 0;
-  isSendingMessage = false;
+  selectedChat = 0;         // Chat sélectionné par l’utilisateur
+  isSendingMessage = false; // Indique si une requête est en cours
   private subscriptions: Subscription[] = [];
   private refreshInterval?: number;
   private pageReloadInterval?: number;
 
-  @ViewChild('userMsg') userMsgElement!: ElementRef;
+  @ViewChild('userMsg') userMsgElement!: ElementRef; // Référence DOM pour le champ texte
 
   constructor(
-    public cvIntercationService: InteractionCVService,
-    private route: ActivatedRoute,
-    private UserService: UserService,
-    private cvChaliceService: CvService,
+    public cvIntercationService: InteractionCVService, // Service d’interaction chat/CV
+    private route: ActivatedRoute,                     // Pour lire params dans l’URL
+    private UserService: UserService,                  // Service utilisateur
+    private cvChaliceService: CvService,               // Service pour récupérer le CV
 
   ) {}
 
   ngOnInit(): void {
+    // Récupère l’utilisateur courant
     this.currentUser = this.UserService.getCurrentUser()!;
+    // Récupère l’ID du CV depuis l’URL, puis charge le CV ou initie un nouveau chat
     this.route.paramMap.subscribe(params => {
       this.cv_id = params.get("id") ?? '';
 
@@ -78,7 +80,7 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
       }
     });
 
-
+    // Scroll automatique vers le bas après 500 ms
     setTimeout(() => this.scrollToBottom(), 500);
 
   
@@ -88,16 +90,17 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
+    // Nettoie les abonnements et timers à la destruction du composant
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (this.refreshInterval) window.clearInterval(this.refreshInterval);
     if (this.pageReloadInterval) window.clearInterval(this.pageReloadInterval);
   }
 
   forceRefresh(): void {
-    window.location.reload();
+    window.location.reload(); // Recharge complètement la page
   }
 
-
+  // Met à jour l’affichage à partir d’un objet ChatData
   private updateChatDisplay(chatData: ChatData): void {
     this.currentChat = [];
     for (let i = 1; i < chatData.chat_history.length; i++) {
@@ -108,7 +111,7 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
   }
 
   getArrowDirection(): string {
-    return this.showChatNames ? "arrow-up" : "arrow-down";
+    return this.showChatNames ? "arrow-up" : "arrow-down"; // Pour icônes visuels UI
   }
 
 
@@ -122,6 +125,7 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
     }
     this.currentChat.push(ChatConstants.START_CONVERSATION);
   }
+  // Permet d’envoyer le message en appuyant sur 'Entrée'
   @HostListener('document:keydown.enter', ['$event'])
   handleEnterKey(event: KeyboardEvent): void {
     if (document.activeElement === this.userMsgElement?.nativeElement && !this.isSendingMessage) {
@@ -130,14 +134,14 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
     }
   }
 
-
+  // Fonction asynchrone pour envoyer un message au service
   async sendMessage(inputField: HTMLInputElement): Promise<void> {
     const question = inputField.value.trim();
     if (!question) return;
 
     this.isSendingMessage = true;
-    this.currentChat.push(question);
-    this.currentChat.push("...");
+    this.currentChat.push(question); // Affiche la question
+    this.currentChat.push("..."); // Montre que la réponse est en cours
     inputField.value = '';
     this.messageControl.reset();
 
@@ -152,6 +156,7 @@ export class ChatbotComeponent implements OnInit, OnDestroy {
     }
   }
 
+  // Formate un message brut en HTML (gras, sauts de ligne, etc.)
   formatMessage(message: string): string {
     if (!message) return '';
     return message

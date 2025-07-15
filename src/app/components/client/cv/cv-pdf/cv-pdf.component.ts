@@ -1,13 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { NgForOf } from "@angular/common";
-import { UserService } from "../../../../core/services/user";
 import { CvService } from "../../../../core/services/cv.service";
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas'; // Bibliothèque JS pour capturer un élément HTML sous forme d’image
 import jsPDF from 'jspdf';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ClientImports} from "../../client-imports";
 import {MatTooltip} from "@angular/material/tooltip";
-import {JobOfferConstant} from "../../job-offer/job-offer.constants";
 import {Expertise} from "../../../../core/models/expertise";
 
 interface School {
@@ -27,7 +25,7 @@ interface School {
   styleUrls: ['./cv-pdf.component.css']
 })
 export class CvPdfComponent implements OnInit {
-
+  // Déclaration et initialisation des variables utilisées dans le HTML
   name: string = '';
   phone: string = '';
   email: string = '';
@@ -42,29 +40,32 @@ export class CvPdfComponent implements OnInit {
   education: School[] = [];
   Pdfname!:string;
 
-  constructor(private cvService: CvService,     @Inject(MAT_DIALOG_DATA) public data: { cvId: string },   private dialogRef: MatDialogRef<CvPdfComponent>
+  // Injection des dépendances via le constructeur
+  constructor(private cvService: CvService,    @Inject(MAT_DIALOG_DATA) public data: { cvId: string },   private dialogRef: MatDialogRef<CvPdfComponent>
 
   ) {}
-
+  // Méthode du cycle de vie Angular appelée au chargement du composant
   ngOnInit(): void {
-    this.loadCv();
+    this.loadCv(); // Charger les données du CV dès le début
   }
 
+  // Récupère les données du CV depuis le service en utilisant l'identifiant reçu
   loadCv(): void {
     this.cvService.findOne(this.data.cvId).subscribe({
       next: (cv) => {
         if (cv?.expertise?.owner) {
-          this.name = cv.expertise.owner;
+          this.name = cv.expertise.owner; // Récupère le nom du propriétaire du CV
         }
         if (cv?.expertise) {
-          this.setExpertiseFields(cv.expertise);
+          this.setExpertiseFields(cv.expertise); // Remplit les autres champs à partir de l’objet expertise
         }
       },
       error: (err) => {
-        console.error('Erreur lors du chargement du CV :', err);
+        console.error('Erreur lors du chargement du CV :', err); // Gère les erreurs d’API
       }
     });
   }
+  // Méthode privée pour remplir les champs avec les données de l’objet "expertise"
   private setExpertiseFields(expertise: Expertise): void {
     this.phone = expertise.contact.phone_number||'';
     this.email =expertise.contact.email||'';
@@ -76,23 +77,25 @@ export class CvPdfComponent implements OnInit {
     this.education = expertise.education || [];
   }
 
+  // Génère un PDF à partir du contenu HTML du CV
   generatePDF(): void {
-    const element = document.getElementById('cv-pdf');
+    const element = document.getElementById('cv-pdf'); // Sélectionne l’élément HTML contenant le CV
     if (!element) return;
-    element.classList.add('cv-pdf-export');
+    element.classList.add('cv-pdf-export'); // Ajoute une classe CSS spéciale si nécessaire pour le style
+
    html2canvas(element, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdfWidth = 595.28;
-      const pdfHeight = 841.89;
+      const imgData = canvas.toDataURL('image/png'); // Convertit l’élément en image
+      const pdfWidth = 595.28; // Largeur A4 en points
+      const pdfHeight = 841.89; // Hauteur A4 en points
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'pt',
         format: 'a4'
       });
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      this.Pdfname = this.name + "_CV.pdf";
-      pdf.save(this.Pdfname);
-      element.classList.remove('cv-pdf-export');
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight); // Ajoute l’image dans le PDF
+      this.Pdfname = this.name + "_CV.pdf"; // Nomme le fichier
+      pdf.save(this.Pdfname); // Télécharge le fichier PDF
+      element.classList.remove('cv-pdf-export'); // Supprime la classe ajoutée
     }).catch((error) => {
       console.error('Erreur lors de la génération du PDF avec html2canvas :', error);
       element.classList.remove('cv-pdf-export');

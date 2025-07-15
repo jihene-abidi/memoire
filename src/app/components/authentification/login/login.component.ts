@@ -13,7 +13,7 @@ import { AuthentificationConstant } from '../authentification.constants';
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import { AuthService } from '../../../core/services/auth';
 import { UserService } from '../../../core/services/user';
-import { switchMap } from 'rxjs/operators'; //permet de chaîner un deuxième appel HTTP après que le premier (signIn) ait réussi, en utilisant son résultat (le token) pour faire un second appel (getUserByToken), sans créer de souscription imbriquée.
+import { switchMap } from 'rxjs/operators'; // Permet de chaîner deux requêtes HTTP sans imbriquer les souscriptions
 
 @Component({
   selector: 'app-login',
@@ -44,27 +44,31 @@ export class LoginComponent {
 
   // Méthode appelée lors du clic sur le bouton "Sign In"
   onSignIn() {
+    // Vérifie si le formulaire est valide
     if (this.signInForm.valid) {
-      this.showSpinner = true;
+      this.showSpinner = true; // Affiche le spinner
       // Récupération des valeurs saisies
       const email = this.signInForm.get('email')?.value;
       const password = this.signInForm.get('password')?.value;
   /******************************************************************/
+      // Appelle le service pour se connecter
       this.authService.signIn(email, password).pipe(
+         // Si connexion réussie, on enchaîne avec getUserByToken pour récupérer les infos utilisateur
         switchMap(() => this.authService.getUserByToken())
         ).subscribe({
           next: (user) => {
+            // On stocke les infos utilisateur dans le service
             this.userService.setCurrentUser(user); // 🔹 stocke dans le localStorage
             console.log('Utilisateur connecté récupéré :', user);
             this.toastrService.success('Connexion réussie !');
             this.router.navigate(['/client/home']);
         },
         error: (err) => {
-          this.showSpinner = false;
-          // L'erreur est déjà gérée par le service via Toastr
+          this.showSpinner = false;  // Si erreur, on arrête le spinner
         }
       });
     } else {
+      // Si le formulaire n’est pas valide
       this.toastrService.error(this.authConstant.INVALID_FORM, this.authConstant.INVALID_FORM_TITLE);
       this.signInForm.markAllAsTouched();
     }

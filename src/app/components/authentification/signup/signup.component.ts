@@ -47,6 +47,7 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private authservice: AuthService, 
   ) {
+    // Création du formulaire avec validations
     this.signupForm = this.fb.group(
       {
         email: ['', [Validators.required, Validators.email]],
@@ -54,10 +55,11 @@ export class SignupComponent implements OnInit {
         confirmPassword: ['', Validators.required],
         role: ['', Validators.required], 
       },
-      { validators: this.passwordsMatchValidator }
+      { validators: this.passwordsMatchValidator } // Validation personnalisée
     );
 
-    this.signupForm.get('password')?.valueChanges.subscribe(() => {
+    // Lorsqu’on change le mot de passe, on vérifie si la confirmation est toujours correcte
+    this.signupForm.get('password')?.valueChanges.subscribe(() => { //valueChanges utiliser pour déclencher la vérification dès que l’utilisateur modifie le mot de passe 
       this.signupForm.get('confirmPassword')?.updateValueAndValidity();
     });
     this.signupForm.get('confirmPassword')?.valueChanges.subscribe(() => {
@@ -77,11 +79,12 @@ export class SignupComponent implements OnInit {
       return;
     }
     if (passwordControl?.value !== confirmPasswordControl?.value) {
-      confirmPasswordControl?.setErrors({ passwordMismatch: true });
+      confirmPasswordControl?.setErrors({ passwordMismatch: true }); // Erreur si les mots de passe ne correspondent pas
     } else {
       confirmPasswordControl?.setErrors(null);
     }
   }
+  // Pour afficher ou masquer les champs mot de passe
   togglePasswordVisibility(field: string): void {
     if (field === 'password') {
       this.showPassword = !this.showPassword;
@@ -89,13 +92,16 @@ export class SignupComponent implements OnInit {
       this.showConfirmPassword = !this.showConfirmPassword;
     }
   }
+  // Utilisé pour extraire un nom d’utilisateur à partir d’un email
   getUsernameFromEmail(str: any): string {
     return str.slice(0, str.indexOf('@'));
   }
+   // Fonction appelée à la soumission du formulaire
   onSignup(): void {
     this.formSubmitted = true;
 
     const email = this.signupForm.controls['email'].value;
+    // Vérification de la validité du formulaire et de l’email
     if (this.signupForm.invalid || !this.isValidEmail(email)) {
       if (!this.isValidEmail(email)) {
         this.toastrService.error(
@@ -112,10 +118,12 @@ export class SignupComponent implements OnInit {
       return;
     }
 
+    // Récupération des champs nécessaires
     const role = this.signupForm.controls['role'].value;
     const userName = this.getUsernameFromEmail(email);
     const { password } = this.signupForm.value;
     this.showSpinner = true;
+     // Appel API d’inscription
      this.authservice.signUp(userName, password, email, role).subscribe({
        next: () => {
          this.showSpinner = false;
@@ -123,7 +131,7 @@ export class SignupComponent implements OnInit {
           this.authConstant.SIGN_UP_SUCCESS,
            this.authConstant.SIGNUP_SUCCESSFUL
          );
-         this.router.navigateByUrl('/auth/login');
+         this.router.navigateByUrl('/auth/login'); // Redirection après succès
        },
       error: (error) => {
          this.showSpinner = false;
@@ -137,10 +145,12 @@ export class SignupComponent implements OnInit {
        },
      });
   }
+  // Fonction pour vérifier le format de l’email avec une RegExp
   isValidEmail(email: string): boolean {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailPattern.test(email);
   }
+  // Redirection vers la page de login
   navigateToSignIn() {
     this.router.navigate(['auth/login']);
   }

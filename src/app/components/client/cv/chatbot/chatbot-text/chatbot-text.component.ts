@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ClientImports } from '../../../client-imports';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav'; // Module pour la barre latérale
 import { FormControl } from '@angular/forms';
 import { ChatConstants } from '../../cv.constants';
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
@@ -26,8 +26,10 @@ interface ChatData { title: string; chat_history: ChatMessage[]; favorite: boole
   styleUrls: ['./chatbot-text.component.css'],
 })
 export class TextChatbotComponent implements OnInit, OnDestroy {
+  // Champs du formulaire pour écrire un message
   messageControl = new FormControl('');
   constants = ChatConstants;
+  // Contrôle de l'affichage des barres latérales selon la taille de l'écran
   isLeftSidebarOpen = window.innerWidth > 850;
   isRightSidebarOpen = window.innerWidth > 850;
   showChatNames = true;
@@ -36,7 +38,7 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
   candidature_id = '';
   id = '';
   CV_interaction: any[] = [];
-  currentChat: string[] = [];
+  currentChat: string[] = []; // Stocke les messages du chat courant
   title = '';
   currentUser!: UserModel;
   cv!: Cv;
@@ -48,7 +50,7 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
   private refreshInterval?: number;
   private pageReloadInterval?: number;
-
+  // Récupère la référence HTML de l'élément de saisie utilisateur
   @ViewChild('userMsg') userMsgElement!: ElementRef;
 
   constructor(
@@ -60,13 +62,16 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // Récupération de l'utilisateur courant
     this.currentUser = this.UserService.getCurrentUser()!;
+    // Récupère l'ID de candidature depuis l'URL
     this.route.paramMap.subscribe(params => {
       this.candidature_id = params.get("id") ?? '';
       if (this.candidature_id) {
-       this.newChat();
+       this.newChat();  // Démarre un nouveau chat si ID présent
       }
     });
+    // Scroll automatique vers le bas du chat
     setTimeout(() => this.scrollToBottom(), 500);
   }
 
@@ -78,11 +83,12 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
     if (this.pageReloadInterval) window.clearInterval(this.pageReloadInterval);
   }
 
+  // Forcer le rechargement de la page
   forceRefresh(): void {
     window.location.reload();
   }
 
-
+  // Affiche les messages du chat sélectionné
   private updateChatDisplay(chatData: ChatData): void {
     this.currentChat = [];
     for (let i = 1; i < chatData.chat_history.length; i++) {
@@ -96,10 +102,11 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
     return this.showChatNames ? "arrow-up" : "arrow-down";
   }
 
-
+  // Démarre une nouvelle conversation
   async newChat():  Promise<void> {
     this.title = "UNTITLED";
     this.currentChat = [];
+    // Détermine la position du chat sélectionné
     if (this.CV_interaction.length > 0 && this.CV_interaction[0].chats) {
       this.selectedChat = this.CV_interaction[0].chats.length;
     } else {
@@ -116,7 +123,7 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
       this.isSendingMessage = false;
     }
   }
-
+ // Détecte l'appui sur la touche "Entrée" pour envoyer le message
   @HostListener('document:keydown.enter', ['$event'])
   handleEnterKey(event: KeyboardEvent): void {
     if (document.activeElement === this.userMsgElement?.nativeElement && !this.isSendingMessage) {
@@ -125,15 +132,15 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
     }
   }
 
-
+  // Envoie le message utilisateur et récupère la réponse du chatbot
   async sendMessage(inputField: HTMLInputElement): Promise<void> {
     const question = inputField.value.trim();
     if (!question) return;
 
     this.isSendingMessage = true;
-    this.currentChat.push(question);
-    this.currentChat.push("...");
-    inputField.value = '';
+    this.currentChat.push(question); // Affiche la question de l'utilisateur
+    this.currentChat.push("...");    // Placeholder pendant l'attente
+    inputField.value = '';           // Réinitialise le champ de saisie
     this.messageControl.reset();
 
     try {
@@ -146,7 +153,7 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
       this.isSendingMessage = false;
     }
   }
-
+// Met en forme les messages pour affichage HTML
   formatMessage(message: string): string {
     if (!message) return '';
     return message
@@ -154,14 +161,14 @@ export class TextChatbotComponent implements OnInit, OnDestroy {
       .replace(/(\d+)\.\s+/g, '<br><strong>$1.</strong> ')
       .replace(/\n/g, '<br>');
   }
-
+  // Fait défiler le chat vers le bas
   scrollToBottom(): void {
     setTimeout(() => {
       const chatContainer = document.getElementById('chat-container');
       if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
     }, 100);
   }
-
+ // Réagit au redimensionnement de la fenêtre pour gérer l'affichage
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     const width = (event.target as Window).innerWidth;

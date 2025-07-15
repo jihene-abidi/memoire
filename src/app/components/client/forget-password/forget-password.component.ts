@@ -36,7 +36,6 @@ export class ForgetPasswordComponent {
     private fb: FormBuilder,
     private toastrService: ToastrService,
     private router: Router,
-    //private amplifyService: AmplifyService,
     private userService: UserService
   ) {
     this.verificationCodeSent = false;

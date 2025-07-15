@@ -184,6 +184,7 @@ import {catchError, finalize, forkJoin, of, retry, switchMap} from 'rxjs';
           });
           if (this.currentUser && this.currentUser._id) {
             const clientId = this.currentUser._id;
+
           } else {
             console.warn(ErrorConstant.USER_NOT_FOUND_WARNING);
           }
